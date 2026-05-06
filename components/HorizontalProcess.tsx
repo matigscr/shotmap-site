@@ -168,15 +168,59 @@ export function HorizontalProcess() {
   const pathThree = useTransform(scrollYProgress, [0.58, 0.72], [0, 1]);
   const pathFour = useTransform(scrollYProgress, [0.78, 0.92], [0, 1]);
   const frameOpacities = [
-    useTransform(timelineProgress, [0, 0.08, 0.17], [1, 1, 0]),
-    useTransform(timelineProgress, [0.06, 0.13, 0.21], [0, 0.7, 0]),
-    useTransform(timelineProgress, [0.14, 0.2, 0.33, 0.39], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.33, 0.39, 0.48, 0.54], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.48, 0.54, 0.62, 0.68], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.62, 0.68, 0.76, 0.81], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.76, 0.81, 0.84, 0.87], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.84, 0.88, 0.92, 0.95], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.92, 0.96, 1.18, 1.19], [0, 1, 1, 0])
+    useTransform(timelineProgress, [0, 0.08, 0.18], [1, 1, 0]),
+    useTransform(timelineProgress, [0.06, 0.14, 0.24], [0, 0.75, 0]),
+    useTransform(timelineProgress, [0.1, 0.22, 1.18, 1.19], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.145, 0.545, 1.18, 1.19], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.445, 0.68, 1.18, 1.19], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.58, 0.845, 1.18, 1.19], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.82, 0.85, 1.18, 1.19], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.88, 0.91, 1.18, 1.19], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.94, 0.98, 1.18, 1.19], [0, 1, 1, 0])
+  ];
+  const frameScales = [
+    useTransform(timelineProgress, [0, 0.18], [1, 1]),
+    useTransform(timelineProgress, [0.06, 0.24], [1.01, 1]),
+    useTransform(timelineProgress, [0.1, 0.22], [1, 1]),
+    useTransform(timelineProgress, [0.145, 0.545], [0.985, 1]),
+    useTransform(timelineProgress, [0.445, 0.68], [0.965, 1]),
+    useTransform(timelineProgress, [0.58, 0.845], [1, 1]),
+    useTransform(timelineProgress, [0.82, 0.85], [0.98, 1]),
+    useTransform(timelineProgress, [0.88, 0.91], [0.98, 1]),
+    useTransform(timelineProgress, [0.94, 0.98], [0.98, 1])
+  ];
+  const frameY = [
+    useTransform(timelineProgress, [0, 0.18], [0, 0]),
+    useTransform(timelineProgress, [0.06, 0.24], [0, 0]),
+    useTransform(timelineProgress, [0.1, 0.22], [0, 0]),
+    useTransform(timelineProgress, [0.145, 0.545], [14, 0]),
+    useTransform(timelineProgress, [0.445, 0.68], [16, 0]),
+    useTransform(timelineProgress, [0.58, 0.845], [0, 0]),
+    useTransform(timelineProgress, [0.82, 0.85], [18, 0]),
+    useTransform(timelineProgress, [0.88, 0.91], [18, 0]),
+    useTransform(timelineProgress, [0.94, 0.98], [-18, 0])
+  ];
+  const frameX = [
+    useTransform(timelineProgress, [0, 0.18], [0, 0]),
+    useTransform(timelineProgress, [0.06, 0.24], [0, 0]),
+    useTransform(timelineProgress, [0.1, 0.22], [0, 0]),
+    useTransform(timelineProgress, [0.145, 0.545], [0, 0]),
+    useTransform(timelineProgress, [0.445, 0.68], [0, 0]),
+    useTransform(timelineProgress, [0.58, 0.845], [0, 0]),
+    useTransform(timelineProgress, [0.82, 0.85], [-18, 0]),
+    useTransform(timelineProgress, [0.88, 0.91], [-18, 0]),
+    useTransform(timelineProgress, [0.94, 0.98], [18, 0])
+  ];
+  const frameClipPaths = [
+    undefined,
+    undefined,
+    useTransform(timelineProgress, [0.1, 0.22], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]),
+    undefined,
+    undefined,
+    useTransform(timelineProgress, [0.58, 0.845], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]),
+    useTransform(timelineProgress, [0.82, 0.85], ["inset(0 0 100% 0)", "inset(0 0 0% 0)"]),
+    useTransform(timelineProgress, [0.88, 0.91], ["inset(0 0 100% 0)", "inset(0 0 0% 0)"]),
+    useTransform(timelineProgress, [0.94, 0.98], ["inset(100% 0 0 0)", "inset(0% 0 0 0)"])
   ];
   const legendX = useTransform(timelineProgress, [1.105, 1.19], [260, -1120]);
   const legendOverlayOpacity = useTransform(timelineProgress, [1.104, 1.105, 1.19, 1.191], [0, 1, 1, 0]);
@@ -272,7 +316,11 @@ export function HorizontalProcess() {
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-5 py-10 sm:px-8">
           <motion.div style={{ scale: visualScale, x: visualX, y: visualY }} className="w-full will-change-transform">
             <ProgressiveShotmapVisual
+              frameClipPaths={frameClipPaths}
               frameOpacities={frameOpacities}
+              frameScales={frameScales}
+              frameX={frameX}
+              frameY={frameY}
               legendOverlayOpacity={legendOverlayOpacity}
               legendX={legendX}
               packetBottomOpacity={packetBottomOpacity}
@@ -383,7 +431,11 @@ export function HorizontalProcess() {
 }
 
 type ProgressiveShotmapVisualProps = {
+  frameClipPaths: (MotionValue<string> | undefined)[];
   frameOpacities: MotionValue<number>[];
+  frameScales: MotionValue<number>[];
+  frameX: MotionValue<number>[];
+  frameY: MotionValue<number>[];
   legendOverlayOpacity: MotionValue<number>;
   legendX: MotionValue<number>;
   packetBottomOpacity: MotionValue<number>;
@@ -394,7 +446,11 @@ type ProgressiveShotmapVisualProps = {
 };
 
 function ProgressiveShotmapVisual({
+  frameClipPaths,
   frameOpacities,
+  frameScales,
+  frameX,
+  frameY,
   legendOverlayOpacity,
   legendX,
   packetBottomOpacity,
@@ -419,8 +475,14 @@ function ProgressiveShotmapVisual({
                 key={frame.src}
                 src={frame.src}
                 alt={frame.alt}
-                style={{ opacity: frameOpacities[index] }}
-                className="absolute inset-0 h-full w-full object-cover"
+                style={{
+                  clipPath: frameClipPaths[index],
+                  opacity: frameOpacities[index],
+                  scale: frameScales[index],
+                  x: frameX[index],
+                  y: frameY[index]
+                }}
+                className="absolute inset-0 h-full w-full object-cover will-change-transform"
                 draggable={false}
               />
             ))}
