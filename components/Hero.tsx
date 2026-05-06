@@ -1,12 +1,27 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { ProductPlaceholder } from "./Placeholders";
 
 export function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  const gridY = useTransform(scrollYProgress, [0, 1], [0, 24]);
+  const exportY = useTransform(scrollYProgress, [0, 1], [0, 70]);
+
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden px-5 py-24 sm:px-8">
-      <div className="cinematic-grid absolute inset-0 opacity-70" />
+    <section
+      ref={heroRef}
+      className="relative flex min-h-screen items-center overflow-hidden px-5 py-24 sm:px-8"
+    >
+      <motion.div
+        style={{ y: gridY }}
+        className="cinematic-grid absolute inset-0 opacity-65 will-change-transform"
+      />
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-blue-500/10 to-transparent" />
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="text-center lg:text-left">
@@ -60,12 +75,23 @@ export function Hero() {
           transition={{ duration: 0.95, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
           className="relative"
         >
-          <div className="absolute -inset-8 rounded-[2rem] bg-blue-500/20 blur-3xl" />
-          <ProductPlaceholder
-            label="FINAL_EXPORT_PLACEHOLDER"
-            variant="export"
-            className="relative min-h-[420px]"
-          />
+          <motion.div
+            style={{ y: exportY }}
+            className="relative will-change-transform"
+          >
+            <motion.div
+              animate={{ y: [-14, 14, -14], scale: [1, 1.02, 1] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              className="relative will-change-transform"
+            >
+              <div className="absolute -inset-10 rounded-[2rem] bg-blue-500/25 blur-3xl" />
+              <ProductPlaceholder
+                label="FINAL_EXPORT_PLACEHOLDER"
+                variant="export"
+                className="relative min-h-[420px]"
+              />
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

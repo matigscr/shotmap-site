@@ -11,7 +11,7 @@ import { Workflow } from "@/components/Workflow";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-ink text-white">
+    <main className="relative z-10 min-h-screen text-white">
       <Hero />
       <CredibilityStrip />
       <ProductionReality />

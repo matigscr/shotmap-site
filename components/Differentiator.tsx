@@ -1,4 +1,3 @@
-import { ProductPlaceholder } from "./Placeholders";
 import { Reveal } from "./Reveal";
 
 const bullets = [
@@ -10,15 +9,9 @@ const bullets = [
 
 export function Differentiator() {
   return (
-    <section className="px-5 py-24 sm:px-8 lg:py-32">
+    <section className="px-5 py-24 sm:px-8 lg:hidden">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-        <Reveal>
-          <ProductPlaceholder
-            label="FULL_UI_WITH_CAMERAS_AND_PATHS"
-            variant="full"
-            className="min-h-[430px]"
-          />
-        </Reveal>
+        <div className="hidden lg:block" aria-hidden="true" />
         <Reveal delay={0.12}>
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
             Final Coverage First

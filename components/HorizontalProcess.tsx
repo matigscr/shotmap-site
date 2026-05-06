@@ -1,105 +1,447 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ProductPlaceholder } from "./Placeholders";
+import { motion, type MotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import { backgroundOpacity } from "./background/backgroundConfig";
+import { SchematicLayer } from "./background/SchematicLayer";
+
+const DEBUG_TIMING_COUNTER = true;
+
+const shotmapFrames = [
+  {
+    src: "/shotmap-progress/01-background-full.png",
+    alt: "Imported set plan reference at full opacity"
+  },
+  {
+    src: "/shotmap-progress/02-background-faded.png",
+    alt: "Imported set plan reference faded back for tracing"
+  },
+  {
+    src: "/shotmap-progress/03-walls.png",
+    alt: "Clean wall and set layout created in Coverage Schematic"
+  },
+  {
+    src: "/shotmap-progress/04-props.png",
+    alt: "Props and set elements added to the schematic"
+  },
+  {
+    src: "/shotmap-progress/05-characters.png",
+    alt: "Character positions added without motion paths"
+  },
+  {
+    src: "/shotmap-progress/06-motion-paths.png",
+    alt: "Character blocking with motion paths added"
+  },
+  {
+    src: "/shotmap-progress/07-cameras.png",
+    alt: "Camera positions and camera movement added"
+  },
+  {
+    src: "/shotmap-progress/08-all-layers.png",
+    alt: "Complete working schematic with all layers visible"
+  },
+  {
+    src: "/shotmap-progress/09-final-export-legend.png",
+    alt: "Final crew-ready export with legend"
+  }
+];
+
+const shotmapLayers = [
+  {
+    src: "/shotmap-progress/layers/props.png",
+    alt: "Props and set elements layer"
+  },
+  {
+    src: "/shotmap-progress/layers/motion-paths.png",
+    alt: "Motion path layer"
+  },
+  {
+    src: "/shotmap-progress/layers/camera-color-core.png",
+    alt: "Initial camera coverage layer"
+  },
+  {
+    src: "/shotmap-progress/layers/camera-green.png",
+    alt: "Green dynamic camera layer"
+  },
+  {
+    src: "/shotmap-progress/layers/camera-brown-grey.png",
+    alt: "Brown and grey dynamic camera layer"
+  },
+  {
+    src: "/shotmap-progress/layers/legend-export.png",
+    alt: "Export legend layer"
+  }
+];
+
+const characterLayers = Array.from({ length: 10 }, (_, index) => ({
+  src: `/shotmap-progress/layers/character-${String(index + 1).padStart(2, "0")}.png`,
+  alt: `Character blocking marker ${index + 1}`
+}));
 
 const panels = [
   {
     eyebrow: "Walls",
-    title: "Build the space",
-    text: "Create sets, rooms, locations, and studio layouts.",
-    label: "ROOM_LAYOUT_PLACEHOLDER",
-    variant: "space" as const
+    title: "Build the Space",
+    text: "Create sets, locations, or studio layouts."
   },
   {
     eyebrow: "Paths",
-    title: "Create blocking",
-    text: "Map talent movement, positions, and action.",
-    label: "BLOCKING_PATHS_PLACEHOLDER",
-    variant: "blocking" as const
+    title: "Add characters and create blocking",
+    text: "Place actors, add movement, and define action."
   },
   {
     eyebrow: "Cameras",
-    title: "Plan coverage",
-    text: "Place cameras, assign colors, and clarify assignments.",
-    label: "CAMERA_COVERAGE_PLACEHOLDER",
-    variant: "coverage" as const
+    title: "Create coverage",
+    text: "Place cameras, assign colors, and add dynamic angles."
   },
   {
     eyebrow: "Export",
     title: "Deliver instantly",
-    text: "Export a clean schematic with notes and legend for your crew.",
-    label: "EXPORT_WITH_LEGEND_PLACEHOLDER",
-    variant: "export" as const
+    text: "Use the legend to export a clean coverage map with notes for the team."
   }
 ];
 
+const handoffBullets = [
+  "Directors define intent.",
+  "Camera operators understand assignments.",
+  "DP and lighting align instantly.",
+  "Everyone sees the same plan."
+];
+
+const outputChips = [
+  "Camera labels",
+  "Color-coded assignments",
+  "Crew-ready legend",
+  "Notes included"
+];
+
+const captionTiming = [
+  { end: 0.12, label: "Text waiting" },
+  { end: 0.42, label: "Build active" },
+  { end: 0.72, label: "Characters active" },
+  { end: 1.02, label: "Coverage active" },
+  { end: 1.4, label: "Deliver/export active" },
+  { end: 1.62, label: "Output handoff" }
+];
+
+const visualTiming = [
+  { end: 0.06, label: "Image entering" },
+  { end: 0.17, label: "Floorplan dissolving" },
+  { end: 0.22, label: "Walls only hold" },
+  { end: 0.42, label: "Props animating" },
+  { end: 0.52, label: "Characters revealing" },
+  { end: 0.72, label: "Motion paths drawing" },
+  { end: 0.78, label: "Camera wave 1" },
+  { end: 0.84, label: "Camera wave 2" },
+  { end: 0.89, label: "Camera wave 3" },
+  { end: 1.18, label: "Legend" },
+  { end: 1.25, label: "Export reveal" },
+  { end: 1.4, label: "Output landing" },
+  { end: 1.62, label: "Output scroll" }
+];
+
+function getTimingLabel(progress: number, timing: { end: number; label: string }[]) {
+  return timing.find((item) => progress <= item.end)?.label ?? timing[timing.length - 1].label;
+}
+
 export function HorizontalProcess() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [timingProgress, setTimingProgress] = useState(0);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start 75%", "end end"]
   });
+  const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, 1.62]);
 
-  // The outer section is taller than the viewport. While the sticky child stays
-  // pinned, Framer Motion converts vertical scroll progress into a horizontal
-  // translate value. Progress starts before this section reaches the middle of
-  // the viewport, so the first panel begins sliding in while more of the
-  // previous section is still visible. It still starts fully offscreen to the right.
-  const x = useTransform(scrollYProgress, [0, 0.16, 1], ["100vw", "0vw", "-300vw"]);
+  useMotionValueEvent(timelineProgress, "change", (latest) => {
+    setTimingProgress(Number(latest.toFixed(3)));
+  });
+
+  // The pinned section keeps one persistent product visual in place. Vertical
+  // scroll first slides the visual and captions in from the right, then keeps
+  // the visual centered while the captions move horizontally beneath it. At the
+  // end, the captions leave while the export stays onscreen and shrinks into the
+  // following section.
+  const visualX = useTransform(timelineProgress, [0, 0.12, 1.191, 1.38, 1.5, 1.62], ["100vw", "0vw", "0vw", "-30vw", "-30vw", "-30vw"]);
+  const visualScale = useTransform(timelineProgress, [0, 1.191, 1.38, 1.62], [1, 1, 0.82, 0.82]);
+  const visualY = useTransform(timelineProgress, [0, 1.5, 1.62], [0, 0, -84]);
+  const handoffTextOpacity = useTransform(timelineProgress, [1.24, 1.28, 1.62], [0, 1, 1]);
+  const handoffTextX = useTransform(timelineProgress, [1.24, 1.36, 1.48], ["48vw", "0vw", "0vw"]);
+  const handoffTextY = useTransform(timelineProgress, [1.34, 1.52], ["0vh", "-78vh"]);
+  const outputTextOpacity = useTransform(timelineProgress, [1.38, 1.42, 1.62], [0, 1, 1]);
+  const outputTextY = useTransform(timelineProgress, [1.38, 1.52, 1.62], ["52vh", "0vh", "-12vh"]);
+  const captionMotion = [
+    {
+      opacity: useTransform(timelineProgress, [0.12, 0.15, 0.54, 0.57], [0, 1, 1, 0]),
+      x: useTransform(timelineProgress, [0.12, 0.57], ["100vw", "-100vw"])
+    },
+    {
+      opacity: useTransform(timelineProgress, [0.42, 0.45, 0.84, 0.87], [0, 1, 1, 0]),
+      x: useTransform(timelineProgress, [0.42, 0.87], ["100vw", "-100vw"])
+    },
+    {
+      opacity: useTransform(timelineProgress, [0.72, 0.75, 1.14, 1.17], [0, 1, 1, 0]),
+      x: useTransform(timelineProgress, [0.72, 1.17], ["100vw", "-100vw"])
+    },
+    {
+      opacity: useTransform(timelineProgress, [1.02, 1.05, 1.26, 1.32], [0, 1, 1, 0]),
+      x: useTransform(timelineProgress, [1.02, 1.32], ["100vw", "-100vw"])
+    }
+  ];
+  const gridX = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const backgroundX = useTransform(scrollYProgress, [0, 1], [0, -72]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [-36, 120]);
+  const markerX = useTransform(scrollYProgress, [0, 1], [80, -180]);
+  const processOpacity = useTransform(scrollYProgress, [0, 0.08, 0.88, 1], [0, 1, 1, 0]);
+  const processGridOpacity = useTransform(scrollYProgress, [0, 0.08, 0.88, 1], [0, 0.45, 0.45, 0]);
+  const processPathOpacity = useTransform(scrollYProgress, [0, 0.08, 0.88, 1], [0, 0.72, 0.72, 0]);
+  const pathOne = useTransform(scrollYProgress, [0.1, 0.22], [0, 1]);
+  const pathTwo = useTransform(scrollYProgress, [0.34, 0.48], [0, 1]);
+  const pathThree = useTransform(scrollYProgress, [0.58, 0.72], [0, 1]);
+  const pathFour = useTransform(scrollYProgress, [0.78, 0.92], [0, 1]);
+  const referenceOpacity = useTransform(timelineProgress, [0, 0.08, 0.18], [1, 1, 0]);
+  const fadedReferenceOpacity = useTransform(timelineProgress, [0.06, 0.14, 0.24], [0, 0.75, 0]);
+  const baseSchematicOpacity = useTransform(timelineProgress, [0.1, 0.22], [0, 1]);
+  const layerOpacities = [
+    useTransform(timelineProgress, [0.145, 0.545], [0, 1]),
+    useTransform(timelineProgress, [0.64, 0.845], [0, 1]),
+    useTransform(timelineProgress, [0.82, 0.85], [0, 1]),
+    useTransform(timelineProgress, [0.88, 0.91], [0, 1]),
+    useTransform(timelineProgress, [0.94, 0.98], [0, 1]),
+    useTransform(timelineProgress, [1.09, 1.16], [0, 1])
+  ];
+  const layerScales = [
+    useTransform(timelineProgress, [0.145, 0.545], [0.985, 1]),
+    useTransform(timelineProgress, [0.64, 0.845], [1, 1]),
+    useTransform(timelineProgress, [0.82, 0.85], [0.98, 1]),
+    useTransform(timelineProgress, [0.88, 0.91], [0.98, 1]),
+    useTransform(timelineProgress, [0.94, 0.98], [0.98, 1]),
+    useTransform(timelineProgress, [1.09, 1.16], [1, 1])
+  ];
+  const layerY = [
+    useTransform(timelineProgress, [0.145, 0.545], [14, 0]),
+    useTransform(timelineProgress, [0.64, 0.845], [0, 0]),
+    useTransform(timelineProgress, [0.82, 0.85], [18, 0]),
+    useTransform(timelineProgress, [0.88, 0.91], [18, 0]),
+    useTransform(timelineProgress, [0.94, 0.98], [-18, 0]),
+    useTransform(timelineProgress, [1.09, 1.16], [0, 0])
+  ];
+  const characterOpacities = [
+    useTransform(timelineProgress, [0.445, 0.5], [0, 1]),
+    useTransform(timelineProgress, [0.465, 0.52], [0, 1]),
+    useTransform(timelineProgress, [0.485, 0.54], [0, 1]),
+    useTransform(timelineProgress, [0.505, 0.56], [0, 1]),
+    useTransform(timelineProgress, [0.525, 0.58], [0, 1]),
+    useTransform(timelineProgress, [0.545, 0.6], [0, 1]),
+    useTransform(timelineProgress, [0.565, 0.62], [0, 1]),
+    useTransform(timelineProgress, [0.585, 0.64], [0, 1]),
+    useTransform(timelineProgress, [0.605, 0.66], [0, 1]),
+    useTransform(timelineProgress, [0.625, 0.68], [0, 1])
+  ];
+  const characterScales = [
+    useTransform(timelineProgress, [0.445, 0.5], [0.9, 1]),
+    useTransform(timelineProgress, [0.465, 0.52], [0.9, 1]),
+    useTransform(timelineProgress, [0.485, 0.54], [0.9, 1]),
+    useTransform(timelineProgress, [0.505, 0.56], [0.9, 1]),
+    useTransform(timelineProgress, [0.525, 0.58], [0.9, 1]),
+    useTransform(timelineProgress, [0.545, 0.6], [0.9, 1]),
+    useTransform(timelineProgress, [0.565, 0.62], [0.9, 1]),
+    useTransform(timelineProgress, [0.585, 0.64], [0.9, 1]),
+    useTransform(timelineProgress, [0.605, 0.66], [0.9, 1]),
+    useTransform(timelineProgress, [0.625, 0.68], [0.9, 1])
+  ];
+  const motionPathClip = useTransform(timelineProgress, [0.58, 0.845], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]);
+  const legendX = useTransform(timelineProgress, [1.09, 1.2], [70, -260]);
+  const legendOverlayOpacity = useTransform(timelineProgress, [1.09, 1.12, 1.2, 1.24], [0, 1, 1, 0]);
+  const packetTopOpacity = useTransform(timelineProgress, [1.1, 1.14], [0, 1]);
+  const packetBottomOpacity = useTransform(timelineProgress, [1.25, 1.27], [0, 1]);
+  const packetScale = useTransform(timelineProgress, [1.1, 1.18], [0.96, 1]);
+  const packetRevealClip = useTransform(timelineProgress, [1.1, 1.18], ["inset(0 0 0 100%)", "inset(0 0 0 0%)"]);
+  const workingMockOpacity = useTransform(timelineProgress, [1.12, 1.18], [1, 0]);
+  const secondWaveLetterMaskOpacity = useTransform(timelineProgress, [0.875, 0.91], [1, 0]);
 
   return (
-    <section ref={sectionRef} className="relative bg-ink lg:h-[520vh]">
+    <section ref={sectionRef} className="relative lg:h-[950vh]">
       <div className="hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 cinematic-grid opacity-40" />
-        <motion.div style={{ x }} className="flex h-full w-[400vw]">
-          {panels.map((panel, index) => (
-            <article
-              key={panel.title}
-              className="flex h-screen w-screen items-center px-5 py-16 sm:px-8"
-            >
-              <div className="mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[0.75fr_1.25fr]">
-                <motion.div
-                  initial={index === 0 ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.6 }}
-                  transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <p className="mb-4 text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
-                    {panel.eyebrow} / 0{index + 1}
-                  </p>
-                  <h2 className="text-5xl font-semibold leading-none text-white sm:text-6xl">
-                    {panel.title}
-                  </h2>
-                  <p className="mt-6 max-w-lg text-lg leading-8 text-slate-300">
-                    {panel.text}
-                  </p>
-                </motion.div>
-                <motion.div
-                  initial={
-                    index === 0
-                      ? { opacity: 1, scale: 1, y: 0 }
-                      : { opacity: 0, scale: 0.96, y: 24 }
-                  }
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.5 }}
-                  transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <ProductPlaceholder
-                    label={panel.label}
-                    variant={panel.variant}
-                    className="min-h-[clamp(320px,54vh,440px)]"
-                  />
-                </motion.div>
+        {DEBUG_TIMING_COUNTER && (
+          <div className="pointer-events-none absolute right-5 top-5 z-50 w-72 rounded-xl border border-blue-300/30 bg-slate-950/85 p-4 font-mono text-xs text-blue-50 shadow-2xl backdrop-blur-md">
+            <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-blue-300">
+              <span>Timing</span>
+              <span>{Math.round(timingProgress * 100)}%</span>
+            </div>
+            <div className="text-2xl font-semibold text-white">{timingProgress.toFixed(3)}</div>
+            <div className="mt-3 grid gap-1.5 text-[11px] leading-5 text-slate-300">
+              <div>
+                <span className="text-slate-500">Text:</span>{" "}
+                {getTimingLabel(timingProgress, captionTiming)}
               </div>
-            </article>
+              <div>
+                <span className="text-slate-500">Visual:</span>{" "}
+                {getTimingLabel(timingProgress, visualTiming)}
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="pointer-events-none absolute inset-0 bg-[rgba(5,7,11,0.42)]" />
+        <motion.div
+          style={{ x: gridX, opacity: processGridOpacity }}
+          className="pointer-events-none absolute inset-0 cinematic-grid"
+        />
+        <motion.div style={{ opacity: processOpacity }} className="absolute inset-0">
+          <SchematicLayer
+            x={backgroundX}
+            y={backgroundY}
+            intensity="active"
+            showPaths
+            className="hidden lg:block"
+          />
+        </motion.div>
+        <motion.svg
+          style={{ x: backgroundX, y: backgroundY, opacity: processPathOpacity }}
+          className="pointer-events-none absolute inset-0 h-full w-full"
+          viewBox="0 0 1440 900"
+          fill="none"
+          aria-hidden="true"
+        >
+          {[
+            { d: "M80 680 C260 520 420 620 600 430 C760 260 910 330 1080 180", progress: pathOne },
+            { d: "M220 190 C390 310 520 130 730 250 C920 360 1050 280 1240 420", progress: pathTwo },
+            { d: "M110 420 C300 350 410 460 570 360 C760 240 930 520 1160 330", progress: pathThree },
+            { d: "M360 740 C520 610 710 700 870 560 C1020 430 1160 510 1340 360", progress: pathFour },
+            { d: "M40 250 C230 205 350 300 520 210 C710 110 860 160 1010 90", progress: pathOne },
+            { d: "M620 820 C760 660 920 760 1080 610 C1200 500 1280 555 1410 470", progress: pathThree }
+          ].map((path) => (
+            <motion.path
+              key={path.d}
+              d={path.d}
+              style={{ pathLength: path.progress }}
+              stroke="rgba(120,160,255,0.14)"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
           ))}
+        </motion.svg>
+        <motion.div
+          style={{ x: markerX, opacity: processOpacity }}
+          className={`pointer-events-none absolute inset-0 ${backgroundOpacity.schematicActive}`}
+          aria-hidden="true"
+        >
+          {["left-[18%] top-[22%]", "left-[44%] top-[70%]", "left-[72%] top-[34%]", "left-[86%] bottom-[18%]"].map(
+            (position, index) => (
+              <motion.span
+                key={position}
+                className={`absolute ${position} h-2 w-2 rounded-full bg-[rgba(120,160,255,0.18)] shadow-[0_0_24px_rgba(80,120,255,0.18)] will-change-transform`}
+                animate={{ x: [-10, 10, -10], y: [-14, 14, -14] }}
+                transition={{
+                  duration: 7 + (index % 3),
+                  delay: index * 0.9,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            )
+          )}
+        </motion.div>
+
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-5 py-10 sm:px-8">
+          <motion.div style={{ scale: visualScale, x: visualX, y: visualY }} className="w-full will-change-transform">
+            <ProgressiveShotmapVisual
+              baseSchematicOpacity={baseSchematicOpacity}
+              characterOpacities={characterOpacities}
+              characterScales={characterScales}
+              fadedReferenceOpacity={fadedReferenceOpacity}
+              layerOpacities={layerOpacities}
+              layerScales={layerScales}
+              layerY={layerY}
+              legendOverlayOpacity={legendOverlayOpacity}
+              legendX={legendX}
+              motionPathClip={motionPathClip}
+              packetBottomOpacity={packetBottomOpacity}
+              packetRevealClip={packetRevealClip}
+              packetScale={packetScale}
+              packetTopOpacity={packetTopOpacity}
+              referenceOpacity={referenceOpacity}
+              secondWaveLetterMaskOpacity={secondWaveLetterMaskOpacity}
+              workingMockOpacity={workingMockOpacity}
+            />
+          </motion.div>
+
+          <div className="relative mt-6 h-[170px] w-screen overflow-hidden">
+              {panels.map((panel, index) => (
+                <motion.article
+                  key={panel.title}
+                  style={captionMotion[index]}
+                  className="absolute inset-0 flex h-full w-screen items-start justify-center px-5 sm:px-8"
+                >
+                  <div className="w-full max-w-4xl text-center">
+                    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
+                      {panel.eyebrow} / 0{index + 1}
+                    </p>
+                    <h2 className="text-4xl font-semibold leading-none text-white sm:text-5xl">
+                      {panel.title}
+                    </h2>
+                    <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                      {panel.text}
+                    </p>
+                  </div>
+                </motion.article>
+              ))}
+          </div>
+        </div>
+        <motion.div
+          style={{ opacity: handoffTextOpacity, x: handoffTextX, y: handoffTextY }}
+          className="pointer-events-none absolute left-[43vw] right-[4vw] top-[24vh] z-20 hidden lg:block"
+        >
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
+            Final Coverage First
+          </p>
+          <h2 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
+            Designed around the final coverage - not just the creation
+          </h2>
+          <p className="mt-6 text-lg leading-8 text-slate-300">
+            Every tool in the app is built with one goal in mind: clearly communicating your
+            blocking and coverage to the entire team.
+          </p>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            {handoffBullets.map((bullet) => (
+              <div
+                key={bullet}
+                className="rounded-xl border border-white/10 bg-white/[0.04] p-4 text-sm font-medium text-slate-200"
+              >
+                {bullet}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+        <motion.div
+          style={{ opacity: outputTextOpacity, y: outputTextY }}
+          className="pointer-events-none absolute left-[43vw] right-[4vw] top-[24vh] z-20 hidden lg:block"
+        >
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
+            Output
+          </p>
+          <h2 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
+            Communicate your coverage in seconds
+          </h2>
+          <p className="mt-6 text-lg leading-8 text-slate-300">
+            Generate a complete schematic with legend - ready for your crew.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            {outputChips.map((chip) => (
+              <span
+                key={chip}
+                className="rounded-full border border-blue-300/25 bg-blue-400/10 px-4 py-2 text-sm font-medium text-blue-100"
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
         </motion.div>
       </div>
 
       <div className="px-5 py-20 sm:px-8 lg:hidden">
         <div className="mx-auto max-w-3xl space-y-16">
+          <StaticShotmapVisual />
           {panels.map((panel, index) => (
             <motion.article
               key={panel.title}
@@ -115,15 +457,220 @@ export function HorizontalProcess() {
                 {panel.title}
               </h2>
               <p className="mt-4 text-base leading-7 text-slate-300">{panel.text}</p>
-              <ProductPlaceholder
-                label={panel.label}
-                variant={panel.variant}
-                className="mt-8 min-h-[340px]"
-              />
             </motion.article>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+type ProgressiveShotmapVisualProps = {
+  baseSchematicOpacity: MotionValue<number>;
+  characterOpacities: MotionValue<number>[];
+  characterScales: MotionValue<number>[];
+  fadedReferenceOpacity: MotionValue<number>;
+  layerOpacities: MotionValue<number>[];
+  layerScales: MotionValue<number>[];
+  layerY: MotionValue<number>[];
+  legendOverlayOpacity: MotionValue<number>;
+  legendX: MotionValue<number>;
+  motionPathClip: MotionValue<string>;
+  packetBottomOpacity: MotionValue<number>;
+  packetRevealClip: MotionValue<string>;
+  packetScale: MotionValue<number>;
+  packetTopOpacity: MotionValue<number>;
+  referenceOpacity: MotionValue<number>;
+  secondWaveLetterMaskOpacity: MotionValue<number>;
+  workingMockOpacity: MotionValue<number>;
+};
+
+function ProgressiveShotmapVisual({
+  baseSchematicOpacity,
+  characterOpacities,
+  characterScales,
+  fadedReferenceOpacity,
+  layerOpacities,
+  layerScales,
+  layerY,
+  legendOverlayOpacity,
+  legendX,
+  motionPathClip,
+  packetBottomOpacity,
+  packetRevealClip,
+  packetScale,
+  packetTopOpacity,
+  referenceOpacity,
+  secondWaveLetterMaskOpacity,
+  workingMockOpacity
+}: ProgressiveShotmapVisualProps) {
+  return (
+    <div className="relative mx-auto w-full max-w-[min(980px,calc((100vh-250px)*1.249))]">
+      <motion.div
+        style={{ opacity: workingMockOpacity }}
+        className="absolute -inset-8 rounded-[2.25rem] bg-blue-400/12 blur-3xl"
+      />
+      <motion.div
+        style={{ opacity: workingMockOpacity }}
+        className="relative overflow-hidden rounded-2xl border border-white/55 bg-slate-100/95 shadow-cinematic"
+      >
+          <div className="relative aspect-[1464/1172] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
+            <motion.img
+              src={shotmapFrames[0].src}
+              alt={shotmapFrames[0].alt}
+              style={{ opacity: referenceOpacity }}
+              className="absolute inset-0 h-full w-full object-cover"
+              draggable={false}
+            />
+            <motion.img
+              src={shotmapFrames[1].src}
+              alt={shotmapFrames[1].alt}
+              style={{ opacity: fadedReferenceOpacity }}
+              className="absolute inset-0 h-full w-full object-cover"
+              draggable={false}
+            />
+            <motion.img
+              src={shotmapFrames[2].src}
+              alt={shotmapFrames[2].alt}
+              style={{ opacity: baseSchematicOpacity }}
+              className="absolute inset-0 h-full w-full object-cover"
+              draggable={false}
+            />
+            {shotmapLayers.map((layer, index) => {
+              const isMotionPathLayer = layer.src.includes("motion-paths");
+              const isLegendLayer = layer.src.includes("legend-export");
+
+              return (
+                <motion.img
+                  key={layer.src}
+                  src={layer.src}
+                  alt={layer.alt}
+                  style={{
+                    clipPath: isMotionPathLayer ? motionPathClip : undefined,
+                    opacity: layerOpacities[index],
+                    scale: layerScales[index],
+                    x: isLegendLayer ? legendX : 0,
+                    y: layerY[index]
+                  }}
+                  className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                  draggable={false}
+                />
+              );
+            })}
+            {characterLayers.map((layer, index) => (
+              <motion.img
+                key={layer.src}
+                src={layer.src}
+                alt={layer.alt}
+                style={{
+                  opacity: characterOpacities[index],
+                  scale: characterScales[index]
+                }}
+                className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                draggable={false}
+              />
+            ))}
+            <motion.div
+              style={{ opacity: layerOpacities[5] }}
+              className="pointer-events-none absolute bottom-[3.5%] right-[1.5%] h-[92%] w-[23%] rounded-xl bg-blue-400/10 blur-2xl"
+            />
+            <motion.div
+              style={{ opacity: layerOpacities[2] }}
+              className="pointer-events-none absolute left-[2%] top-[22%] h-[52%] w-[9%] rounded-full bg-blue-400/10 blur-2xl"
+            />
+            {[
+              "left-[4.6%] top-[45.3%] h-[1.5%] w-[2.1%]",
+              "left-[7.4%] top-[55.9%] h-[1.5%] w-[2.1%]",
+              "left-[18.5%] top-[86.1%] h-[1.5%] w-[2.1%]"
+            ].map((mask) => (
+              <motion.span
+                key={mask}
+                style={{ opacity: secondWaveLetterMaskOpacity }}
+                className={`pointer-events-none absolute ${mask} bg-white`}
+              />
+            ))}
+            <div
+              className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/40"
+            />
+            <div
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_35%_35%,rgba(59,130,246,0.08),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(15,23,42,0.05))]"
+            />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"
+            />
+            <div className="pointer-events-none absolute inset-0 rounded-xl shadow-[inset_0_0_40px_rgba(15,23,42,0.08)]" />
+            <div className="sr-only">
+              {shotmapLayers.map((layer) => (
+                <span key={layer.src}>{layer.alt}</span>
+              ))}
+            </div>
+            {shotmapFrames.slice(2).map((frame) => (
+              <img
+                key={frame.src}
+                src={frame.src}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                draggable={false}
+                aria-hidden="true"
+                hidden
+              />
+            ))}
+          </div>
+      </motion.div>
+      <motion.div
+        style={{ clipPath: packetRevealClip, opacity: packetTopOpacity, scale: packetScale }}
+        className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center overflow-visible"
+      >
+        <div className="relative h-full aspect-[1390/1800]">
+          <div className="absolute -inset-x-9 -inset-y-12 rounded-[50%] bg-blue-400/10 blur-[48px]" />
+          <div className="absolute -inset-x-4 -inset-y-7 rounded-[50%] bg-cyan-300/6 blur-2xl" />
+          <div className="relative h-full overflow-hidden bg-white shadow-[0_20px_62px_rgba(56,121,255,0.2)]">
+            <div className="absolute inset-0 overflow-hidden [clip-path:inset(0_0_44%_0)]">
+              <img
+                src="/shotmap-progress/10-camera-packet-export.png"
+                alt="Camera packet export top half"
+                className="h-full w-full object-contain"
+                draggable={false}
+              />
+            </div>
+            <motion.div
+              style={{ opacity: packetBottomOpacity }}
+              className="absolute inset-0 overflow-hidden [clip-path:inset(56%_0_0_0)]"
+            >
+              <img
+                src="/shotmap-progress/10-camera-packet-export.png"
+                alt="Camera packet export with notes grid"
+                className="h-full w-full object-contain"
+                draggable={false}
+              />
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+      <motion.img
+        src="/shotmap-progress/layers/legend-export.png"
+        alt=""
+        aria-hidden="true"
+        style={{ opacity: legendOverlayOpacity, x: legendX }}
+        className="pointer-events-none absolute inset-0 z-40 h-full w-full object-cover"
+        draggable={false}
+      />
+    </div>
+  );
+}
+
+function StaticShotmapVisual() {
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-white/55 bg-slate-100/95 p-2 shadow-cinematic">
+      <div className="absolute -inset-10 rounded-[2.25rem] bg-blue-400/20 blur-3xl" />
+        <div className="relative aspect-[1464/1172] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
+          <img
+            src="/shotmap-progress/09-final-export-legend.png"
+            alt="Final crew-ready export with legend"
+            className="h-full w-full object-cover"
+            draggable={false}
+          />
+        </div>
+    </div>
   );
 }
