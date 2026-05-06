@@ -9,74 +9,42 @@ const DEBUG_TIMING_COUNTER = true;
 
 const shotmapFrames = [
   {
-    src: "/shotmap-progress/01-background-full.png",
+    src: "/shotmap-progress/01-floorplan.png",
     alt: "Imported set plan reference at full opacity"
   },
   {
-    src: "/shotmap-progress/02-background-faded.png",
+    src: "/shotmap-progress/02-floorplan-faded.png",
     alt: "Imported set plan reference faded back for tracing"
   },
   {
-    src: "/shotmap-progress/03-walls.png",
+    src: "/shotmap-progress/03-walls-clean.png",
     alt: "Clean wall and set layout created in Coverage Schematic"
   },
   {
-    src: "/shotmap-progress/04-props.png",
+    src: "/shotmap-progress/04-props-clean.png",
     alt: "Props and set elements added to the schematic"
   },
   {
-    src: "/shotmap-progress/05-characters.png",
+    src: "/shotmap-progress/05-characters-clean.png",
     alt: "Character positions added without motion paths"
   },
   {
-    src: "/shotmap-progress/06-motion-paths.png",
+    src: "/shotmap-progress/06-characters-paths.png",
     alt: "Character blocking with motion paths added"
   },
   {
-    src: "/shotmap-progress/07-cameras.png",
-    alt: "Camera positions and camera movement added"
+    src: "/shotmap-progress/07-camera-wave-1.png",
+    alt: "First complete camera coverage wave"
   },
   {
-    src: "/shotmap-progress/08-all-layers.png",
-    alt: "Complete working schematic with all layers visible"
+    src: "/shotmap-progress/08-camera-wave-2.png",
+    alt: "Second complete camera coverage wave"
   },
   {
-    src: "/shotmap-progress/09-final-export-legend.png",
-    alt: "Final crew-ready export with legend"
+    src: "/shotmap-progress/09-camera-wave-3.png",
+    alt: "Third complete camera coverage wave"
   }
 ];
-
-const shotmapLayers = [
-  {
-    src: "/shotmap-progress/layers/props.png",
-    alt: "Props and set elements layer"
-  },
-  {
-    src: "/shotmap-progress/layers/motion-paths.png",
-    alt: "Motion path layer"
-  },
-  {
-    src: "/shotmap-progress/layers/camera-color-core.png",
-    alt: "Initial camera coverage layer"
-  },
-  {
-    src: "/shotmap-progress/layers/camera-green.png",
-    alt: "Green dynamic camera layer"
-  },
-  {
-    src: "/shotmap-progress/layers/camera-brown-grey.png",
-    alt: "Brown and grey dynamic camera layer"
-  },
-  {
-    src: "/shotmap-progress/layers/legend-export.png",
-    alt: "Export legend layer"
-  }
-];
-
-const characterLayers = Array.from({ length: 10 }, (_, index) => ({
-  src: `/shotmap-progress/layers/character-${String(index + 1).padStart(2, "0")}.png`,
-  alt: `Character blocking marker ${index + 1}`
-}));
 
 const panels = [
   {
@@ -199,66 +167,24 @@ export function HorizontalProcess() {
   const pathTwo = useTransform(scrollYProgress, [0.34, 0.48], [0, 1]);
   const pathThree = useTransform(scrollYProgress, [0.58, 0.72], [0, 1]);
   const pathFour = useTransform(scrollYProgress, [0.78, 0.92], [0, 1]);
-  const referenceOpacity = useTransform(timelineProgress, [0, 0.08, 0.18], [1, 1, 0]);
-  const fadedReferenceOpacity = useTransform(timelineProgress, [0.06, 0.14, 0.24], [0, 0.75, 0]);
-  const baseSchematicOpacity = useTransform(timelineProgress, [0.1, 0.22], [0, 1]);
-  const layerOpacities = [
-    useTransform(timelineProgress, [0.145, 0.545], [0, 1]),
-    useTransform(timelineProgress, [0.64, 0.845], [0, 1]),
-    useTransform(timelineProgress, [0.82, 0.85], [0, 1]),
-    useTransform(timelineProgress, [0.88, 0.91], [0, 1]),
-    useTransform(timelineProgress, [0.94, 0.98], [0, 1]),
-    useTransform(timelineProgress, [1.09, 1.16], [0, 1])
+  const frameOpacities = [
+    useTransform(timelineProgress, [0, 0.08, 0.17], [1, 1, 0]),
+    useTransform(timelineProgress, [0.06, 0.13, 0.21], [0, 0.7, 0]),
+    useTransform(timelineProgress, [0.14, 0.2, 0.33, 0.39], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.33, 0.39, 0.48, 0.54], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.48, 0.54, 0.62, 0.68], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.62, 0.68, 0.76, 0.81], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.76, 0.81, 0.84, 0.87], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.84, 0.88, 0.92, 0.95], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.92, 0.96, 1.18, 1.19], [0, 1, 1, 0])
   ];
-  const layerScales = [
-    useTransform(timelineProgress, [0.145, 0.545], [0.985, 1]),
-    useTransform(timelineProgress, [0.64, 0.845], [1, 1]),
-    useTransform(timelineProgress, [0.82, 0.85], [0.98, 1]),
-    useTransform(timelineProgress, [0.88, 0.91], [0.98, 1]),
-    useTransform(timelineProgress, [0.94, 0.98], [0.98, 1]),
-    useTransform(timelineProgress, [1.09, 1.16], [1, 1])
-  ];
-  const layerY = [
-    useTransform(timelineProgress, [0.145, 0.545], [14, 0]),
-    useTransform(timelineProgress, [0.64, 0.845], [0, 0]),
-    useTransform(timelineProgress, [0.82, 0.85], [18, 0]),
-    useTransform(timelineProgress, [0.88, 0.91], [18, 0]),
-    useTransform(timelineProgress, [0.94, 0.98], [-18, 0]),
-    useTransform(timelineProgress, [1.09, 1.16], [0, 0])
-  ];
-  const characterOpacities = [
-    useTransform(timelineProgress, [0.445, 0.5], [0, 1]),
-    useTransform(timelineProgress, [0.465, 0.52], [0, 1]),
-    useTransform(timelineProgress, [0.485, 0.54], [0, 1]),
-    useTransform(timelineProgress, [0.505, 0.56], [0, 1]),
-    useTransform(timelineProgress, [0.525, 0.58], [0, 1]),
-    useTransform(timelineProgress, [0.545, 0.6], [0, 1]),
-    useTransform(timelineProgress, [0.565, 0.62], [0, 1]),
-    useTransform(timelineProgress, [0.585, 0.64], [0, 1]),
-    useTransform(timelineProgress, [0.605, 0.66], [0, 1]),
-    useTransform(timelineProgress, [0.625, 0.68], [0, 1])
-  ];
-  const characterScales = [
-    useTransform(timelineProgress, [0.445, 0.5], [0.9, 1]),
-    useTransform(timelineProgress, [0.465, 0.52], [0.9, 1]),
-    useTransform(timelineProgress, [0.485, 0.54], [0.9, 1]),
-    useTransform(timelineProgress, [0.505, 0.56], [0.9, 1]),
-    useTransform(timelineProgress, [0.525, 0.58], [0.9, 1]),
-    useTransform(timelineProgress, [0.545, 0.6], [0.9, 1]),
-    useTransform(timelineProgress, [0.565, 0.62], [0.9, 1]),
-    useTransform(timelineProgress, [0.585, 0.64], [0.9, 1]),
-    useTransform(timelineProgress, [0.605, 0.66], [0.9, 1]),
-    useTransform(timelineProgress, [0.625, 0.68], [0.9, 1])
-  ];
-  const motionPathClip = useTransform(timelineProgress, [0.58, 0.845], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]);
-  const legendX = useTransform(timelineProgress, [1.09, 1.2], [70, -260]);
-  const legendOverlayOpacity = useTransform(timelineProgress, [1.09, 1.12, 1.2, 1.24], [0, 1, 1, 0]);
-  const packetTopOpacity = useTransform(timelineProgress, [1.1, 1.14], [0, 1]);
+  const legendX = useTransform(timelineProgress, [1.105, 1.19], [260, -1120]);
+  const legendOverlayOpacity = useTransform(timelineProgress, [1.104, 1.105, 1.19, 1.191], [0, 1, 1, 0]);
+  const packetTopOpacity = useTransform(timelineProgress, [1.105, 1.106], [0, 1]);
   const packetBottomOpacity = useTransform(timelineProgress, [1.25, 1.27], [0, 1]);
-  const packetScale = useTransform(timelineProgress, [1.1, 1.18], [0.96, 1]);
-  const packetRevealClip = useTransform(timelineProgress, [1.1, 1.18], ["inset(0 0 0 100%)", "inset(0 0 0 0%)"]);
-  const workingMockOpacity = useTransform(timelineProgress, [1.12, 1.18], [1, 0]);
-  const secondWaveLetterMaskOpacity = useTransform(timelineProgress, [0.875, 0.91], [1, 0]);
+  const packetScale = useTransform(timelineProgress, [1.105, 1.19], [0.985, 1]);
+  const packetRevealClip = useTransform(timelineProgress, [1.105, 1.19], ["inset(0 0 0 100%)", "inset(0 0 0 0%)"]);
+  const workingMockOpacity = useTransform(timelineProgress, [1.18, 1.19], [1, 0]);
 
   return (
     <section ref={sectionRef} className="relative lg:h-[950vh]">
@@ -346,22 +272,13 @@ export function HorizontalProcess() {
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-5 py-10 sm:px-8">
           <motion.div style={{ scale: visualScale, x: visualX, y: visualY }} className="w-full will-change-transform">
             <ProgressiveShotmapVisual
-              baseSchematicOpacity={baseSchematicOpacity}
-              characterOpacities={characterOpacities}
-              characterScales={characterScales}
-              fadedReferenceOpacity={fadedReferenceOpacity}
-              layerOpacities={layerOpacities}
-              layerScales={layerScales}
-              layerY={layerY}
+              frameOpacities={frameOpacities}
               legendOverlayOpacity={legendOverlayOpacity}
               legendX={legendX}
-              motionPathClip={motionPathClip}
               packetBottomOpacity={packetBottomOpacity}
               packetRevealClip={packetRevealClip}
               packetScale={packetScale}
               packetTopOpacity={packetTopOpacity}
-              referenceOpacity={referenceOpacity}
-              secondWaveLetterMaskOpacity={secondWaveLetterMaskOpacity}
               workingMockOpacity={workingMockOpacity}
             />
           </motion.div>
@@ -466,129 +383,55 @@ export function HorizontalProcess() {
 }
 
 type ProgressiveShotmapVisualProps = {
-  baseSchematicOpacity: MotionValue<number>;
-  characterOpacities: MotionValue<number>[];
-  characterScales: MotionValue<number>[];
-  fadedReferenceOpacity: MotionValue<number>;
-  layerOpacities: MotionValue<number>[];
-  layerScales: MotionValue<number>[];
-  layerY: MotionValue<number>[];
+  frameOpacities: MotionValue<number>[];
   legendOverlayOpacity: MotionValue<number>;
   legendX: MotionValue<number>;
-  motionPathClip: MotionValue<string>;
   packetBottomOpacity: MotionValue<number>;
   packetRevealClip: MotionValue<string>;
   packetScale: MotionValue<number>;
   packetTopOpacity: MotionValue<number>;
-  referenceOpacity: MotionValue<number>;
-  secondWaveLetterMaskOpacity: MotionValue<number>;
   workingMockOpacity: MotionValue<number>;
 };
 
 function ProgressiveShotmapVisual({
-  baseSchematicOpacity,
-  characterOpacities,
-  characterScales,
-  fadedReferenceOpacity,
-  layerOpacities,
-  layerScales,
-  layerY,
+  frameOpacities,
   legendOverlayOpacity,
   legendX,
-  motionPathClip,
   packetBottomOpacity,
   packetRevealClip,
   packetScale,
   packetTopOpacity,
-  referenceOpacity,
-  secondWaveLetterMaskOpacity,
   workingMockOpacity
 }: ProgressiveShotmapVisualProps) {
   return (
-    <div className="relative mx-auto w-full max-w-[min(980px,calc((100vh-250px)*1.249))]">
+    <div className="relative mx-auto w-full max-w-[min(980px,calc((100vh-250px)*1.237))]">
       <motion.div
         style={{ opacity: workingMockOpacity }}
-        className="absolute -inset-8 rounded-[2.25rem] bg-blue-400/12 blur-3xl"
+        className="absolute -inset-x-6 -inset-y-4 rounded-[48%] bg-blue-400/8 blur-[46px]"
       />
       <motion.div
         style={{ opacity: workingMockOpacity }}
         className="relative overflow-hidden rounded-2xl border border-white/55 bg-slate-100/95 shadow-cinematic"
       >
-          <div className="relative aspect-[1464/1172] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
-            <motion.img
-              src={shotmapFrames[0].src}
-              alt={shotmapFrames[0].alt}
-              style={{ opacity: referenceOpacity }}
-              className="absolute inset-0 h-full w-full object-cover"
-              draggable={false}
-            />
-            <motion.img
-              src={shotmapFrames[1].src}
-              alt={shotmapFrames[1].alt}
-              style={{ opacity: fadedReferenceOpacity }}
-              className="absolute inset-0 h-full w-full object-cover"
-              draggable={false}
-            />
-            <motion.img
-              src={shotmapFrames[2].src}
-              alt={shotmapFrames[2].alt}
-              style={{ opacity: baseSchematicOpacity }}
-              className="absolute inset-0 h-full w-full object-cover"
-              draggable={false}
-            />
-            {shotmapLayers.map((layer, index) => {
-              const isMotionPathLayer = layer.src.includes("motion-paths");
-              const isLegendLayer = layer.src.includes("legend-export");
-
-              return (
-                <motion.img
-                  key={layer.src}
-                  src={layer.src}
-                  alt={layer.alt}
-                  style={{
-                    clipPath: isMotionPathLayer ? motionPathClip : undefined,
-                    opacity: layerOpacities[index],
-                    scale: layerScales[index],
-                    x: isLegendLayer ? legendX : 0,
-                    y: layerY[index]
-                  }}
-                  className="absolute inset-0 h-full w-full object-cover will-change-transform"
-                  draggable={false}
-                />
-              );
-            })}
-            {characterLayers.map((layer, index) => (
+          <div className="relative aspect-[1420/1148] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
+            {shotmapFrames.map((frame, index) => (
               <motion.img
-                key={layer.src}
-                src={layer.src}
-                alt={layer.alt}
-                style={{
-                  opacity: characterOpacities[index],
-                  scale: characterScales[index]
-                }}
-                className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                key={frame.src}
+                src={frame.src}
+                alt={frame.alt}
+                style={{ opacity: frameOpacities[index] }}
+                className="absolute inset-0 h-full w-full object-cover"
                 draggable={false}
               />
             ))}
-            <motion.div
-              style={{ opacity: layerOpacities[5] }}
-              className="pointer-events-none absolute bottom-[3.5%] right-[1.5%] h-[92%] w-[23%] rounded-xl bg-blue-400/10 blur-2xl"
+            <motion.img
+              src="/shotmap-progress/10-legend-open.png"
+              alt=""
+              aria-hidden="true"
+              style={{ opacity: legendOverlayOpacity, x: legendX }}
+              className="pointer-events-none absolute inset-0 z-20 h-full w-full object-cover will-change-transform"
+              draggable={false}
             />
-            <motion.div
-              style={{ opacity: layerOpacities[2] }}
-              className="pointer-events-none absolute left-[2%] top-[22%] h-[52%] w-[9%] rounded-full bg-blue-400/10 blur-2xl"
-            />
-            {[
-              "left-[4.6%] top-[45.3%] h-[1.5%] w-[2.1%]",
-              "left-[7.4%] top-[55.9%] h-[1.5%] w-[2.1%]",
-              "left-[18.5%] top-[86.1%] h-[1.5%] w-[2.1%]"
-            ].map((mask) => (
-              <motion.span
-                key={mask}
-                style={{ opacity: secondWaveLetterMaskOpacity }}
-                className={`pointer-events-none absolute ${mask} bg-white`}
-              />
-            ))}
             <div
               className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/40"
             />
@@ -599,12 +442,7 @@ function ProgressiveShotmapVisual({
               className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"
             />
             <div className="pointer-events-none absolute inset-0 rounded-xl shadow-[inset_0_0_40px_rgba(15,23,42,0.08)]" />
-            <div className="sr-only">
-              {shotmapLayers.map((layer) => (
-                <span key={layer.src}>{layer.alt}</span>
-              ))}
-            </div>
-            {shotmapFrames.slice(2).map((frame) => (
+            {shotmapFrames.map((frame) => (
               <img
                 key={frame.src}
                 src={frame.src}
@@ -621,13 +459,12 @@ function ProgressiveShotmapVisual({
         style={{ clipPath: packetRevealClip, opacity: packetTopOpacity, scale: packetScale }}
         className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center overflow-visible"
       >
-        <div className="relative h-full aspect-[1390/1800]">
-          <div className="absolute -inset-x-9 -inset-y-12 rounded-[50%] bg-blue-400/10 blur-[48px]" />
-          <div className="absolute -inset-x-4 -inset-y-7 rounded-[50%] bg-cyan-300/6 blur-2xl" />
-          <div className="relative h-full overflow-hidden bg-white shadow-[0_20px_62px_rgba(56,121,255,0.2)]">
+        <div className="relative h-full aspect-[2501/3155]">
+          <div className="absolute -inset-x-5 -inset-y-7 rounded-[50%] bg-blue-400/7 blur-[42px]" />
+          <div className="relative h-full overflow-hidden bg-white shadow-[0_18px_54px_rgba(56,121,255,0.16)]">
             <div className="absolute inset-0 overflow-hidden [clip-path:inset(0_0_44%_0)]">
               <img
-                src="/shotmap-progress/10-camera-packet-export.png"
+                src="/shotmap-progress/11-export-top.png"
                 alt="Camera packet export top half"
                 className="h-full w-full object-contain"
                 draggable={false}
@@ -638,7 +475,7 @@ function ProgressiveShotmapVisual({
               className="absolute inset-0 overflow-hidden [clip-path:inset(56%_0_0_0)]"
             >
               <img
-                src="/shotmap-progress/10-camera-packet-export.png"
+                src="/shotmap-progress/12-export-full.png"
                 alt="Camera packet export with notes grid"
                 className="h-full w-full object-contain"
                 draggable={false}
@@ -647,14 +484,6 @@ function ProgressiveShotmapVisual({
           </div>
         </div>
       </motion.div>
-      <motion.img
-        src="/shotmap-progress/layers/legend-export.png"
-        alt=""
-        aria-hidden="true"
-        style={{ opacity: legendOverlayOpacity, x: legendX }}
-        className="pointer-events-none absolute inset-0 z-40 h-full w-full object-cover"
-        draggable={false}
-      />
     </div>
   );
 }
@@ -663,11 +492,11 @@ function StaticShotmapVisual() {
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/55 bg-slate-100/95 p-2 shadow-cinematic">
       <div className="absolute -inset-10 rounded-[2.25rem] bg-blue-400/20 blur-3xl" />
-        <div className="relative aspect-[1464/1172] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
+        <div className="relative aspect-[2501/3155] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
           <img
-            src="/shotmap-progress/09-final-export-legend.png"
+            src="/shotmap-progress/12-export-full.png"
             alt="Final crew-ready export with legend"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
             draggable={false}
           />
         </div>
