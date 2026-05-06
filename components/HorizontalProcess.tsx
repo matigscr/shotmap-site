@@ -19,31 +19,55 @@ const shotmapFrames = [
   {
     src: "/shotmap-progress/03-walls-clean.png",
     alt: "Clean wall and set layout created in Coverage Schematic"
-  },
-  {
-    src: "/shotmap-progress/04-props-clean.png",
+  }
+];
+
+const shotmapDeltas = {
+  props: {
+    src: "/shotmap-progress/deltas/props.png",
     alt: "Props and set elements added to the schematic"
   },
-  {
-    src: "/shotmap-progress/05-characters-clean.png",
+  characters: {
+    src: "/shotmap-progress/deltas/characters.png",
     alt: "Character positions added without motion paths"
   },
-  {
-    src: "/shotmap-progress/06-characters-paths.png",
+  motionPaths: {
+    src: "/shotmap-progress/deltas/motion-paths.png",
     alt: "Character blocking with motion paths added"
   },
-  {
-    src: "/shotmap-progress/07-camera-wave-1.png",
+  cameraWave1: {
+    src: "/shotmap-progress/deltas/camera-wave-1.png",
     alt: "First complete camera coverage wave"
   },
-  {
-    src: "/shotmap-progress/08-camera-wave-2.png",
+  cameraWave2: {
+    src: "/shotmap-progress/deltas/camera-wave-2.png",
     alt: "Second complete camera coverage wave"
   },
-  {
-    src: "/shotmap-progress/09-camera-wave-3.png",
+  cameraWave3: {
+    src: "/shotmap-progress/deltas/camera-wave-3.png",
     alt: "Third complete camera coverage wave"
   }
+};
+
+const propRevealMasks = [
+  "inset(18% 62% 58% 16%)",
+  "inset(26% 39% 61% 47%)",
+  "inset(42% 35% 42% 58%)",
+  "inset(63% 36% 23% 48%)",
+  "inset(0% 58% 88% 2%)",
+  "inset(32% 10% 21% 64%)"
+];
+
+const characterRevealMasks = [
+  "inset(30% 78% 62% 17%)",
+  "inset(26% 72% 66% 21%)",
+  "inset(18% 63% 73% 27%)",
+  "inset(17% 55% 75% 35%)",
+  "inset(38% 58% 51% 32%)",
+  "inset(42% 49% 45% 41%)",
+  "inset(47% 54% 39% 42%)",
+  "inset(49% 58% 37% 35%)",
+  "inset(52% 34% 18% 48%)"
 ];
 
 const panels = [
@@ -170,64 +194,111 @@ export function HorizontalProcess() {
   const frameOpacities = [
     useTransform(timelineProgress, [0, 0.08, 0.18], [1, 1, 0]),
     useTransform(timelineProgress, [0.06, 0.14, 0.24], [0, 0.75, 0]),
-    useTransform(timelineProgress, [0.1, 0.22, 1.18, 1.19], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.145, 0.545, 1.18, 1.19], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.445, 0.68, 1.18, 1.19], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.58, 0.845, 1.18, 1.19], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.82, 0.85, 1.18, 1.19], [0, 1, 1, 0]),
+    useTransform(timelineProgress, [0.1, 0.22, 1.18, 1.19], [0, 1, 1, 0])
+  ];
+  const propGroupOpacities = [
+    useTransform(timelineProgress, [0.145, 0.22], [0, 1]),
+    useTransform(timelineProgress, [0.255, 0.335], [0, 1]),
+    useTransform(timelineProgress, [0.305, 0.385], [0, 1]),
+    useTransform(timelineProgress, [0.345, 0.41], [0, 1]),
+    useTransform(timelineProgress, [0.375, 0.43], [0, 1]),
+    useTransform(timelineProgress, [0.405, 0.445], [0, 1])
+  ];
+  const propGroupScales = [
+    useTransform(timelineProgress, [0.145, 0.22], [0.94, 1]),
+    useTransform(timelineProgress, [0.255, 0.335], [0.96, 1]),
+    useTransform(timelineProgress, [0.305, 0.385], [0.96, 1]),
+    useTransform(timelineProgress, [0.345, 0.41], [0.96, 1]),
+    useTransform(timelineProgress, [0.375, 0.43], [0.97, 1]),
+    useTransform(timelineProgress, [0.405, 0.445], [0.97, 1])
+  ];
+  const propGroupY = [
+    useTransform(timelineProgress, [0.145, 0.22], [18, 0]),
+    useTransform(timelineProgress, [0.255, 0.335], [10, 0]),
+    useTransform(timelineProgress, [0.305, 0.385], [10, 0]),
+    useTransform(timelineProgress, [0.345, 0.41], [10, 0]),
+    useTransform(timelineProgress, [0.375, 0.43], [8, 0]),
+    useTransform(timelineProgress, [0.405, 0.445], [8, 0])
+  ];
+  const propsFullOpacity = useTransform(timelineProgress, [0.442, 0.45, 1.18, 1.19], [0, 1, 1, 0]);
+  const characterGroupOpacities = [
+    useTransform(timelineProgress, [0.495, 0.525], [0, 1]),
+    useTransform(timelineProgress, [0.515, 0.545], [0, 1]),
+    useTransform(timelineProgress, [0.535, 0.565], [0, 1]),
+    useTransform(timelineProgress, [0.555, 0.585], [0, 1]),
+    useTransform(timelineProgress, [0.585, 0.615], [0, 1]),
+    useTransform(timelineProgress, [0.605, 0.635], [0, 1]),
+    useTransform(timelineProgress, [0.625, 0.655], [0, 1]),
+    useTransform(timelineProgress, [0.645, 0.675], [0, 1]),
+    useTransform(timelineProgress, [0.675, 0.705], [0, 1])
+  ];
+  const characterGroupScales = [
+    useTransform(timelineProgress, [0.495, 0.525], [0.97, 1]),
+    useTransform(timelineProgress, [0.515, 0.545], [0.97, 1]),
+    useTransform(timelineProgress, [0.535, 0.565], [0.97, 1]),
+    useTransform(timelineProgress, [0.555, 0.585], [0.97, 1]),
+    useTransform(timelineProgress, [0.585, 0.615], [0.98, 1]),
+    useTransform(timelineProgress, [0.605, 0.635], [0.98, 1]),
+    useTransform(timelineProgress, [0.625, 0.655], [0.98, 1]),
+    useTransform(timelineProgress, [0.645, 0.675], [0.98, 1]),
+    useTransform(timelineProgress, [0.675, 0.705], [0.98, 1])
+  ];
+  const characterGroupY = [
+    useTransform(timelineProgress, [0.495, 0.525], [4, 0]),
+    useTransform(timelineProgress, [0.515, 0.545], [4, 0]),
+    useTransform(timelineProgress, [0.535, 0.565], [4, 0]),
+    useTransform(timelineProgress, [0.555, 0.585], [4, 0]),
+    useTransform(timelineProgress, [0.585, 0.615], [4, 0]),
+    useTransform(timelineProgress, [0.605, 0.635], [4, 0]),
+    useTransform(timelineProgress, [0.625, 0.655], [4, 0]),
+    useTransform(timelineProgress, [0.645, 0.675], [4, 0]),
+    useTransform(timelineProgress, [0.675, 0.705], [4, 0])
+  ];
+  const characterGroupRotations = [
+    useTransform(timelineProgress, [0.495, 0.525], [-1.5, 0]),
+    useTransform(timelineProgress, [0.515, 0.545], [1.5, 0]),
+    useTransform(timelineProgress, [0.535, 0.565], [-1.25, 0]),
+    useTransform(timelineProgress, [0.555, 0.585], [1.25, 0]),
+    useTransform(timelineProgress, [0.585, 0.615], [-1, 0]),
+    useTransform(timelineProgress, [0.605, 0.635], [1, 0]),
+    useTransform(timelineProgress, [0.625, 0.655], [-1, 0]),
+    useTransform(timelineProgress, [0.645, 0.675], [1, 0]),
+    useTransform(timelineProgress, [0.675, 0.705], [1, 0])
+  ];
+  const charactersFullOpacity = useTransform(timelineProgress, [0.705, 0.72, 1.18, 1.19], [0, 1, 1, 0]);
+  const motionPathOpacity = useTransform(timelineProgress, [0.66, 0.75, 1.18, 1.19], [0, 1, 1, 0]);
+  const motionPathClip = useTransform(timelineProgress, [0.66, 0.75], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]);
+  const cameraWaveOpacities = [
+    useTransform(timelineProgress, [0.795, 0.865, 1.18, 1.19], [0, 1, 1, 0]),
     useTransform(timelineProgress, [0.88, 0.91, 1.18, 1.19], [0, 1, 1, 0]),
     useTransform(timelineProgress, [0.94, 0.98, 1.18, 1.19], [0, 1, 1, 0])
   ];
-  const frameScales = [
-    useTransform(timelineProgress, [0, 0.18], [1, 1]),
-    useTransform(timelineProgress, [0.06, 0.24], [1.01, 1]),
-    useTransform(timelineProgress, [0.1, 0.22], [1, 1]),
-    useTransform(timelineProgress, [0.145, 0.545], [0.985, 1]),
-    useTransform(timelineProgress, [0.445, 0.68], [0.965, 1]),
-    useTransform(timelineProgress, [0.58, 0.845], [1, 1]),
-    useTransform(timelineProgress, [0.82, 0.85], [0.98, 1]),
-    useTransform(timelineProgress, [0.88, 0.91], [0.98, 1]),
-    useTransform(timelineProgress, [0.94, 0.98], [0.98, 1])
-  ];
-  const frameY = [
-    useTransform(timelineProgress, [0, 0.18], [0, 0]),
-    useTransform(timelineProgress, [0.06, 0.24], [0, 0]),
-    useTransform(timelineProgress, [0.1, 0.22], [0, 0]),
-    useTransform(timelineProgress, [0.145, 0.545], [14, 0]),
-    useTransform(timelineProgress, [0.445, 0.68], [16, 0]),
-    useTransform(timelineProgress, [0.58, 0.845], [0, 0]),
-    useTransform(timelineProgress, [0.82, 0.85], [18, 0]),
-    useTransform(timelineProgress, [0.88, 0.91], [18, 0]),
-    useTransform(timelineProgress, [0.94, 0.98], [-18, 0])
-  ];
-  const frameX = [
-    useTransform(timelineProgress, [0, 0.18], [0, 0]),
-    useTransform(timelineProgress, [0.06, 0.24], [0, 0]),
-    useTransform(timelineProgress, [0.1, 0.22], [0, 0]),
-    useTransform(timelineProgress, [0.145, 0.545], [0, 0]),
-    useTransform(timelineProgress, [0.445, 0.68], [0, 0]),
-    useTransform(timelineProgress, [0.58, 0.845], [0, 0]),
-    useTransform(timelineProgress, [0.82, 0.85], [-18, 0]),
-    useTransform(timelineProgress, [0.88, 0.91], [-18, 0]),
-    useTransform(timelineProgress, [0.94, 0.98], [18, 0])
-  ];
-  const frameClipPaths = [
-    undefined,
-    undefined,
-    useTransform(timelineProgress, [0.1, 0.22], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]),
-    undefined,
-    undefined,
-    useTransform(timelineProgress, [0.58, 0.845], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]),
-    useTransform(timelineProgress, [0.82, 0.85], ["inset(0 0 100% 0)", "inset(0 0 0% 0)"]),
+  const cameraWaveClipPaths = [
+    useTransform(timelineProgress, [0.795, 0.865], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]),
     useTransform(timelineProgress, [0.88, 0.91], ["inset(0 0 100% 0)", "inset(0 0 0% 0)"]),
     useTransform(timelineProgress, [0.94, 0.98], ["inset(100% 0 0 0)", "inset(0% 0 0 0)"])
   ];
-  const legendX = useTransform(timelineProgress, [1.105, 1.19], [260, -1120]);
-  const legendOverlayOpacity = useTransform(timelineProgress, [1.104, 1.105, 1.19, 1.191], [0, 1, 1, 0]);
-  const packetTopOpacity = useTransform(timelineProgress, [1.105, 1.106], [0, 1]);
+  const cameraWaveX = [
+    useTransform(timelineProgress, [0.795, 0.865], [-14, 0]),
+    useTransform(timelineProgress, [0.88, 0.91], [-18, 0]),
+    useTransform(timelineProgress, [0.94, 0.98], [18, 0])
+  ];
+  const cameraWaveY = [
+    useTransform(timelineProgress, [0.795, 0.865], [12, 0]),
+    useTransform(timelineProgress, [0.88, 0.91], [18, 0]),
+    useTransform(timelineProgress, [0.94, 0.98], [-18, 0])
+  ];
+  const cameraWaveScales = [
+    useTransform(timelineProgress, [0.795, 0.865], [0.97, 1]),
+    useTransform(timelineProgress, [0.88, 0.91], [0.98, 1]),
+    useTransform(timelineProgress, [0.94, 0.98], [0.98, 1])
+  ];
+  const legendX = useTransform(timelineProgress, [1.125, 1.132, 1.19], [0, 0, -980]);
+  const legendOverlayOpacity = useTransform(timelineProgress, [1.124, 1.125, 1.19, 1.191], [0, 1, 1, 0]);
+  const packetTopOpacity = useTransform(timelineProgress, [1.132, 1.133], [0, 1]);
   const packetBottomOpacity = useTransform(timelineProgress, [1.25, 1.27], [0, 1]);
-  const packetScale = useTransform(timelineProgress, [1.105, 1.19], [0.985, 1]);
-  const packetRevealClip = useTransform(timelineProgress, [1.105, 1.19], ["inset(0 0 0 100%)", "inset(0 0 0 0%)"]);
+  const packetScale = useTransform(timelineProgress, [1.132, 1.19], [1, 1]);
+  const packetRevealClip = useTransform(timelineProgress, [1.132, 1.19], ["inset(0 0 0 100%)", "inset(0 0 0 0%)"]);
   const workingMockOpacity = useTransform(timelineProgress, [1.18, 1.19], [1, 0]);
 
   return (
@@ -316,17 +387,29 @@ export function HorizontalProcess() {
         <div className="relative z-10 flex h-full flex-col items-center justify-center px-5 py-10 sm:px-8">
           <motion.div style={{ scale: visualScale, x: visualX, y: visualY }} className="w-full will-change-transform">
             <ProgressiveShotmapVisual
-              frameClipPaths={frameClipPaths}
+              cameraWaveClipPaths={cameraWaveClipPaths}
+              cameraWaveOpacities={cameraWaveOpacities}
+              cameraWaveScales={cameraWaveScales}
+              cameraWaveX={cameraWaveX}
+              cameraWaveY={cameraWaveY}
+              characterGroupOpacities={characterGroupOpacities}
+              characterGroupRotations={characterGroupRotations}
+              characterGroupScales={characterGroupScales}
+              characterGroupY={characterGroupY}
+              charactersFullOpacity={charactersFullOpacity}
               frameOpacities={frameOpacities}
-              frameScales={frameScales}
-              frameX={frameX}
-              frameY={frameY}
               legendOverlayOpacity={legendOverlayOpacity}
               legendX={legendX}
+              motionPathClip={motionPathClip}
+              motionPathOpacity={motionPathOpacity}
               packetBottomOpacity={packetBottomOpacity}
               packetRevealClip={packetRevealClip}
               packetScale={packetScale}
               packetTopOpacity={packetTopOpacity}
+              propGroupOpacities={propGroupOpacities}
+              propGroupScales={propGroupScales}
+              propGroupY={propGroupY}
+              propsFullOpacity={propsFullOpacity}
               workingMockOpacity={workingMockOpacity}
             />
           </motion.div>
@@ -431,34 +514,64 @@ export function HorizontalProcess() {
 }
 
 type ProgressiveShotmapVisualProps = {
-  frameClipPaths: (MotionValue<string> | undefined)[];
+  cameraWaveClipPaths: MotionValue<string>[];
+  cameraWaveOpacities: MotionValue<number>[];
+  cameraWaveScales: MotionValue<number>[];
+  cameraWaveX: MotionValue<number>[];
+  cameraWaveY: MotionValue<number>[];
+  characterGroupOpacities: MotionValue<number>[];
+  characterGroupRotations: MotionValue<number>[];
+  characterGroupScales: MotionValue<number>[];
+  characterGroupY: MotionValue<number>[];
+  charactersFullOpacity: MotionValue<number>;
   frameOpacities: MotionValue<number>[];
-  frameScales: MotionValue<number>[];
-  frameX: MotionValue<number>[];
-  frameY: MotionValue<number>[];
   legendOverlayOpacity: MotionValue<number>;
   legendX: MotionValue<number>;
+  motionPathClip: MotionValue<string>;
+  motionPathOpacity: MotionValue<number>;
   packetBottomOpacity: MotionValue<number>;
   packetRevealClip: MotionValue<string>;
   packetScale: MotionValue<number>;
   packetTopOpacity: MotionValue<number>;
+  propGroupOpacities: MotionValue<number>[];
+  propGroupScales: MotionValue<number>[];
+  propGroupY: MotionValue<number>[];
+  propsFullOpacity: MotionValue<number>;
   workingMockOpacity: MotionValue<number>;
 };
 
 function ProgressiveShotmapVisual({
-  frameClipPaths,
+  cameraWaveClipPaths,
+  cameraWaveOpacities,
+  cameraWaveScales,
+  cameraWaveX,
+  cameraWaveY,
+  characterGroupOpacities,
+  characterGroupRotations,
+  characterGroupScales,
+  characterGroupY,
+  charactersFullOpacity,
   frameOpacities,
-  frameScales,
-  frameX,
-  frameY,
   legendOverlayOpacity,
   legendX,
+  motionPathClip,
+  motionPathOpacity,
   packetBottomOpacity,
   packetRevealClip,
   packetScale,
   packetTopOpacity,
+  propGroupOpacities,
+  propGroupScales,
+  propGroupY,
+  propsFullOpacity,
   workingMockOpacity
 }: ProgressiveShotmapVisualProps) {
+  const cameraLayers = [
+    shotmapDeltas.cameraWave1,
+    shotmapDeltas.cameraWave2,
+    shotmapDeltas.cameraWave3
+  ];
+
   return (
     <div className="relative mx-auto w-full max-w-[min(980px,calc((100vh-250px)*1.237))]">
       <motion.div
@@ -475,25 +588,83 @@ function ProgressiveShotmapVisual({
                 key={frame.src}
                 src={frame.src}
                 alt={frame.alt}
+                style={{ opacity: frameOpacities[index] }}
+                className="absolute inset-0 h-full w-full object-cover"
+                draggable={false}
+              />
+            ))}
+            {propRevealMasks.map((mask, index) => (
+              <motion.img
+                key={mask}
+                src={shotmapDeltas.props.src}
+                alt={index === 0 ? shotmapDeltas.props.alt : ""}
+                aria-hidden={index === 0 ? undefined : true}
                 style={{
-                  clipPath: frameClipPaths[index],
-                  opacity: frameOpacities[index],
-                  scale: frameScales[index],
-                  x: frameX[index],
-                  y: frameY[index]
+                  clipPath: mask,
+                  opacity: propGroupOpacities[index],
+                  scale: propGroupScales[index],
+                  y: propGroupY[index]
                 }}
                 className="absolute inset-0 h-full w-full object-cover will-change-transform"
                 draggable={false}
               />
             ))}
             <motion.img
-              src="/shotmap-progress/10-legend-open.png"
+              src={shotmapDeltas.props.src}
               alt=""
               aria-hidden="true"
-              style={{ opacity: legendOverlayOpacity, x: legendX }}
-              className="pointer-events-none absolute inset-0 z-20 h-full w-full object-cover will-change-transform"
+              style={{ opacity: propsFullOpacity }}
+              className="absolute inset-0 h-full w-full object-cover"
               draggable={false}
             />
+            {characterRevealMasks.map((mask, index) => (
+              <motion.img
+                key={mask}
+                src={shotmapDeltas.characters.src}
+                alt={index === 0 ? shotmapDeltas.characters.alt : ""}
+                aria-hidden={index === 0 ? undefined : true}
+                style={{
+                  clipPath: mask,
+                  opacity: characterGroupOpacities[index],
+                  rotate: characterGroupRotations[index],
+                  scale: characterGroupScales[index],
+                  y: characterGroupY[index]
+                }}
+                className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                draggable={false}
+              />
+            ))}
+            <motion.img
+              src={shotmapDeltas.characters.src}
+              alt=""
+              aria-hidden="true"
+              style={{ opacity: charactersFullOpacity }}
+              className="absolute inset-0 h-full w-full object-cover"
+              draggable={false}
+            />
+            <motion.img
+              src={shotmapDeltas.motionPaths.src}
+              alt={shotmapDeltas.motionPaths.alt}
+              style={{ clipPath: motionPathClip, opacity: motionPathOpacity }}
+              className="absolute inset-0 h-full w-full object-cover"
+              draggable={false}
+            />
+            {cameraLayers.map((layer, index) => (
+              <motion.img
+                key={layer.src}
+                src={layer.src}
+                alt={layer.alt}
+                style={{
+                  clipPath: cameraWaveClipPaths[index],
+                  opacity: cameraWaveOpacities[index],
+                  scale: cameraWaveScales[index],
+                  x: cameraWaveX[index],
+                  y: cameraWaveY[index]
+                }}
+                className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                draggable={false}
+              />
+            ))}
             <div
               className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-white/40"
             />
@@ -504,7 +675,7 @@ function ProgressiveShotmapVisual({
               className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"
             />
             <div className="pointer-events-none absolute inset-0 rounded-xl shadow-[inset_0_0_40px_rgba(15,23,42,0.08)]" />
-            {shotmapFrames.map((frame) => (
+            {[...shotmapFrames, ...Object.values(shotmapDeltas)].map((frame) => (
               <img
                 key={frame.src}
                 src={frame.src}
@@ -546,6 +717,16 @@ function ProgressiveShotmapVisual({
           </div>
         </div>
       </motion.div>
+      <div className="pointer-events-none absolute inset-0 z-40 overflow-hidden rounded-2xl">
+        <motion.img
+          src="/shotmap-progress/legend-tight-wipe.png"
+          alt=""
+          aria-hidden="true"
+          style={{ opacity: legendOverlayOpacity, x: legendX }}
+          className="absolute bottom-0 right-0 h-full w-auto max-w-none will-change-transform"
+          draggable={false}
+        />
+      </div>
     </div>
   );
 }
