@@ -159,9 +159,9 @@ export function HorizontalProcess() {
   const visualY = useTransform(timelineProgress, [0, 1.5, 1.62], [0, 0, -84]);
   const handoffTextOpacity = useTransform(timelineProgress, [1.24, 1.28, 1.62], [0, 1, 1]);
   const handoffTextX = useTransform(timelineProgress, [1.24, 1.36, 1.48], ["48vw", "0vw", "0vw"]);
-  const handoffTextY = useTransform(timelineProgress, [1.34, 1.52], ["0vh", "-78vh"]);
-  const outputTextOpacity = useTransform(timelineProgress, [1.38, 1.42, 1.62], [0, 1, 1]);
-  const outputTextY = useTransform(timelineProgress, [1.38, 1.52, 1.62], ["52vh", "0vh", "-12vh"]);
+  const handoffTextY = useTransform(timelineProgress, [1.24, 1.36, 1.52], ["26vh", "26vh", "-78vh"]);
+  const outputTextOpacity = useTransform(timelineProgress, [1.46, 1.461, 1.62], [0, 1, 1]);
+  const outputTextY = useTransform(timelineProgress, [1.42, 1.56, 1.62], ["76vh", "0vh", "-12vh"]);
   const captionMotion = [
     {
       opacity: useTransform(timelineProgress, [0.12, 0.15, 0.54, 0.57], [0, 1, 1, 0]),
@@ -298,9 +298,9 @@ export function HorizontalProcess() {
   const packetBottomOpacity = useTransform(timelineProgress, [1.25, 1.27], [0, 1]);
   const packetScale = useTransform(timelineProgress, [1.165, 1.19], [1, 1]);
   const workingMockOpacity = useTransform(timelineProgress, [1.166, 1.18], [1, 0]);
-  const workingMockScaleX = useTransform(timelineProgress, [1.115, 1.165], [1, 0.455]);
-  const workingMockScaleY = useTransform(timelineProgress, [1.115, 1.165], [1, 0.455]);
-  const workingMockX = useTransform(timelineProgress, [1.115, 1.165], [0, -22]);
+  const workingMockScaleX = useTransform(timelineProgress, [1.115, 1.165], [1, 0.437]);
+  const workingMockScaleY = useTransform(timelineProgress, [1.115, 1.165], [1, 0.437]);
+  const workingMockX = useTransform(timelineProgress, [1.115, 1.165], [0, -21]);
   const workingMockY = useTransform(timelineProgress, [1.115, 1.165], [0, -146]);
 
   return (
@@ -706,7 +706,7 @@ function ProgressiveShotmapVisual({
         style={{ opacity: packetShellOpacity, scale: packetScale }}
         className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center overflow-visible"
       >
-        <div className="relative h-full aspect-[2501/3155]">
+        <div className="relative h-full aspect-[2437/3155]">
           <div className="absolute -inset-x-5 -inset-y-7 rounded-[50%] bg-blue-400/7 blur-[42px]" />
           <div className="relative h-full overflow-hidden bg-white shadow-[0_18px_54px_rgba(56,121,255,0.16)]">
             <motion.div
@@ -742,7 +742,7 @@ function StaticShotmapVisual() {
   return (
     <div className="relative overflow-hidden rounded-2xl border border-white/55 bg-slate-100/95 p-2 shadow-cinematic">
       <div className="absolute -inset-10 rounded-[2.25rem] bg-blue-400/20 blur-3xl" />
-        <div className="relative aspect-[2501/3155] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
+        <div className="relative aspect-[2437/3155] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
           <img
             src="/shotmap-progress/12-export-full.png"
             alt="Final crew-ready export with legend"
