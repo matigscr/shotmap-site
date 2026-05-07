@@ -293,13 +293,15 @@ export function HorizontalProcess() {
     useTransform(timelineProgress, [0.88, 0.91], [0.98, 1]),
     useTransform(timelineProgress, [0.94, 0.98], [0.98, 1])
   ];
-  const legendX = useTransform(timelineProgress, [1.125, 1.132, 1.19], [0, 0, -980]);
-  const legendOverlayOpacity = useTransform(timelineProgress, [1.124, 1.125, 1.19, 1.191], [0, 1, 1, 0]);
-  const packetTopOpacity = useTransform(timelineProgress, [1.132, 1.133], [0, 1]);
+  const packetShellOpacity = useTransform(timelineProgress, [1.105, 1.115], [0, 1]);
+  const packetTopOpacity = useTransform(timelineProgress, [1.166, 1.18], [0, 1]);
   const packetBottomOpacity = useTransform(timelineProgress, [1.25, 1.27], [0, 1]);
-  const packetScale = useTransform(timelineProgress, [1.132, 1.19], [1, 1]);
-  const packetRevealClip = useTransform(timelineProgress, [1.132, 1.19], ["inset(0 0 0 100%)", "inset(0 0 0 0%)"]);
-  const workingMockOpacity = useTransform(timelineProgress, [1.18, 1.19], [1, 0]);
+  const packetScale = useTransform(timelineProgress, [1.165, 1.19], [1, 1]);
+  const workingMockOpacity = useTransform(timelineProgress, [1.166, 1.18], [1, 0]);
+  const workingMockScaleX = useTransform(timelineProgress, [1.115, 1.165], [1, 0.455]);
+  const workingMockScaleY = useTransform(timelineProgress, [1.115, 1.165], [1, 0.455]);
+  const workingMockX = useTransform(timelineProgress, [1.115, 1.165], [0, -22]);
+  const workingMockY = useTransform(timelineProgress, [1.115, 1.165], [0, -146]);
 
   return (
     <section ref={sectionRef} className="relative lg:h-[950vh]">
@@ -398,19 +400,21 @@ export function HorizontalProcess() {
               characterGroupY={characterGroupY}
               charactersFullOpacity={charactersFullOpacity}
               frameOpacities={frameOpacities}
-              legendOverlayOpacity={legendOverlayOpacity}
-              legendX={legendX}
               motionPathClip={motionPathClip}
               motionPathOpacity={motionPathOpacity}
               packetBottomOpacity={packetBottomOpacity}
-              packetRevealClip={packetRevealClip}
               packetScale={packetScale}
+              packetShellOpacity={packetShellOpacity}
               packetTopOpacity={packetTopOpacity}
               propGroupOpacities={propGroupOpacities}
               propGroupScales={propGroupScales}
               propGroupY={propGroupY}
               propsFullOpacity={propsFullOpacity}
               workingMockOpacity={workingMockOpacity}
+              workingMockScaleX={workingMockScaleX}
+              workingMockScaleY={workingMockScaleY}
+              workingMockX={workingMockX}
+              workingMockY={workingMockY}
             />
           </motion.div>
 
@@ -525,19 +529,21 @@ type ProgressiveShotmapVisualProps = {
   characterGroupY: MotionValue<number>[];
   charactersFullOpacity: MotionValue<number>;
   frameOpacities: MotionValue<number>[];
-  legendOverlayOpacity: MotionValue<number>;
-  legendX: MotionValue<number>;
   motionPathClip: MotionValue<string>;
   motionPathOpacity: MotionValue<number>;
   packetBottomOpacity: MotionValue<number>;
-  packetRevealClip: MotionValue<string>;
   packetScale: MotionValue<number>;
+  packetShellOpacity: MotionValue<number>;
   packetTopOpacity: MotionValue<number>;
   propGroupOpacities: MotionValue<number>[];
   propGroupScales: MotionValue<number>[];
   propGroupY: MotionValue<number>[];
   propsFullOpacity: MotionValue<number>;
   workingMockOpacity: MotionValue<number>;
+  workingMockScaleX: MotionValue<number>;
+  workingMockScaleY: MotionValue<number>;
+  workingMockX: MotionValue<number>;
+  workingMockY: MotionValue<number>;
 };
 
 function ProgressiveShotmapVisual({
@@ -552,19 +558,21 @@ function ProgressiveShotmapVisual({
   characterGroupY,
   charactersFullOpacity,
   frameOpacities,
-  legendOverlayOpacity,
-  legendX,
   motionPathClip,
   motionPathOpacity,
   packetBottomOpacity,
-  packetRevealClip,
   packetScale,
+  packetShellOpacity,
   packetTopOpacity,
   propGroupOpacities,
   propGroupScales,
   propGroupY,
   propsFullOpacity,
-  workingMockOpacity
+  workingMockOpacity,
+  workingMockScaleX,
+  workingMockScaleY,
+  workingMockX,
+  workingMockY
 }: ProgressiveShotmapVisualProps) {
   const cameraLayers = [
     shotmapDeltas.cameraWave1,
@@ -579,8 +587,14 @@ function ProgressiveShotmapVisual({
         className="absolute -inset-x-6 -inset-y-4 rounded-[48%] bg-blue-400/8 blur-[46px]"
       />
       <motion.div
-        style={{ opacity: workingMockOpacity }}
-        className="relative overflow-hidden rounded-2xl border border-white/55 bg-slate-100/95 shadow-cinematic"
+        style={{
+          opacity: workingMockOpacity,
+          scaleX: workingMockScaleX,
+          scaleY: workingMockScaleY,
+          x: workingMockX,
+          y: workingMockY
+        }}
+        className="relative z-40 overflow-hidden rounded-2xl border border-white/55 bg-slate-100/95 shadow-cinematic"
       >
           <div className="relative aspect-[1420/1148] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
             {shotmapFrames.map((frame, index) => (
@@ -689,20 +703,23 @@ function ProgressiveShotmapVisual({
           </div>
       </motion.div>
       <motion.div
-        style={{ clipPath: packetRevealClip, opacity: packetTopOpacity, scale: packetScale }}
+        style={{ opacity: packetShellOpacity, scale: packetScale }}
         className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center overflow-visible"
       >
         <div className="relative h-full aspect-[2501/3155]">
           <div className="absolute -inset-x-5 -inset-y-7 rounded-[50%] bg-blue-400/7 blur-[42px]" />
           <div className="relative h-full overflow-hidden bg-white shadow-[0_18px_54px_rgba(56,121,255,0.16)]">
-            <div className="absolute inset-0 overflow-hidden [clip-path:inset(0_0_44%_0)]">
+            <motion.div
+              style={{ opacity: packetTopOpacity }}
+              className="absolute inset-0 overflow-hidden [clip-path:inset(0_0_44%_0)]"
+            >
               <img
                 src="/shotmap-progress/11-export-top.png"
                 alt="Camera packet export top half"
                 className="h-full w-full object-contain"
                 draggable={false}
               />
-            </div>
+            </motion.div>
             <motion.div
               style={{ opacity: packetBottomOpacity }}
               className="absolute inset-0 overflow-hidden [clip-path:inset(56%_0_0_0)]"
@@ -717,16 +734,6 @@ function ProgressiveShotmapVisual({
           </div>
         </div>
       </motion.div>
-      <div className="pointer-events-none absolute inset-0 z-40 overflow-hidden rounded-2xl">
-        <motion.img
-          src="/shotmap-progress/legend-tight-wipe.png"
-          alt=""
-          aria-hidden="true"
-          style={{ opacity: legendOverlayOpacity, x: legendX }}
-          className="absolute bottom-0 right-0 h-full w-auto max-w-none will-change-transform"
-          draggable={false}
-        />
-      </div>
     </div>
   );
 }
