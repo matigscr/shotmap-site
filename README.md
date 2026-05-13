@@ -27,5 +27,5 @@ npm run build
 ## Notes
 
 - All visuals are placeholder UI built from HTML and Tailwind classes.
-- Buttons currently link to `#pricing` and `#sample-export`.
+- Downloadable assets are registered in `lib/downloads.ts` and served through `/download/[slug]`. The app slot supports GitHub Releases via `externalUrl`; the sample export PDF lives at `public/downloads/sample-export.pdf`.
 - The horizontal process section uses a sticky viewport and maps vertical scroll progress to horizontal movement with Framer Motion.

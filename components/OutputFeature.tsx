@@ -46,6 +46,12 @@ export function OutputFeature() {
               </span>
             ))}
           </div>
+          <a
+            href="/download/sample-export"
+            className="mt-8 inline-flex rounded-full bg-electric px-6 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
+          >
+            Download Sample Export
+          </a>
         </Reveal>
       </div>
     </section>

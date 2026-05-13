@@ -20,9 +20,9 @@ export function FinalCTA() {
               />
             </div>
             <h2
-              className="text-5xl font-semibold leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-6xl"
+                className="text-5xl font-semibold leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-6xl"
               style={{ color: "#fff", opacity: 1 }}
-            >
+              >
               Create and<br className="hidden sm:block" /> communicate with<br /> total clarity.
             </h2>
           </div>
@@ -41,21 +41,21 @@ export function FinalCTA() {
             </p>
             <div className="mx-auto mt-7 h-px max-w-xs bg-gradient-to-r from-transparent via-blue-300/30 to-transparent" />
             <div className="mt-7 flex flex-col justify-center gap-3">
-            <a
-              href="#pricing"
-              className="relative isolate rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
-            >
-              Start Free Trial
-            </a>
-            <a
-              href="#sample-export"
-              className="relative isolate rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"
-            >
-              Download Sample Export
-            </a>
+              <a
+                href="/download"
+                className="relative isolate rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
+              >
+                Start Free Trial
+              </a>
+              <a
+                href="/download/sample-export"
+                className="relative isolate rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"
+              >
+                Download Sample Export
+              </a>
             </div>
             <p className="mt-6 text-xs text-slate-500">
-            Pricing placeholder - final launch pricing may change.
+              Pricing placeholder - final launch pricing may change.
             </p>
           </div>
         </div>

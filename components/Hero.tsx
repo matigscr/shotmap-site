@@ -45,7 +45,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.05 }}
           >
-            Plan and communicate complex camera coverage with speed and total clarity.
+            Plan and communicate complex camera coverage with speed and clarity.
           </motion.h1>
           <motion.p
             className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 lg:mx-0"
@@ -62,16 +62,16 @@ export function Hero() {
             transition={{ duration: 0.85, delay: 0.26 }}
           >
             <a
-              href="#pricing"
+              href="/download"
               className="rounded-full bg-electric px-7 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
             >
               Start Free Trial
             </a>
             <a
-              href="#sample-export"
+              href="/download/sample-export"
               className="rounded-full border border-white/15 bg-white/7 px-7 py-3 text-sm font-semibold text-white transition hover:border-blue-300/60 hover:bg-white/12"
             >
-              View Sample Export
+              Download Sample Export
             </a>
           </motion.div>
         </div>
