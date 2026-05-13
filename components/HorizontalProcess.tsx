@@ -1,11 +1,11 @@
 "use client";
 
 import { motion, type MotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { backgroundOpacity } from "./background/backgroundConfig";
 import { SchematicLayer } from "./background/SchematicLayer";
 
-const DEBUG_TIMING_COUNTER = true;
+const DEBUG_TIMING_COUNTER = false;
 
 const shotmapFrames = [
   {
@@ -132,18 +132,64 @@ const visualTiming = [
   { end: 1.62, label: "Output scroll" }
 ];
 
+const PINNED_PROCESS_MIN_WIDTH = 768;
+const PINNED_PROCESS_MIN_HEIGHT = 620;
+const DEFAULT_PROCESS_METRICS = {
+  captionOffset: 960,
+  isPinned: false,
+  sectionHeight: 0
+};
+
 function getTimingLabel(progress: number, timing: { end: number; label: string }[]) {
   return timing.find((item) => progress <= item.end)?.label ?? timing[timing.length - 1].label;
 }
 
 export function HorizontalProcess() {
   const sectionRef = useRef<HTMLElement>(null);
+  const captionContentRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [timingProgress, setTimingProgress] = useState(0);
+  const [processMetrics, setProcessMetrics] = useState(DEFAULT_PROCESS_METRICS);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start 92%", "end end"]
   });
   const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, 1.62]);
+
+  useEffect(() => {
+    const calculateProcessMetrics = () => {
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const isPinned =
+        viewportWidth >= PINNED_PROCESS_MIN_WIDTH && viewportHeight >= PINNED_PROCESS_MIN_HEIGHT;
+      const measuredCaptionWidth = Math.max(
+        ...captionContentRefs.current.map((node) => node?.scrollWidth ?? 0),
+        0
+      );
+      const fallbackCaptionWidth = Math.min(viewportWidth - 64, 896);
+      const captionWidth = measuredCaptionWidth || fallbackCaptionWidth;
+      const captionOffset = Math.ceil((viewportWidth + captionWidth) / 2 + 56);
+      const horizontalScrollDistance = captionOffset * panels.length * 1.05 + viewportWidth * 1.4;
+      const scrollDistance = Math.max(viewportHeight * 5.2, horizontalScrollDistance);
+
+      setProcessMetrics({
+        captionOffset,
+        isPinned,
+        sectionHeight: isPinned ? Math.ceil(viewportHeight + scrollDistance) : 0
+      });
+    };
+
+    calculateProcessMetrics();
+    const measurementFrame = window.requestAnimationFrame(calculateProcessMetrics);
+    window.addEventListener("resize", calculateProcessMetrics);
+    window.addEventListener("orientationchange", calculateProcessMetrics);
+    document.fonts?.ready.then(calculateProcessMetrics).catch(() => undefined);
+
+    return () => {
+      window.cancelAnimationFrame(measurementFrame);
+      window.removeEventListener("resize", calculateProcessMetrics);
+      window.removeEventListener("orientationchange", calculateProcessMetrics);
+    };
+  }, []);
 
   useMotionValueEvent(timelineProgress, "change", (latest) => {
     setTimingProgress(Number(latest.toFixed(3)));
@@ -154,6 +200,8 @@ export function HorizontalProcess() {
   // the visual centered while the captions move horizontally beneath it. At the
   // end, the captions leave while the export stays onscreen and shrinks into the
   // following section.
+  const captionStartX = processMetrics.captionOffset;
+  const captionEndX = -processMetrics.captionOffset;
   const visualX = useTransform(timelineProgress, [0, 0.158, 1.191, 1.38, 1.5, 1.62], ["100vw", "0vw", "0vw", "-30vw", "-30vw", "-30vw"]);
   const visualScale = useTransform(timelineProgress, [0, 1.191, 1.38, 1.62], [1, 1, 0.82, 0.82]);
   const visualY = useTransform(timelineProgress, [0, 1.36, 1.62], [0, 0, -760]);
@@ -165,19 +213,19 @@ export function HorizontalProcess() {
   const captionMotion = [
     {
       opacity: useTransform(timelineProgress, [0.082, 0.11, 0.54, 0.57], [0, 1, 1, 0]),
-      x: useTransform(timelineProgress, [0.082, 0.57], ["100vw", "-100vw"])
+      x: useTransform(timelineProgress, [0.082, 0.57], [captionStartX, captionEndX])
     },
     {
       opacity: useTransform(timelineProgress, [0.42, 0.45, 0.84, 0.87], [0, 1, 1, 0]),
-      x: useTransform(timelineProgress, [0.42, 0.87], ["100vw", "-100vw"])
+      x: useTransform(timelineProgress, [0.42, 0.87], [captionStartX, captionEndX])
     },
     {
       opacity: useTransform(timelineProgress, [0.72, 0.75, 1.14, 1.17], [0, 1, 1, 0]),
-      x: useTransform(timelineProgress, [0.72, 1.17], ["100vw", "-100vw"])
+      x: useTransform(timelineProgress, [0.72, 1.17], [captionStartX, captionEndX])
     },
     {
       opacity: useTransform(timelineProgress, [1.02, 1.05, 1.26, 1.32], [0, 1, 1, 0]),
-      x: useTransform(timelineProgress, [1.02, 1.32], ["100vw", "-100vw"])
+      x: useTransform(timelineProgress, [1.02, 1.32], [captionStartX, captionEndX])
     }
   ];
   const gridX = useTransform(scrollYProgress, [0, 1], [0, -30]);
@@ -304,8 +352,12 @@ export function HorizontalProcess() {
   const workingMockY = useTransform(timelineProgress, [1.115, 1.165], [0, -146]);
 
   return (
-    <section ref={sectionRef} className="relative lg:h-[885vh]">
-      <div className="hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative"
+      style={processMetrics.isPinned ? { height: processMetrics.sectionHeight } : undefined}
+    >
+      <div className={processMetrics.isPinned ? "sticky top-0 block h-screen overflow-hidden" : "hidden"}>
         {DEBUG_TIMING_COUNTER && (
           <div className="pointer-events-none absolute right-5 top-5 z-50 w-72 rounded-xl border border-blue-300/30 bg-slate-950/85 p-4 font-mono text-xs text-blue-50 shadow-2xl backdrop-blur-md">
             <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-blue-300">
@@ -336,7 +388,7 @@ export function HorizontalProcess() {
             y={backgroundY}
             intensity="active"
             showPaths
-            className="hidden lg:block"
+            className="hidden md:block"
           />
         </motion.div>
         <motion.svg
@@ -425,7 +477,12 @@ export function HorizontalProcess() {
                   style={captionMotion[index]}
                   className="absolute inset-0 flex h-full w-screen items-start justify-center px-5 sm:px-8"
                 >
-                  <div className="w-full max-w-4xl text-center">
+                  <div
+                    ref={(node) => {
+                      captionContentRefs.current[index] = node;
+                    }}
+                    className="w-full max-w-4xl text-center"
+                  >
                     <p className="mb-4 text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
                       {panel.eyebrow} / 0{index + 1}
                     </p>
@@ -442,7 +499,7 @@ export function HorizontalProcess() {
         </div>
         <motion.div
           style={{ opacity: handoffTextOpacity, x: handoffTextX, y: handoffTextY }}
-          className="pointer-events-none absolute left-[43vw] right-[4vw] top-[24vh] z-20 hidden lg:block"
+          className="pointer-events-none absolute left-[43vw] right-[4vw] top-[24vh] z-20 hidden md:block"
         >
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
             Final Coverage First
@@ -491,7 +548,7 @@ export function HorizontalProcess() {
         </motion.div>
       </div>
 
-      <div className="px-5 py-20 sm:px-8 lg:hidden">
+      <div className={processMetrics.isPinned ? "hidden" : "px-5 py-20 sm:px-8"}>
         <div className="mx-auto max-w-3xl space-y-16">
           <StaticShotmapVisual />
           {panels.map((panel, index) => (

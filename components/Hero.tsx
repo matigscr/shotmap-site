@@ -31,11 +31,11 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="absolute left-1/2 top-1/2 h-32 w-44 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/18 blur-3xl lg:left-[4.5rem] lg:translate-x-0" />
+            <div className="absolute left-1/2 top-1/2 h-36 w-48 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/20 blur-3xl lg:left-[4.875rem] lg:translate-x-0" />
             <img
               src="/shotmap-studio-logo.png"
               alt="Shotmap Studio"
-              className="relative h-36 w-36 object-contain"
+              className="relative h-40 w-40 object-contain drop-shadow-[0_0_24px_rgba(59,130,246,0.42)] [filter:drop-shadow(0_16px_34px_rgba(0,0,0,0.46))]"
               draggable={false}
             />
           </motion.div>

@@ -5,25 +5,27 @@ export function FinalCTA() {
       <div className="relative mx-auto grid max-w-6xl overflow-visible rounded-[1.75rem] border border-blue-300/25 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03)_50%,rgba(47,140,255,0.06))] p-6 pt-12 shadow-[0_28px_100px_rgba(0,0,0,0.42)] sm:p-8 sm:pt-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8 lg:p-10 lg:pt-14">
         <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-blue-400/18 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 left-1/2 h-72 w-[34rem] -translate-x-1/2 rounded-[50%] bg-blue-400/10 blur-3xl" />
-        <div className="absolute left-1/2 top-0 z-20 h-20 w-20 -translate-x-1/2 -translate-y-1/3">
-          <div className="absolute inset-[-18px] rounded-full bg-blue-400/18 blur-2xl" />
-          <img
-            src="/shotmap-studio-logo.png"
-            alt="Shotmap Studio"
-            className="relative h-full w-full rounded-2xl object-contain shadow-[0_18px_44px_rgba(0,0,0,0.42)]"
-            draggable={false}
-          />
-        </div>
         <div className="relative flex flex-col justify-center py-4 text-center lg:text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
             Launch Offer
           </p>
-          <h2
-            className="mt-5 text-5xl font-semibold leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-6xl"
-            style={{ color: "#fff", opacity: 1 }}
-          >
-            Create and communicate with total clarity.
-          </h2>
+          <div className="relative mt-5 inline-block max-w-4xl">
+            <div className="pointer-events-none absolute left-[72%] top-[calc(0.62em-25px)] z-10 hidden h-28 w-28 -translate-x-1/2 -translate-y-1/2 overflow-visible p-2 sm:block lg:left-[78%] lg:h-32 lg:w-32">
+              <div className="absolute inset-[-28px] rounded-full bg-blue-400/34 blur-2xl" />
+              <img
+                src="/shotmap-studio-logo.png"
+                alt="Shotmap Studio"
+                className="relative h-full w-full rounded-[14px] object-contain drop-shadow-[0_0_28px_rgba(59,130,246,0.68)]"
+                draggable={false}
+              />
+            </div>
+            <h2
+              className="text-5xl font-semibold leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-6xl"
+              style={{ color: "#fff", opacity: 1 }}
+            >
+              Create and<br className="hidden sm:block" /> communicate with<br /> total clarity.
+            </h2>
+          </div>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 lg:mx-0">
             A clean, shareable coverage schematic your entire crew understands.
           </p>
