@@ -3,7 +3,7 @@ import { ParallaxWrapper } from "@/components/background/ParallaxWrapper";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Coverage Schematic",
+  title: "Shotmap Studio",
   description:
     "Plan and communicate complex camera coverage with speed and total clarity."
 };
