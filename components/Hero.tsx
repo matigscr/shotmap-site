@@ -68,6 +68,12 @@ export function Hero() {
               Start Free Trial
             </a>
             <a
+              href="/buy"
+              className="rounded-full border border-blue-300/35 bg-blue-400/10 px-7 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
+            >
+              Purchase License
+            </a>
+            <a
               href="/download/sample-export"
               className="rounded-full border border-white/15 bg-white/7 px-7 py-3 text-sm font-semibold text-white transition hover:border-blue-300/60 hover:bg-white/12"
             >

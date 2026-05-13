@@ -48,6 +48,12 @@ export function FinalCTA() {
                 Start Free Trial
               </a>
               <a
+                href="/buy"
+                className="relative isolate rounded-full border border-blue-300/40 bg-blue-400/10 px-8 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
+              >
+                Purchase License
+              </a>
+              <a
                 href="/download/sample-export"
                 className="relative isolate rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"
               >
