@@ -1,8 +1,8 @@
 const links = [
-  { label: "Terms", href: "/legal/shotmap-terms.docx" },
-  { label: "EULA", href: "/legal/shotmap-eula.docx" },
-  { label: "Privacy", href: "/legal/shotmap-privacy.docx" },
-  { label: "Refund", href: "/legal/shotmap-refund.docx" }
+  { label: "Terms", href: "/terms" },
+  { label: "EULA", href: "/eula" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Refund", href: "/refund" }
 ];
 
 export function Footer() {
