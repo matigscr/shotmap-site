@@ -24,7 +24,13 @@ export function LegalPage({ title, effectiveDate, intro, sections }: LegalPagePr
     <main className="relative z-10 min-h-screen px-5 py-16 text-slate-100 sm:px-8 lg:py-24">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-blue-500/10 blur-3xl" />
       <article className="relative mx-auto max-w-3xl rounded-[1.75rem] border border-blue-300/15 bg-white/[0.045] p-6 shadow-[0_28px_100px_rgba(0,0,0,0.36)] backdrop-blur-sm sm:p-8 lg:p-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
+        <Link
+          href="/"
+          className="inline-flex text-sm font-semibold text-blue-200 transition hover:text-white"
+        >
+          Back to Shotmap Studio
+        </Link>
+        <p className="mt-6 text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
           Shotmap Studio Legal
         </p>
         <h1 className="mt-5 text-4xl font-semibold leading-none text-white sm:text-5xl">
@@ -46,13 +52,18 @@ export function LegalPage({ title, effectiveDate, intro, sections }: LegalPagePr
 
         <nav
           aria-label="Legal navigation"
-          className="mt-12 flex flex-wrap gap-4 border-t border-white/10 pt-6 text-sm font-semibold text-blue-200"
+          className="mt-12 flex flex-wrap items-center gap-4 border-t border-white/10 pt-6 text-sm font-semibold text-blue-200"
         >
-          {legalLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="transition hover:text-white">
-              {link.label}
-            </Link>
-          ))}
+          <div className="flex flex-wrap gap-4">
+            {legalLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="transition hover:text-white">
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          <Link href="/" className="sm:ml-auto transition hover:text-white">
+            Shotmap Studio
+          </Link>
         </nav>
       </article>
     </main>
