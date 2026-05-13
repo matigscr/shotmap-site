@@ -19,6 +19,10 @@ export function ProductPlaceholder({
   variant = "export",
   className = ""
 }: PlaceholderProps) {
+  if (variant === "export") {
+    return <ExportPreview className={className} />;
+  }
+
   return (
     <div
       className={`light-ui relative overflow-hidden rounded-2xl border border-white/70 shadow-cinematic ${className}`}
@@ -37,19 +41,34 @@ export function ProductPlaceholder({
       <div className="relative min-h-[280px] p-5 sm:min-h-[360px] sm:p-7">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.06)_1px,transparent_1px)] bg-[size:28px_28px]" />
         <div className="relative h-full min-h-[240px] rounded-xl border border-slate-300/90 bg-white/65 p-5">
-          {(variant === "space" || variant === "blocking" || variant === "coverage" || variant === "full" || variant === "export") && (
+          {(variant === "space" || variant === "blocking" || variant === "coverage" || variant === "full") && (
             <RoomLines />
           )}
-          {(variant === "blocking" || variant === "coverage" || variant === "full" || variant === "export") && (
+          {(variant === "blocking" || variant === "coverage" || variant === "full") && (
             <MotionPaths />
           )}
-          {(variant === "coverage" || variant === "full" || variant === "export") && (
+          {(variant === "coverage" || variant === "full") && (
             <CameraMarks />
           )}
           {(variant === "app" || variant === "full") && <AppSidebar />}
-          {variant === "export" && <Legend />}
         </div>
       </div>
+    </div>
+  );
+}
+
+function ExportPreview({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`relative flex items-center justify-center overflow-visible ${className}`}
+    >
+      <img
+        src="/shotmap-progress/12-export-full.png"
+        alt="Final Shotmap PDF export"
+        className="relative z-0 w-auto max-w-full object-contain shadow-[0_24px_80px_rgba(0,0,0,0.22)]"
+        style={{ height: "min(69vh, 750px)" }}
+        draggable={false}
+      />
     </div>
   );
 }

@@ -1,30 +1,63 @@
-import { Reveal } from "./Reveal";
-
 export function FinalCTA() {
   return (
-    <section className="px-5 py-24 text-center sm:px-8 lg:py-32">
-      <Reveal className="mx-auto max-w-4xl">
-        <h2 className="text-5xl font-semibold leading-none text-white sm:text-6xl">
-          Walk away with total clarity
-        </h2>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-          A clean, shareable coverage schematic your entire crew understands.
-        </p>
-        <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-          <a
-            href="#pricing"
-            className="rounded-full bg-electric px-7 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
-          >
-            Start Free Trial
-          </a>
-          <a
-            href="#sample-export"
-            className="rounded-full border border-white/15 bg-white/7 px-7 py-3 text-sm font-semibold text-white transition hover:border-blue-300/60 hover:bg-white/12"
-          >
-            Download Sample Export
-          </a>
+    <section id="pricing" className="relative z-30 px-5 py-24 sm:px-8 lg:py-32">
+      <div className="absolute inset-x-0 top-1/2 h-72 -translate-y-1/2 bg-blue-400/8 blur-3xl" />
+      <div className="relative mx-auto grid max-w-6xl overflow-visible rounded-[1.75rem] border border-blue-300/25 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03)_50%,rgba(47,140,255,0.06))] p-6 pt-12 shadow-[0_28px_100px_rgba(0,0,0,0.42)] sm:p-8 sm:pt-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8 lg:p-10 lg:pt-14">
+        <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-blue-400/18 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 left-1/2 h-72 w-[34rem] -translate-x-1/2 rounded-[50%] bg-blue-400/10 blur-3xl" />
+        <div className="absolute left-1/2 top-0 z-20 h-20 w-20 -translate-x-1/2 -translate-y-1/3">
+          <div className="absolute inset-[-18px] rounded-full bg-blue-400/18 blur-2xl" />
+          <img
+            src="/shotmap-studio-logo.png"
+            alt="Shotmap Studio"
+            className="relative h-full w-full rounded-2xl object-contain shadow-[0_18px_44px_rgba(0,0,0,0.42)]"
+            draggable={false}
+          />
         </div>
-      </Reveal>
+        <div className="relative flex flex-col justify-center py-4 text-center lg:text-left">
+          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
+            Launch Offer
+          </p>
+          <h2
+            className="mt-5 text-5xl font-semibold leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-6xl"
+            style={{ color: "#fff", opacity: 1 }}
+          >
+            Create and communicate with total clarity.
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 lg:mx-0">
+            A clean, shareable coverage schematic your entire crew understands.
+          </p>
+        </div>
+        <div className="relative rounded-[1.35rem] border border-blue-300/25 bg-[#0a0a0d]/55 p-6 text-center shadow-[inset_0_1px_0_rgba(147,197,253,0.12)] sm:p-8">
+          <div className="pointer-events-none absolute inset-x-8 top-0 h-24 rounded-[50%] bg-blue-400/12 blur-3xl" />
+          <div className="relative">
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-blue-300">
+              Free 7-day trial
+            </p>
+            <p className="mt-4 text-3xl font-semibold text-white">
+              Then $99 one-time purchase
+            </p>
+            <div className="mx-auto mt-7 h-px max-w-xs bg-gradient-to-r from-transparent via-blue-300/30 to-transparent" />
+            <div className="mt-7 flex flex-col justify-center gap-3">
+            <a
+              href="#pricing"
+              className="relative isolate rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
+            >
+              Start Free Trial
+            </a>
+            <a
+              href="#sample-export"
+              className="relative isolate rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"
+            >
+              Download Sample Export
+            </a>
+            </div>
+            <p className="mt-6 text-xs text-slate-500">
+            Pricing placeholder - final launch pricing may change.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

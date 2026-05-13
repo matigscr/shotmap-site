@@ -11,28 +11,34 @@ export function Hero() {
     offset: ["start start", "end start"]
   });
   const gridY = useTransform(scrollYProgress, [0, 1], [0, 24]);
-  const exportY = useTransform(scrollYProgress, [0, 1], [0, 70]);
+  const exportY = useTransform(scrollYProgress, [0, 1], [0, 0]);
 
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen items-center overflow-hidden px-5 py-24 sm:px-8"
+      className="relative flex min-h-screen items-center overflow-hidden px-5 py-14 sm:px-8 lg:h-screen lg:items-start lg:pb-8 lg:pt-12"
     >
       <motion.div
         style={{ y: gridY }}
         className="cinematic-grid absolute inset-0 opacity-65 will-change-transform"
       />
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-blue-500/10 to-transparent" />
-      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="text-center lg:text-left">
-          <motion.p
-            className="mb-5 text-xs font-semibold uppercase tracking-[0.34em] text-blue-300"
+          <motion.div
+            className="relative mb-6 flex justify-center lg:justify-start"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            Coverage Schematic
-          </motion.p>
+            <div className="absolute left-1/2 top-1/2 h-32 w-44 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/18 blur-3xl lg:left-[4.5rem] lg:translate-x-0" />
+            <img
+              src="/shotmap-studio-logo.png"
+              alt="Shotmap Studio"
+              className="relative h-36 w-36 object-contain"
+              draggable={false}
+            />
+          </motion.div>
           <motion.h1
             className="mx-auto max-w-5xl text-5xl font-semibold leading-[0.98] tracking-normal text-white sm:text-6xl lg:text-7xl"
             initial={{ opacity: 0, y: 24 }}
@@ -73,22 +79,22 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.96, y: 28 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.95, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-          className="relative"
+          className="relative self-start pt-1"
         >
           <motion.div
             style={{ y: exportY }}
             className="relative will-change-transform"
           >
             <motion.div
-              animate={{ y: [-14, 14, -14], scale: [1, 1.02, 1] }}
+              animate={{ y: [-8, 8, -8], scale: [1, 1.012, 1] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               className="relative will-change-transform"
             >
-              <div className="absolute -inset-10 rounded-[2rem] bg-blue-500/25 blur-3xl" />
+              <div className="absolute left-1/2 top-1/2 h-[82%] w-[68%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/16 blur-3xl" />
               <ProductPlaceholder
                 label="FINAL_EXPORT_PLACEHOLDER"
                 variant="export"
-                className="relative min-h-[420px]"
+                className="relative"
               />
             </motion.div>
           </motion.div>

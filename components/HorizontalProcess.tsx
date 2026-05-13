@@ -141,7 +141,7 @@ export function HorizontalProcess() {
   const [timingProgress, setTimingProgress] = useState(0);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 75%", "end end"]
+    offset: ["start 92%", "end end"]
   });
   const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, 1.62]);
 
@@ -154,18 +154,18 @@ export function HorizontalProcess() {
   // the visual centered while the captions move horizontally beneath it. At the
   // end, the captions leave while the export stays onscreen and shrinks into the
   // following section.
-  const visualX = useTransform(timelineProgress, [0, 0.12, 1.191, 1.38, 1.5, 1.62], ["100vw", "0vw", "0vw", "-30vw", "-30vw", "-30vw"]);
+  const visualX = useTransform(timelineProgress, [0, 0.158, 1.191, 1.38, 1.5, 1.62], ["100vw", "0vw", "0vw", "-30vw", "-30vw", "-30vw"]);
   const visualScale = useTransform(timelineProgress, [0, 1.191, 1.38, 1.62], [1, 1, 0.82, 0.82]);
-  const visualY = useTransform(timelineProgress, [0, 1.5, 1.62], [0, 0, -84]);
+  const visualY = useTransform(timelineProgress, [0, 1.36, 1.62], [0, 0, -760]);
   const handoffTextOpacity = useTransform(timelineProgress, [1.24, 1.28, 1.62], [0, 1, 1]);
   const handoffTextX = useTransform(timelineProgress, [1.24, 1.36, 1.48], ["48vw", "0vw", "0vw"]);
-  const handoffTextY = useTransform(timelineProgress, [1.24, 1.36, 1.52], ["26vh", "26vh", "-78vh"]);
-  const outputTextOpacity = useTransform(timelineProgress, [1.46, 1.461, 1.62], [0, 1, 1]);
-  const outputTextY = useTransform(timelineProgress, [1.42, 1.56, 1.62], ["76vh", "0vh", "-12vh"]);
+  const handoffTextY = useTransform(timelineProgress, [1.24, 1.36, 1.52], ["8vh", "8vh", "-78vh"]);
+  const outputTextOpacity = useTransform(timelineProgress, [1.36, 1.361, 1.62], [0, 1, 1]);
+  const outputTextY = useTransform(timelineProgress, [1.36, 1.52, 1.62], ["76vh", "0vh", "-96vh"]);
   const captionMotion = [
     {
-      opacity: useTransform(timelineProgress, [0.12, 0.15, 0.54, 0.57], [0, 1, 1, 0]),
-      x: useTransform(timelineProgress, [0.12, 0.57], ["100vw", "-100vw"])
+      opacity: useTransform(timelineProgress, [0.082, 0.11, 0.54, 0.57], [0, 1, 1, 0]),
+      x: useTransform(timelineProgress, [0.082, 0.57], ["100vw", "-100vw"])
     },
     {
       opacity: useTransform(timelineProgress, [0.42, 0.45, 0.84, 0.87], [0, 1, 1, 0]),
@@ -192,35 +192,35 @@ export function HorizontalProcess() {
   const pathThree = useTransform(scrollYProgress, [0.58, 0.72], [0, 1]);
   const pathFour = useTransform(scrollYProgress, [0.78, 0.92], [0, 1]);
   const frameOpacities = [
-    useTransform(timelineProgress, [0, 0.08, 0.18], [1, 1, 0]),
-    useTransform(timelineProgress, [0.06, 0.14, 0.24], [0, 0.75, 0]),
-    useTransform(timelineProgress, [0.1, 0.22, 1.18, 1.19], [0, 1, 1, 0])
+    useTransform(timelineProgress, [0, 0.076, 0.158], [1, 1, 0]),
+    useTransform(timelineProgress, [0.056, 0.076, 0.158], [0, 0.75, 0]),
+    useTransform(timelineProgress, [0.076, 0.158, 1.18, 1.19], [0, 1, 1, 0])
   ];
   const propGroupOpacities = [
-    useTransform(timelineProgress, [0.145, 0.22], [0, 1]),
-    useTransform(timelineProgress, [0.255, 0.335], [0, 1]),
-    useTransform(timelineProgress, [0.305, 0.385], [0, 1]),
-    useTransform(timelineProgress, [0.345, 0.41], [0, 1]),
-    useTransform(timelineProgress, [0.375, 0.43], [0, 1]),
-    useTransform(timelineProgress, [0.405, 0.445], [0, 1])
+    useTransform(timelineProgress, [0.162, 0.22], [0, 1]),
+    useTransform(timelineProgress, [0.185, 0.245], [0, 1]),
+    useTransform(timelineProgress, [0.225, 0.285], [0, 1]),
+    useTransform(timelineProgress, [0.255, 0.315], [0, 1]),
+    useTransform(timelineProgress, [0.285, 0.345], [0, 1]),
+    useTransform(timelineProgress, [0.315, 0.37], [0, 1])
   ];
   const propGroupScales = [
-    useTransform(timelineProgress, [0.145, 0.22], [0.94, 1]),
-    useTransform(timelineProgress, [0.255, 0.335], [0.96, 1]),
-    useTransform(timelineProgress, [0.305, 0.385], [0.96, 1]),
-    useTransform(timelineProgress, [0.345, 0.41], [0.96, 1]),
-    useTransform(timelineProgress, [0.375, 0.43], [0.97, 1]),
-    useTransform(timelineProgress, [0.405, 0.445], [0.97, 1])
+    useTransform(timelineProgress, [0.162, 0.22], [0.94, 1]),
+    useTransform(timelineProgress, [0.185, 0.245], [0.96, 1]),
+    useTransform(timelineProgress, [0.225, 0.285], [0.96, 1]),
+    useTransform(timelineProgress, [0.255, 0.315], [0.96, 1]),
+    useTransform(timelineProgress, [0.285, 0.345], [0.97, 1]),
+    useTransform(timelineProgress, [0.315, 0.37], [0.97, 1])
   ];
   const propGroupY = [
-    useTransform(timelineProgress, [0.145, 0.22], [18, 0]),
-    useTransform(timelineProgress, [0.255, 0.335], [10, 0]),
-    useTransform(timelineProgress, [0.305, 0.385], [10, 0]),
-    useTransform(timelineProgress, [0.345, 0.41], [10, 0]),
-    useTransform(timelineProgress, [0.375, 0.43], [8, 0]),
-    useTransform(timelineProgress, [0.405, 0.445], [8, 0])
+    useTransform(timelineProgress, [0.162, 0.22], [18, 0]),
+    useTransform(timelineProgress, [0.185, 0.245], [10, 0]),
+    useTransform(timelineProgress, [0.225, 0.285], [10, 0]),
+    useTransform(timelineProgress, [0.255, 0.315], [10, 0]),
+    useTransform(timelineProgress, [0.285, 0.345], [8, 0]),
+    useTransform(timelineProgress, [0.315, 0.37], [8, 0])
   ];
-  const propsFullOpacity = useTransform(timelineProgress, [0.442, 0.45, 1.18, 1.19], [0, 1, 1, 0]);
+  const propsFullOpacity = useTransform(timelineProgress, [0.365, 0.375, 1.18, 1.19], [0, 1, 1, 0]);
   const characterGroupOpacities = [
     useTransform(timelineProgress, [0.495, 0.525], [0, 1]),
     useTransform(timelineProgress, [0.515, 0.545], [0, 1]),
@@ -271,27 +271,27 @@ export function HorizontalProcess() {
   const cameraWaveOpacities = [
     useTransform(timelineProgress, [0.795, 0.865, 1.18, 1.19], [0, 1, 1, 0]),
     useTransform(timelineProgress, [0.88, 0.91, 1.18, 1.19], [0, 1, 1, 0]),
-    useTransform(timelineProgress, [0.94, 0.98, 1.18, 1.19], [0, 1, 1, 0])
+    useTransform(timelineProgress, [0.9, 0.98, 1.18, 1.19], [0, 1, 1, 0])
   ];
   const cameraWaveClipPaths = [
     useTransform(timelineProgress, [0.795, 0.865], ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]),
     useTransform(timelineProgress, [0.88, 0.91], ["inset(0 0 100% 0)", "inset(0 0 0% 0)"]),
-    useTransform(timelineProgress, [0.94, 0.98], ["inset(100% 0 0 0)", "inset(0% 0 0 0)"])
+    useTransform(timelineProgress, [0.9, 0.98], ["inset(100% 0 0 0)", "inset(0% 0 0 0)"])
   ];
   const cameraWaveX = [
     useTransform(timelineProgress, [0.795, 0.865], [-14, 0]),
     useTransform(timelineProgress, [0.88, 0.91], [-18, 0]),
-    useTransform(timelineProgress, [0.94, 0.98], [18, 0])
+    useTransform(timelineProgress, [0.9, 0.98], [30, 0])
   ];
   const cameraWaveY = [
     useTransform(timelineProgress, [0.795, 0.865], [12, 0]),
     useTransform(timelineProgress, [0.88, 0.91], [18, 0]),
-    useTransform(timelineProgress, [0.94, 0.98], [-18, 0])
+    useTransform(timelineProgress, [0.9, 0.98], [-30, 0])
   ];
   const cameraWaveScales = [
     useTransform(timelineProgress, [0.795, 0.865], [0.97, 1]),
     useTransform(timelineProgress, [0.88, 0.91], [0.98, 1]),
-    useTransform(timelineProgress, [0.94, 0.98], [0.98, 1])
+    useTransform(timelineProgress, [0.9, 0.98], [0.97, 1])
   ];
   const packetShellOpacity = useTransform(timelineProgress, [1.105, 1.115], [0, 1]);
   const packetTopOpacity = useTransform(timelineProgress, [1.166, 1.18], [0, 1]);
@@ -304,7 +304,7 @@ export function HorizontalProcess() {
   const workingMockY = useTransform(timelineProgress, [1.115, 1.165], [0, -146]);
 
   return (
-    <section ref={sectionRef} className="relative lg:h-[950vh]">
+    <section ref={sectionRef} className="relative lg:h-[885vh]">
       <div className="hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:overflow-hidden">
         {DEBUG_TIMING_COUNTER && (
           <div className="pointer-events-none absolute right-5 top-5 z-50 w-72 rounded-xl border border-blue-300/30 bg-slate-950/85 p-4 font-mono text-xs text-blue-50 shadow-2xl backdrop-blur-md">

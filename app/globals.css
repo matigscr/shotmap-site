@@ -99,3 +99,34 @@ body {
     #f8fafc;
   color: #101828;
 }
+
+.credit-marquee {
+  animation: credit-marquee 28s linear infinite;
+}
+
+@keyframes credit-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.workflow-progress-sweep {
+  animation: workflow-progress-sweep 9s ease-in-out infinite;
+}
+
+@keyframes workflow-progress-sweep {
+  0%,
+  100% {
+    transform: translateX(-18%);
+    opacity: 0.34;
+  }
+
+  50% {
+    transform: translateX(18%);
+    opacity: 0.58;
+  }
+}

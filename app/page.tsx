@@ -1,11 +1,10 @@
 import { CredibilityStrip } from "@/components/CredibilityStrip";
 import { Differentiator } from "@/components/Differentiator";
 import { FinalCTA } from "@/components/FinalCTA";
+import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { HorizontalProcess } from "@/components/HorizontalProcess";
 import { OutputFeature } from "@/components/OutputFeature";
-import { PricingCTA } from "@/components/PricingCTA";
-import { ProductionReality } from "@/components/ProductionReality";
 import { UseCases } from "@/components/UseCases";
 import { Workflow } from "@/components/Workflow";
 
@@ -14,14 +13,13 @@ export default function Home() {
     <main className="relative z-10 min-h-screen text-white">
       <Hero />
       <CredibilityStrip />
-      <ProductionReality />
+      <UseCases />
       <HorizontalProcess />
       <Differentiator />
       <OutputFeature />
-      <UseCases />
       <Workflow />
       <FinalCTA />
-      <PricingCTA />
+      <Footer />
     </main>
   );
 }
