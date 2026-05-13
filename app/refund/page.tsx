@@ -21,7 +21,7 @@ export default function RefundPage() {
         },
         {
           heading: "Non-refundable",
-          body: "Refunds may not be available if the software is heavily used or abused."
+          body: "Refunds may be denied in cases of abuse, fraud, or violation of the license terms."
         },
         {
           heading: "Contact",
