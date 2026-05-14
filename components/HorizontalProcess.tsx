@@ -72,7 +72,7 @@ const characterRevealMasks = [
 
 const panels = [
   {
-    eyebrow: "Walls",
+    eyebrow: "Space",
     title: "Build the Space",
     text: "Create sets, locations, or studio layouts."
   },
@@ -153,7 +153,8 @@ export function HorizontalProcess() {
     target: sectionRef,
     offset: ["start 92%", "end end"]
   });
-  const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, 1.62]);
+  const TIMELINE_END = 1.71;
+  const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, TIMELINE_END]);
 
   useEffect(() => {
     const calculateProcessMetrics = () => {
@@ -202,9 +203,9 @@ export function HorizontalProcess() {
   // following section.
   const captionStartX = processMetrics.captionOffset;
   const captionEndX = -processMetrics.captionOffset;
-  const visualX = useTransform(timelineProgress, [0, 0.158, 1.191, 1.38, 1.5, 1.62], ["100vw", "0vw", "0vw", "-30vw", "-30vw", "-30vw"]);
-  const visualScale = useTransform(timelineProgress, [0, 1.191, 1.38, 1.62], [1, 1, 0.82, 0.82]);
-  const visualY = useTransform(timelineProgress, [0, 1.36, 1.62], [0, 0, -760]);
+  const visualX = useTransform(timelineProgress, [0, 0.158, 1.191, 1.38, 1.5, TIMELINE_END], ["100vw", "0vw", "0vw", "-30vw", "-30vw", "-30vw"]);
+  const visualScale = useTransform(timelineProgress, [0, 1.191, 1.38, TIMELINE_END], [1, 1, 0.82, 0.82]);
+  const visualY = useTransform(timelineProgress, [0, 1.36, TIMELINE_END], [0, 0, -760]);
   const handoffTextOpacity = useTransform(timelineProgress, [1.24, 1.28, 1.62], [0, 1, 1]);
   const handoffTextX = useTransform(timelineProgress, [1.24, 1.36, 1.48], ["48vw", "0vw", "0vw"]);
   const handoffTextY = useTransform(timelineProgress, [1.24, 1.36, 1.52], ["8vh", "8vh", "-78vh"]);
