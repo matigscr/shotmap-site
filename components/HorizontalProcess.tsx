@@ -346,10 +346,10 @@ export function HorizontalProcess() {
   const packetBottomOpacity = useTransform(timelineProgress, [1.25, 1.27], [0, 1]);
   const packetScale = useTransform(timelineProgress, [1.165, 1.19], [1, 1]);
   const workingMockOpacity = useTransform(timelineProgress, [1.166, 1.18], [1, 0]);
-  const workingMockScaleX = useTransform(timelineProgress, [1.115, 1.165], [1, 0.437]);
-  const workingMockScaleY = useTransform(timelineProgress, [1.115, 1.165], [1, 0.437]);
-  const workingMockX = useTransform(timelineProgress, [1.115, 1.165], [0, -21]);
-  const workingMockY = useTransform(timelineProgress, [1.115, 1.165], [0, -146]);
+  const workingMockScaleX = useTransform(timelineProgress, [1.115, 1.165], [1, 0.4359]);
+  const workingMockScaleY = useTransform(timelineProgress, [1.115, 1.165], [1, 0.4359]);
+  const workingMockX = useTransform(timelineProgress, [1.115, 1.165], [0, -16]);
+  const workingMockY = useTransform(timelineProgress, [1.115, 1.165], [0, -111]);
 
   return (
     <section

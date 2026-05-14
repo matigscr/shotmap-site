@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function FinalCTA() {
   return (
     <section id="pricing" className="relative z-30 px-5 py-24 sm:px-8 lg:py-32">
@@ -13,7 +15,7 @@ export function FinalCTA() {
             <div className="pointer-events-none absolute left-[72%] top-[calc(0.62em-25px)] z-10 hidden h-28 w-28 -translate-x-1/2 -translate-y-1/2 overflow-visible p-2 sm:block lg:left-[78%] lg:h-32 lg:w-32">
               <div className="absolute inset-[-28px] rounded-full bg-blue-400/34 blur-2xl" />
               <img
-                src="/shotmap-studio-logo.png"
+                src="/shotmap-app-icon.png"
                 alt="Shotmap Studio"
                 className="relative h-full w-full rounded-[14px] object-contain drop-shadow-[0_0_28px_rgba(59,130,246,0.68)]"
                 draggable={false}
@@ -41,18 +43,20 @@ export function FinalCTA() {
             </p>
             <div className="mx-auto mt-7 h-px max-w-xs bg-gradient-to-r from-transparent via-blue-300/30 to-transparent" />
             <div className="mt-7 flex flex-col justify-center gap-3">
-              <a
+               <Link
                 href="/download"
+                prefetch={false}
                 className="relative isolate rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
               >
                 Start Free Trial
-              </a>
-              <a
+               </Link>
+              <Link
                 href="/buy"
+                prefetch={false}
                 className="relative isolate rounded-full border border-blue-300/40 bg-blue-400/10 px-8 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
               >
                 Purchase License
-              </a>
+               </Link>
               <a
                 href="/download/sample-export"
                 className="relative isolate rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"

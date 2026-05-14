@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Reveal } from "./Reveal";
 
 export function PricingCTA() {
@@ -11,12 +12,13 @@ export function PricingCTA() {
         <p className="mt-3 text-2xl font-semibold text-slate-200">
           Then $99 one-time purchase
         </p>
-        <a
-          href="#pricing"
+         <Link
+          href="/download"
+          prefetch={false}
           className="mt-8 inline-flex rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
         >
           Start Free Trial
-        </a>
+         </Link>
         <p className="mt-5 text-xs text-slate-500">
           Pricing placeholder - final launch pricing may change.
         </p>
