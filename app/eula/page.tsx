@@ -17,7 +17,7 @@ export default function EulaPage() {
         },
         {
           heading: "Scope",
-          body: "Use on up to 2 devices by one user."
+          body: "Your license allows Shotmap Studio to be activated and used on one computer. A separate license is required for each additional computer. You may not share, transfer, publish, or resell your license key or license file."
         },
         {
           heading: "Restrictions",
