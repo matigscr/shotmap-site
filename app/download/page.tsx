@@ -74,9 +74,19 @@ export default function DownloadPage() {
               )}
 
               <div className="mt-8 grid gap-4 border-t border-white/10 pt-6 text-sm leading-6 text-slate-400 sm:grid-cols-2">
-                <p>Requires macOS. The installer will be signed and notarized before release.</p>
+                <p>Requires macOS. The installer should be signed and notarized before release.</p>
                 <p>Need a license? The app handles trial start, license entry, and activation.</p>
               </div>
+              {appDownload.checksum ? (
+                <div className="mt-5 rounded-xl border border-white/10 bg-[#0a0a0d]/55 p-4 text-left">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-blue-300">
+                    SHA-256
+                  </p>
+                  <p className="mt-2 break-all font-mono text-xs leading-5 text-slate-400">
+                    {appDownload.checksum}
+                  </p>
+                </div>
+              ) : null}
             </article>
           ) : null}
 
@@ -85,7 +95,7 @@ export default function DownloadPage() {
             <div className="mt-5 space-y-4 text-sm leading-6 text-slate-300">
               <p>Download the Mac installer, open it, and move Shotmap Studio into Applications.</p>
               <p>The website does not need accounts yet. Licensing stays inside the app so this page can remain simple.</p>
-              <p>We can add a checksum here once the first release build is published.</p>
+              <p>Use the checksum to verify the DMG after downloading if needed.</p>
             </div>
           </section>
         </section>

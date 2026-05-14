@@ -20,13 +20,15 @@ export const downloads: DownloadAsset[] = [
     slug: "mac-app",
     title: "Shotmap Studio for Mac",
     description: "Download the macOS app. Activation happens inside the app with a valid license.",
-    filename: "shotmap-studio-mac.dmg",
+    filename: "Shotmap-Studio-1.0.1-aarch64.dmg",
     publicPath: null,
-    externalUrl: "",
+    externalUrl: "https://github.com/matigscr/shotmap-site/releases/download/v1.0.1/Shotmap-Studio-1.0.1-aarch64.dmg",
     contentType: "application/x-apple-diskimage",
     category: "app",
-    available: false,
-    version: "Coming soon"
+    available: true,
+    version: "v1.0.1",
+    sizeLabel: "17 MB",
+    checksum: "e8c974363da242edb04ee49af6266d562f692e324d5b01d7adf360550f42ad13"
   },
   {
     slug: "sample-export",
