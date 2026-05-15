@@ -17,7 +17,7 @@ export function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen items-center overflow-x-hidden px-5 py-14 sm:px-8 lg:min-h-screen lg:items-start lg:pb-8 lg:pt-12"
+      className="relative flex min-h-[100svh] items-center overflow-x-hidden px-5 py-10 sm:px-8 sm:py-14 lg:min-h-screen lg:items-start lg:pb-8 lg:pt-12"
     >
       <motion.div
         style={{ y: gridY }}
@@ -27,13 +27,13 @@ export function Hero() {
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="text-center lg:text-left">
           <motion.div
-            className="relative mb-6 flex justify-center lg:justify-start"
+            className="relative mb-5 flex justify-center sm:mb-6 lg:justify-start"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="absolute left-1/2 top-1/2 h-44 w-56 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/30 blur-3xl lg:left-[4.875rem] lg:translate-x-0" />
-            <div className="relative h-40 w-40 overflow-hidden rounded-[1.3rem] shadow-[0_0_34px_rgba(59,130,246,0.54),0_18px_38px_rgba(0,0,0,0.48)]">
+            <div className="absolute left-1/2 top-1/2 h-36 w-44 sm:h-44 sm:w-56 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/30 blur-3xl lg:left-[4.875rem] lg:translate-x-0" />
+            <div className="relative h-28 w-28 sm:h-40 sm:w-40 overflow-hidden rounded-[1.3rem] shadow-[0_0_34px_rgba(59,130,246,0.54),0_18px_38px_rgba(0,0,0,0.48)]">
               <img
                 src="/shotmap-app-icon.png"
                 alt="Shotmap Studio"
@@ -43,7 +43,7 @@ export function Hero() {
             </div>
           </motion.div>
           <motion.h1
-            className="mx-auto max-w-5xl text-5xl font-semibold leading-[0.98] tracking-normal text-white sm:text-6xl lg:text-7xl"
+            className="mx-auto max-w-5xl text-[2.62rem] font-semibold leading-[0.98] tracking-normal text-white sm:text-6xl lg:text-7xl"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.05 }}
@@ -51,7 +51,7 @@ export function Hero() {
             Plan and communicate complex camera coverage with speed and clarity.
           </motion.h1>
           <motion.p
-            className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 lg:mx-0"
+            className="mx-auto mt-5 max-w-2xl text-base sm:mt-6 sm:text-lg leading-8 text-slate-300 lg:mx-0"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.16 }}
@@ -59,7 +59,7 @@ export function Hero() {
             Built for production - from multicam studio shows to narrative and reality.
           </motion.p>
           <motion.div
-            className="mt-9 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start"
+            className="mt-7 flex flex-col justify-center gap-3 sm:mt-9 sm:flex-row lg:justify-start"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.26 }}
@@ -67,20 +67,20 @@ export function Hero() {
              <Link
               href="/download"
               prefetch={false}
-              className="rounded-full bg-electric px-7 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
+              className="inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-7 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
             >
               Start Free Trial
              </Link>
             <Link
               href="/buy"
               prefetch={false}
-              className="rounded-full border border-blue-300/35 bg-blue-400/10 px-7 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
+              className="inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/35 bg-blue-400/10 px-7 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
             >
               Purchase License
              </Link>
             <a
               href="/download/sample-export"
-              className="rounded-full border border-white/15 bg-white/7 px-7 py-3 text-sm font-semibold text-white transition hover:border-blue-300/60 hover:bg-white/12"
+              className="inline-flex min-h-[46px] items-center justify-center rounded-full border border-white/15 bg-white/7 px-7 py-3 text-sm font-semibold text-white transition hover:border-blue-300/60 hover:bg-white/12"
             >
               Download Sample Export
             </a>
@@ -90,7 +90,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.96, y: 28 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.95, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-          className="relative self-start pt-1"
+          className="relative self-start pt-0 sm:pt-1"
         >
           <motion.div
             style={{ y: exportY }}
@@ -105,7 +105,7 @@ export function Hero() {
               <ProductPlaceholder
                 label="FINAL_EXPORT_PLACEHOLDER"
                 variant="export"
-                className="relative"
+                className="shotmap-mobile-export relative"
               />
             </motion.div>
           </motion.div>

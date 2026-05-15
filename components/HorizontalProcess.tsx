@@ -107,6 +107,25 @@ const outputChips = [
   "Notes included"
 ];
 
+const mobileStepVisuals = [
+  {
+    src: "/shotmap-progress/03-walls-clean.png",
+    alt: "Clean set layout drawn from an imported floor plan"
+  },
+  {
+    src: "/shotmap-progress/06-motion-paths.png",
+    alt: "Character blocking and motion paths on the set plan"
+  },
+  {
+    src: "/shotmap-progress/09-camera-wave-3.png",
+    alt: "Camera coverage waves added around the blocking"
+  },
+  {
+    src: "/shotmap-progress/12-export-full.png",
+    alt: "Final crew-ready export with camera legend and notes"
+  }
+];
+
 const captionTiming = [
   { end: 0.12, label: "Text waiting" },
   { end: 0.42, label: "Build active" },
@@ -549,9 +568,8 @@ export function HorizontalProcess() {
         </motion.div>
       </div>
 
-      <div className={processMetrics.isPinned ? "hidden" : "px-5 py-20 sm:px-8"}>
-        <div className="mx-auto max-w-3xl space-y-16">
-          <StaticShotmapVisual />
+      <div className={processMetrics.isPinned ? "hidden" : "px-5 py-16 sm:px-8 sm:py-20"}>
+        <div className="mx-auto max-w-3xl space-y-10 sm:space-y-12">
           {panels.map((panel, index) => (
             <motion.article
               key={panel.title}
@@ -559,14 +577,18 @@ export function HorizontalProcess() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="grid gap-5 rounded-[1.25rem] border border-blue-300/18 bg-white/[0.025] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.28)] sm:gap-6 sm:p-5 md:grid-cols-[0.95fr_1fr] md:items-center"
             >
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
-                {panel.eyebrow} / 0{index + 1}
-              </p>
-              <h2 className="text-4xl font-semibold leading-tight text-white">
-                {panel.title}
-              </h2>
-              <p className="mt-4 text-base leading-7 text-slate-300">{panel.text}</p>
+              <MobileStepVisual index={index} />
+              <div>
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-blue-300 sm:mb-4 sm:tracking-[0.34em]">
+                  {panel.eyebrow} / 0{index + 1}
+                </p>
+                <h2 className="text-[2rem] font-semibold leading-tight text-white sm:text-4xl">
+                  {panel.title}
+                </h2>
+                <p className="mt-4 text-base leading-7 text-slate-300">{panel.text}</p>
+              </div>
             </motion.article>
           ))}
         </div>
@@ -792,6 +814,31 @@ function ProgressiveShotmapVisual({
           </div>
         </div>
       </motion.div>
+    </div>
+  );
+}
+
+function MobileStepVisual({ index }: { index: number }) {
+  const visual = mobileStepVisuals[index];
+  const isExport = index === mobileStepVisuals.length - 1;
+  const shellClass = isExport
+    ? "relative overflow-hidden rounded-2xl border border-white/45 bg-slate-100/95 p-2 shadow-cinematic"
+    : "relative overflow-hidden rounded-2xl border border-white/35 bg-slate-100/90 p-2 shadow-cinematic";
+  const frameClass = isExport
+    ? "relative aspect-[2437/3155] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50"
+    : "relative aspect-[1420/1148] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50";
+
+  return (
+    <div className={shellClass}>
+      <div className="absolute -inset-8 rounded-[2rem] bg-blue-400/16 blur-3xl" />
+      <div className={frameClass}>
+        <img
+          src={visual.src}
+          alt={visual.alt}
+          className="h-full w-full object-contain"
+          draggable={false}
+        />
+      </div>
     </div>
   );
 }

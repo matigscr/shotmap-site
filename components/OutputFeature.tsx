@@ -11,7 +11,7 @@ export function OutputFeature() {
   return (
     <section
       id="sample-export"
-      className="relative px-5 py-24 sm:px-8 lg:hidden"
+      className="relative px-5 py-16 sm:px-8 sm:py-20 lg:hidden"
     >
       <div className="pointer-events-none absolute inset-0 bg-[rgba(10,10,13,0.7)] backdrop-blur-[1.5px]" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.9fr_1fr]">
@@ -30,10 +30,10 @@ export function OutputFeature() {
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
             Output
           </p>
-          <h2 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
+          <h2 className="text-[2rem] font-semibold leading-tight text-white sm:text-5xl">
             Communicate your coverage in seconds
           </h2>
-          <p className="mt-5 text-lg leading-8 text-slate-300">
+          <p className="mt-5 text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
             Generate a complete schematic with legend - ready for your crew.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -48,7 +48,7 @@ export function OutputFeature() {
           </div>
           <a
             href="/download/sample-export"
-            className="mt-8 inline-flex rounded-full bg-electric px-6 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
+            className="mt-8 inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-6 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
           >
             Download Sample Export
           </a>

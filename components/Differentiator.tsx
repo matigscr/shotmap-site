@@ -9,17 +9,17 @@ const bullets = [
 
 export function Differentiator() {
   return (
-    <section className="px-5 py-24 sm:px-8 lg:hidden">
+    <section className="px-5 py-16 sm:px-8 sm:py-20 lg:hidden">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="hidden lg:block" aria-hidden="true" />
         <Reveal delay={0.12}>
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
             Final Coverage First
           </p>
-          <h2 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
+          <h2 className="text-[2rem] font-semibold leading-tight text-white sm:text-5xl">
             Designed around the final coverage - not just the creation
           </h2>
-          <p className="mt-6 text-lg leading-8 text-slate-300">
+          <p className="mt-5 text-base leading-7 text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
             Every tool in the app is built with one goal in mind: clearly communicating your
             blocking and coverage to the entire team.
           </p>

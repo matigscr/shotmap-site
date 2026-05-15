@@ -74,6 +74,19 @@ body {
 }
 
 @media (max-width: 767px) {
+  html {
+    scroll-padding-top: 16px;
+  }
+
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  body {
+    min-width: 320px;
+  }
+
   .coverage-grid-drift {
     background-image:
       repeating-linear-gradient(
@@ -90,6 +103,40 @@ body {
         transparent 1px,
         transparent 76px
       );
+  }
+
+  .cinematic-grid {
+    background-size: 48px 48px;
+    opacity: 0.42;
+  }
+
+  .shotmap-mobile-export img {
+    height: min(42svh, 420px) !important;
+  }
+
+  .credit-marquee {
+    animation-duration: 38s;
+  }
+
+  .workflow-progress-sweep {
+    animation-duration: 13s;
+  }
+}
+
+@media (max-width: 767px) and (orientation: landscape) {
+  .shotmap-mobile-export img {
+    height: min(58svh, 360px) !important;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .credit-marquee,
+  .workflow-progress-sweep {
+    animation: none;
   }
 }
 

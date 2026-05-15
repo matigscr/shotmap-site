@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function FinalCTA() {
   return (
-    <section id="pricing" className="relative z-30 px-5 py-24 sm:px-8 lg:py-32">
+    <section id="pricing" className="relative z-30 px-5 py-16 sm:px-8 sm:py-24 lg:py-32">
       <div className="absolute inset-x-0 top-1/2 h-72 -translate-y-1/2 bg-blue-400/8 blur-3xl" />
       <div className="relative mx-auto grid max-w-6xl overflow-visible rounded-[1.75rem] border border-blue-300/25 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03)_50%,rgba(47,140,255,0.06))] p-6 pt-12 shadow-[0_28px_100px_rgba(0,0,0,0.42)] sm:p-8 sm:pt-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8 lg:p-10 lg:pt-14">
         <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-blue-400/18 blur-3xl" />
@@ -22,13 +22,13 @@ export function FinalCTA() {
               />
             </div>
             <h2
-                className="text-5xl font-semibold leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-6xl"
+                className="text-[2.55rem] font-semibold leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-6xl"
               style={{ color: "#fff", opacity: 1 }}
               >
               Create and<br className="hidden sm:block" /> communicate with<br /> total clarity.
             </h2>
           </div>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 lg:mx-0">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 sm:mt-6 sm:text-lg sm:leading-8 text-slate-300 lg:mx-0">
             A clean, shareable coverage schematic your entire crew understands.
           </p>
         </div>
@@ -46,20 +46,20 @@ export function FinalCTA() {
                <Link
                 href="/download"
                 prefetch={false}
-                className="relative isolate rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
+                className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
               >
                 Start Free Trial
                </Link>
               <Link
                 href="/buy"
                 prefetch={false}
-                className="relative isolate rounded-full border border-blue-300/40 bg-blue-400/10 px-8 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
+                className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/40 bg-blue-400/10 px-8 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
               >
                 Purchase License
                </Link>
               <a
                 href="/download/sample-export"
-                className="relative isolate rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"
+                className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"
               >
                 Download Sample Export
               </a>
