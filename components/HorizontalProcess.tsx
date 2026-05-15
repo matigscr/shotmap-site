@@ -577,10 +577,9 @@ export function HorizontalProcess() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="grid gap-5 rounded-[1.25rem] border border-blue-300/18 bg-white/[0.025] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.28)] sm:gap-6 sm:p-5 md:grid-cols-[0.95fr_1fr] md:items-center"
+              className="grid min-w-0 gap-5 rounded-[1.25rem] border border-blue-300/18 bg-white/[0.025] p-4 shadow-[0_20px_70px_rgba(0,0,0,0.28)] sm:gap-6 sm:p-5 md:grid-cols-[0.95fr_1fr] md:items-center"
             >
-              <MobileStepVisual index={index} />
-              <div>
+              <div className="order-1 min-w-0 md:order-2">
                 <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-blue-300 sm:mb-4 sm:tracking-[0.34em]">
                   {panel.eyebrow} / 0{index + 1}
                 </p>
@@ -588,6 +587,9 @@ export function HorizontalProcess() {
                   {panel.title}
                 </h2>
                 <p className="mt-4 text-base leading-7 text-slate-300">{panel.text}</p>
+              </div>
+              <div className="order-2 md:order-1">
+                <MobileStepVisual index={index} />
               </div>
             </motion.article>
           ))}

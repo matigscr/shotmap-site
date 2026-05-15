@@ -2,16 +2,16 @@ import Link from "next/link";
 
 export function FinalCTA() {
   return (
-    <section id="pricing" className="relative z-30 px-5 py-16 sm:px-8 sm:py-24 lg:py-32">
+    <section id="pricing" className="relative z-30 overflow-hidden px-5 py-16 sm:px-8 sm:py-24 lg:overflow-visible lg:py-32">
       <div className="absolute inset-x-0 top-1/2 h-72 -translate-y-1/2 bg-blue-400/8 blur-3xl" />
-      <div className="relative mx-auto grid max-w-6xl overflow-visible rounded-[1.75rem] border border-blue-300/25 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03)_50%,rgba(47,140,255,0.06))] p-6 pt-12 shadow-[0_28px_100px_rgba(0,0,0,0.42)] sm:p-8 sm:pt-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8 lg:p-10 lg:pt-14">
-        <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-blue-400/18 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 left-1/2 h-72 w-[34rem] -translate-x-1/2 rounded-[50%] bg-blue-400/10 blur-3xl" />
+      <div className="relative mx-auto grid w-full max-w-6xl min-w-0 overflow-hidden sm:overflow-visible rounded-[1.75rem] border border-blue-300/25 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03)_50%,rgba(47,140,255,0.06))] p-6 pt-12 shadow-[0_28px_100px_rgba(0,0,0,0.42)] sm:p-8 sm:pt-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8 lg:p-10 lg:pt-14">
+        <div className="pointer-events-none absolute -right-10 -top-20 sm:-right-20 sm:-top-24 h-72 w-72 rounded-full bg-blue-400/18 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 left-1/2 h-56 w-[120%] max-w-[34rem] sm:-bottom-24 sm:h-72 sm:w-[34rem] -translate-x-1/2 rounded-[50%] bg-blue-400/10 blur-3xl" />
         <div className="relative flex flex-col justify-center py-4 text-center lg:text-left">
           <p className="text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
             Launch Offer
           </p>
-          <div className="relative mt-5 inline-block max-w-4xl">
+          <div className="relative mx-auto mt-5 inline-block max-w-full lg:mx-0 lg:max-w-4xl">
             <div className="pointer-events-none absolute left-[72%] top-[calc(0.62em-25px)] z-10 hidden h-28 w-28 -translate-x-1/2 -translate-y-1/2 overflow-visible p-2 sm:block lg:left-[78%] lg:h-32 lg:w-32">
               <div className="absolute inset-[-28px] rounded-full bg-blue-400/34 blur-2xl" />
               <img
@@ -22,7 +22,7 @@ export function FinalCTA() {
               />
             </div>
             <h2
-                className="text-[2.55rem] font-semibold leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-6xl"
+                className="text-[2.35rem] font-semibold sm:text-6xl leading-none !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)]"
               style={{ color: "#fff", opacity: 1 }}
               >
               Create and<br className="hidden sm:block" /> communicate with<br /> total clarity.
@@ -32,7 +32,7 @@ export function FinalCTA() {
             A clean, shareable coverage schematic your entire crew understands.
           </p>
         </div>
-        <div className="relative rounded-[1.35rem] border border-blue-300/25 bg-[#0a0a0d]/55 p-6 text-center shadow-[inset_0_1px_0_rgba(147,197,253,0.12)] sm:p-8">
+        <div className="relative mx-auto w-full max-w-md lg:max-w-none rounded-[1.35rem] border border-blue-300/25 bg-[#0a0a0d]/55 p-6 text-center shadow-[inset_0_1px_0_rgba(147,197,253,0.12)] sm:p-8">
           <div className="pointer-events-none absolute inset-x-8 top-0 h-24 rounded-[50%] bg-blue-400/12 blur-3xl" />
           <div className="relative">
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-blue-300">
@@ -42,7 +42,7 @@ export function FinalCTA() {
               Then $99 one-time purchase
             </p>
             <div className="mx-auto mt-7 h-px max-w-xs bg-gradient-to-r from-transparent via-blue-300/30 to-transparent" />
-            <div className="mt-7 flex flex-col justify-center gap-3">
+            <div className="mx-auto mt-7 flex w-full max-w-sm lg:max-w-none flex-col justify-center gap-3">
                <Link
                 href="/download"
                 prefetch={false}
