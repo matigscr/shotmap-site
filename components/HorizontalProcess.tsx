@@ -113,12 +113,12 @@ const mobileStepVisuals = [
     alt: "Set layout with production props added to the space"
   },
   {
-    src: "/shotmap-progress/06-motion-paths.png",
-    alt: "Character blocking and motion paths on the set plan"
+    src: "/shotmap-progress/mobile-characters-blocking.png",
+    alt: "Set layout with props, characters, and motion paths"
   },
   {
-    src: "/shotmap-progress/09-camera-wave-3.png",
-    alt: "Camera coverage waves added around the blocking"
+    src: "/shotmap-progress/08-all-layers.png",
+    alt: "Full camera coverage plan with blocking and camera assignments"
   },
   {
     src: "/shotmap-progress/12-export-full.png",
