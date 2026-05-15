@@ -109,8 +109,8 @@ const outputChips = [
 
 const mobileStepVisuals = [
   {
-    src: "/shotmap-progress/03-walls-clean.png",
-    alt: "Clean set layout drawn from an imported floor plan"
+    src: "/shotmap-progress/04-props-clean.png",
+    alt: "Set layout with production props added to the space"
   },
   {
     src: "/shotmap-progress/06-motion-paths.png",
