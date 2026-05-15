@@ -66,7 +66,7 @@ export default function DownloadPage() {
             <div className="relative mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-slate-500">
               <span>{appDownload?.version ?? "Latest version"}</span>
               <span>{appDownload?.sizeLabel ?? "Mac installer"}</span>
-              <span>Apple Silicon</span>
+              <span>Intel + Apple Silicon</span>
             </div>
 
             <div className="relative mx-auto mt-12 grid max-w-2xl gap-3 border-t border-white/10 pt-6 text-sm leading-6 text-slate-400 sm:grid-cols-3">
