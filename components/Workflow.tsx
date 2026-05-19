@@ -9,7 +9,7 @@ const items = [
 
 export function Workflow() {
   return (
-    <section className="relative z-20 bg-white/[0.014] px-5 pb-10 pt-3 sm:px-8 sm:pt-4 lg:-mt-[135vh]">
+    <section className="render-contained relative z-20 bg-white/[0.014] px-5 pb-10 pt-3 sm:px-8 sm:pt-4 lg:-mt-[135vh]">
       <div className="mx-auto max-w-4xl text-center">
         <h2
           className="text-4xl font-semibold leading-tight !text-white [text-shadow:0_0_24px_rgba(255,255,255,0.08)] sm:text-5xl"

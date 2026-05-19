@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 type PlaceholderProps = {
@@ -62,9 +63,13 @@ function ExportPreview({ className = "" }: { className?: string }) {
     <div
       className={`relative flex items-center justify-center overflow-visible ${className}`}
     >
-      <img
+      <Image
         src="/shotmap-progress/12-export-full.png"
         alt="Final Shotmap PDF export"
+        width={2437}
+        height={3155}
+        priority
+        sizes="(min-width: 1024px) 45vw, 92vw"
         className="relative z-0 w-auto max-w-full object-contain shadow-[0_24px_80px_rgba(0,0,0,0.22)]"
         style={{ height: "min(69vh, 750px)" }}
         draggable={false}

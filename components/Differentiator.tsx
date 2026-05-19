@@ -9,7 +9,7 @@ const bullets = [
 
 export function Differentiator() {
   return (
-    <section className="px-5 py-16 sm:px-8 sm:py-20 lg:hidden">
+    <section className="render-contained px-5 py-16 sm:px-8 sm:py-20 lg:hidden">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="hidden lg:block" aria-hidden="true" />
         <Reveal delay={0.12}>

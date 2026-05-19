@@ -1,8 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function FinalCTA() {
   return (
-    <section id="pricing" className="relative z-30 overflow-hidden px-5 py-16 sm:px-8 sm:py-24 lg:overflow-visible lg:py-32">
+    <section id="pricing" className="render-contained relative z-30 overflow-hidden px-5 py-16 sm:px-8 sm:py-24 lg:overflow-visible lg:py-32">
       <div className="absolute inset-x-0 top-1/2 h-72 -translate-y-1/2 bg-blue-400/8 blur-3xl" />
       <div className="relative mx-auto grid w-full max-w-6xl min-w-0 overflow-hidden sm:overflow-visible rounded-[1.75rem] border border-blue-300/25 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03)_50%,rgba(47,140,255,0.06))] p-6 pt-12 shadow-[0_28px_100px_rgba(0,0,0,0.42)] sm:p-8 sm:pt-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-8 lg:p-10 lg:pt-14">
         <div className="pointer-events-none absolute -right-10 -top-20 sm:-right-20 sm:-top-24 h-72 w-72 rounded-full bg-blue-400/18 blur-3xl" />
@@ -14,10 +15,14 @@ export function FinalCTA() {
           <div className="relative mx-auto mt-5 inline-block max-w-full lg:mx-0 lg:max-w-4xl">
             <div className="pointer-events-none absolute left-[72%] top-[calc(0.62em-25px)] z-10 hidden h-28 w-28 -translate-x-1/2 -translate-y-1/2 overflow-visible p-2 sm:block lg:left-[78%] lg:h-32 lg:w-32">
               <div className="absolute inset-[-28px] rounded-full bg-blue-400/34 blur-2xl" />
-              <img
+              <Image
                 src="/shotmap-app-icon.png"
                 alt="Shotmap Studio"
+                width={128}
+                height={128}
+                sizes="128px"
                 className="relative h-full w-full rounded-[14px] object-contain drop-shadow-[0_0_28px_rgba(59,130,246,0.68)]"
+                loading="lazy"
                 draggable={false}
               />
             </div>

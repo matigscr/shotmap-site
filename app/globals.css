@@ -177,3 +177,14 @@ body {
     opacity: 0.58;
   }
 }
+
+.render-contained {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px;
+}
+
+@media (max-width: 767px) {
+  .render-contained {
+    contain-intrinsic-size: 1px 760px;
+  }
+}

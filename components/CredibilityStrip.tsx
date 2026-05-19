@@ -5,7 +5,7 @@ const marqueeLogos = [...logos, ...logos, ...logos, ...logos];
 
 export function CredibilityStrip() {
   return (
-    <section className="overflow-hidden border-y border-white/10 bg-white/[0.03] px-5 py-6 sm:px-8">
+    <section id="shotmap-in-action" className="scroll-mt-6 overflow-hidden border-y border-white/10 bg-white/[0.03] px-5 py-6 sm:px-8">
       <Reveal className="mx-auto max-w-7xl text-center">
         <p className="text-lg font-medium text-white">
           Rooted in real-world production experience on major productions.

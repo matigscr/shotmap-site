@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion, type MotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { backgroundOpacity } from "./background/backgroundConfig";
@@ -151,8 +152,8 @@ const visualTiming = [
   { end: 1.62, label: "Output scroll" }
 ];
 
-const PINNED_PROCESS_MIN_WIDTH = 768;
-const PINNED_PROCESS_MIN_HEIGHT = 620;
+const PINNED_PROCESS_MIN_WIDTH = 1024;
+const PINNED_PROCESS_MIN_HEIGHT = 700;
 const DEFAULT_PROCESS_METRICS = {
   captionOffset: 960,
   isPinned: false,
@@ -166,7 +167,6 @@ function getTimingLabel(progress: number, timing: { end: number; label: string }
 export function HorizontalProcess() {
   const sectionRef = useRef<HTMLElement>(null);
   const captionContentRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [timingProgress, setTimingProgress] = useState(0);
   const [processMetrics, setProcessMetrics] = useState(DEFAULT_PROCESS_METRICS);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -176,6 +176,8 @@ export function HorizontalProcess() {
   const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, TIMELINE_END]);
 
   useEffect(() => {
+    let resizeFrame = 0;
+
     const calculateProcessMetrics = () => {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
@@ -191,29 +193,42 @@ export function HorizontalProcess() {
       const horizontalScrollDistance = captionOffset * panels.length * 1.05 + viewportWidth * 1.4;
       const scrollDistance = Math.max(viewportHeight * 5.2, horizontalScrollDistance);
 
-      setProcessMetrics({
+      const nextMetrics = {
         captionOffset,
         isPinned,
         sectionHeight: isPinned ? Math.ceil(viewportHeight + scrollDistance) : 0
+      };
+
+      setProcessMetrics((currentMetrics) => {
+        if (
+          currentMetrics.captionOffset === nextMetrics.captionOffset &&
+          currentMetrics.isPinned === nextMetrics.isPinned &&
+          currentMetrics.sectionHeight === nextMetrics.sectionHeight
+        ) {
+          return currentMetrics;
+        }
+
+        return nextMetrics;
       });
     };
 
+    const scheduleProcessMetrics = () => {
+      window.cancelAnimationFrame(resizeFrame);
+      resizeFrame = window.requestAnimationFrame(calculateProcessMetrics);
+    };
+
     calculateProcessMetrics();
-    const measurementFrame = window.requestAnimationFrame(calculateProcessMetrics);
-    window.addEventListener("resize", calculateProcessMetrics);
-    window.addEventListener("orientationchange", calculateProcessMetrics);
+    resizeFrame = window.requestAnimationFrame(calculateProcessMetrics);
+    window.addEventListener("resize", scheduleProcessMetrics);
+    window.addEventListener("orientationchange", scheduleProcessMetrics);
     document.fonts?.ready.then(calculateProcessMetrics).catch(() => undefined);
 
     return () => {
-      window.cancelAnimationFrame(measurementFrame);
-      window.removeEventListener("resize", calculateProcessMetrics);
-      window.removeEventListener("orientationchange", calculateProcessMetrics);
+      window.cancelAnimationFrame(resizeFrame);
+      window.removeEventListener("resize", scheduleProcessMetrics);
+      window.removeEventListener("orientationchange", scheduleProcessMetrics);
     };
   }, []);
-
-  useMotionValueEvent(timelineProgress, "change", (latest) => {
-    setTimingProgress(Number(latest.toFixed(3)));
-  });
 
   // The pinned section keeps one persistent product visual in place. Vertical
   // scroll first slides the visual and captions in from the right, then keeps
@@ -378,25 +393,7 @@ export function HorizontalProcess() {
       style={processMetrics.isPinned ? { height: processMetrics.sectionHeight } : undefined}
     >
       <div className={processMetrics.isPinned ? "sticky top-0 block h-screen overflow-hidden" : "hidden"}>
-        {DEBUG_TIMING_COUNTER && (
-          <div className="pointer-events-none absolute right-5 top-5 z-50 w-72 rounded-xl border border-blue-300/30 bg-slate-950/85 p-4 font-mono text-xs text-blue-50 shadow-2xl backdrop-blur-md">
-            <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-blue-300">
-              <span>Timing</span>
-              <span>{Math.round(timingProgress * 100)}%</span>
-            </div>
-            <div className="text-2xl font-semibold text-white">{timingProgress.toFixed(3)}</div>
-            <div className="mt-3 grid gap-1.5 text-[11px] leading-5 text-slate-300">
-              <div>
-                <span className="text-slate-500">Text:</span>{" "}
-                {getTimingLabel(timingProgress, captionTiming)}
-              </div>
-              <div>
-                <span className="text-slate-500">Visual:</span>{" "}
-                {getTimingLabel(timingProgress, visualTiming)}
-              </div>
-            </div>
-          </div>
-        )}
+        {DEBUG_TIMING_COUNTER && <TimingDebugPanel timelineProgress={timelineProgress} />}
         <div className="pointer-events-none absolute inset-0 bg-[rgba(5,7,11,0.42)]" />
         <motion.div
           style={{ x: gridX, opacity: processGridOpacity }}
@@ -599,6 +596,34 @@ export function HorizontalProcess() {
   );
 }
 
+function TimingDebugPanel({ timelineProgress }: { timelineProgress: MotionValue<number> }) {
+  const [timingProgress, setTimingProgress] = useState(0);
+
+  useMotionValueEvent(timelineProgress, "change", (latest) => {
+    setTimingProgress(Number(latest.toFixed(3)));
+  });
+
+  return (
+    <div className="pointer-events-none absolute right-5 top-5 z-50 w-72 rounded-xl border border-blue-300/30 bg-slate-950/85 p-4 font-mono text-xs text-blue-50 shadow-2xl backdrop-blur-md">
+      <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.24em] text-blue-300">
+        <span>Timing</span>
+        <span>{Math.round(timingProgress * 100)}%</span>
+      </div>
+      <div className="text-2xl font-semibold text-white">{timingProgress.toFixed(3)}</div>
+      <div className="mt-3 grid gap-1.5 text-[11px] leading-5 text-slate-300">
+        <div>
+          <span className="text-slate-500">Text:</span>{" "}
+          {getTimingLabel(timingProgress, captionTiming)}
+        </div>
+        <div>
+          <span className="text-slate-500">Visual:</span>{" "}
+          {getTimingLabel(timingProgress, visualTiming)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 type ProgressiveShotmapVisualProps = {
   cameraWaveClipPaths: MotionValue<string>[];
   cameraWaveOpacities: MotionValue<number>[];
@@ -686,6 +711,8 @@ function ProgressiveShotmapVisual({
                 alt={frame.alt}
                 style={{ opacity: frameOpacities[index] }}
                 className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
                 draggable={false}
               />
             ))}
@@ -702,6 +729,8 @@ function ProgressiveShotmapVisual({
                   y: propGroupY[index]
                 }}
                 className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                loading="lazy"
+                decoding="async"
                 draggable={false}
               />
             ))}
@@ -711,7 +740,9 @@ function ProgressiveShotmapVisual({
               aria-hidden="true"
               style={{ opacity: propsFullOpacity }}
               className="absolute inset-0 h-full w-full object-cover"
-              draggable={false}
+              loading="lazy"
+                decoding="async"
+                draggable={false}
             />
             {characterRevealMasks.map((mask, index) => (
               <motion.img
@@ -727,6 +758,8 @@ function ProgressiveShotmapVisual({
                   y: characterGroupY[index]
                 }}
                 className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                loading="lazy"
+                decoding="async"
                 draggable={false}
               />
             ))}
@@ -736,14 +769,18 @@ function ProgressiveShotmapVisual({
               aria-hidden="true"
               style={{ opacity: charactersFullOpacity }}
               className="absolute inset-0 h-full w-full object-cover"
-              draggable={false}
+              loading="lazy"
+                decoding="async"
+                draggable={false}
             />
             <motion.img
               src={shotmapDeltas.motionPaths.src}
               alt={shotmapDeltas.motionPaths.alt}
               style={{ clipPath: motionPathClip, opacity: motionPathOpacity }}
               className="absolute inset-0 h-full w-full object-cover"
-              draggable={false}
+              loading="lazy"
+                decoding="async"
+                draggable={false}
             />
             {cameraLayers.map((layer, index) => (
               <motion.img
@@ -758,6 +795,8 @@ function ProgressiveShotmapVisual({
                   y: cameraWaveY[index]
                 }}
                 className="absolute inset-0 h-full w-full object-cover will-change-transform"
+                loading="lazy"
+                decoding="async"
                 draggable={false}
               />
             ))}
@@ -771,17 +810,6 @@ function ProgressiveShotmapVisual({
               className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/20 to-transparent"
             />
             <div className="pointer-events-none absolute inset-0 rounded-xl shadow-[inset_0_0_40px_rgba(15,23,42,0.08)]" />
-            {[...shotmapFrames, ...Object.values(shotmapDeltas)].map((frame) => (
-              <img
-                key={frame.src}
-                src={frame.src}
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover"
-                draggable={false}
-                aria-hidden="true"
-                hidden
-              />
-            ))}
           </div>
       </motion.div>
       <motion.div
@@ -795,10 +823,14 @@ function ProgressiveShotmapVisual({
               style={{ opacity: packetTopOpacity }}
               className="absolute inset-0 overflow-hidden [clip-path:inset(0_0_44%_0)]"
             >
-              <img
+              <Image
                 src="/shotmap-progress/11-export-top.png"
                 alt="Camera packet export top half"
+                width={2437}
+                height={3155}
+                sizes="(min-width: 1024px) 40vw, 90vw"
                 className="h-full w-full object-contain"
+                loading="lazy"
                 draggable={false}
               />
             </motion.div>
@@ -806,10 +838,14 @@ function ProgressiveShotmapVisual({
               style={{ opacity: packetBottomOpacity }}
               className="absolute inset-0 overflow-hidden [clip-path:inset(56%_0_0_0)]"
             >
-              <img
+              <Image
                 src="/shotmap-progress/12-export-full.png"
                 alt="Camera packet export with notes grid"
+                width={2437}
+                height={3155}
+                sizes="(min-width: 1024px) 40vw, 90vw"
                 className="h-full w-full object-contain"
+                loading="lazy"
                 draggable={false}
               />
             </motion.div>
@@ -829,15 +865,21 @@ function MobileStepVisual({ index }: { index: number }) {
   const frameClass = isExport
     ? "relative aspect-[2437/3155] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50"
     : "relative aspect-[1420/1148] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50";
+  const imageWidth = isExport ? 2437 : 1420;
+  const imageHeight = isExport ? 3155 : 1148;
 
   return (
     <div className={shellClass}>
       <div className="absolute -inset-8 rounded-[2rem] bg-blue-400/16 blur-3xl" />
       <div className={frameClass}>
-        <img
+        <Image
           src={visual.src}
           alt={visual.alt}
+          width={imageWidth}
+          height={imageHeight}
+          sizes="(min-width: 768px) 44vw, 90vw"
           className="h-full w-full object-contain"
+          loading="lazy"
           draggable={false}
         />
       </div>
@@ -850,10 +892,14 @@ function StaticShotmapVisual() {
     <div className="relative overflow-hidden rounded-2xl border border-white/55 bg-slate-100/95 p-2 shadow-cinematic">
       <div className="absolute -inset-10 rounded-[2.25rem] bg-blue-400/20 blur-3xl" />
         <div className="relative aspect-[2437/3155] overflow-hidden rounded-xl border border-slate-300/80 bg-slate-50">
-          <img
+          <Image
             src="/shotmap-progress/12-export-full.png"
             alt="Final crew-ready export with legend"
+            width={2437}
+            height={3155}
+            sizes="90vw"
             className="h-full w-full object-contain"
+            loading="lazy"
             draggable={false}
           />
         </div>

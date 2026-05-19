@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Reveal } from "./Reveal";
 
 const cards = [
@@ -20,7 +21,7 @@ const cards = [
 
 export function UseCases() {
   return (
-    <section className="px-5 pb-10 pt-16 sm:px-8 sm:pt-20 lg:pb-14 lg:pt-24">
+    <section className="render-contained px-5 pb-10 pt-16 sm:px-8 sm:pt-20 lg:pb-14 lg:pt-24">
       <Reveal className="mx-auto max-w-3xl text-center">
         <h2 className="text-[2rem] font-semibold leading-tight text-white sm:text-5xl">
           For complex coverage environments
@@ -32,10 +33,13 @@ export function UseCases() {
             <div className="relative h-full overflow-hidden rounded-[1.35rem] border border-blue-300/35 bg-[linear-gradient(135deg,rgba(255,255,255,0.075),rgba(255,255,255,0.025)_48%,rgba(47,140,255,0.04))] p-5 sm:p-7 shadow-[0_22px_80px_rgba(0,0,0,0.34)]">
               <div className="pointer-events-none absolute inset-x-8 top-0 h-24 rounded-[50%] bg-blue-400/12 blur-3xl" />
               <div className="relative mb-7 aspect-[1340/804] overflow-hidden rounded-xl border border-blue-300/30 bg-slate-950/35 shadow-[inset_0_1px_0_rgba(147,197,253,0.12)]">
-                <img
+                <Image
                   src={card.image}
                   alt=""
                   aria-hidden="true"
+                  width={1340}
+                  height={804}
+                  sizes="(min-width: 768px) 31vw, 90vw"
                   className="h-full w-full object-cover opacity-95 saturate-[1.08]"
                   draggable={false}
                 />

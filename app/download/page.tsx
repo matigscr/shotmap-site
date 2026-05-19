@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getDownload } from "@/lib/downloads";
 
@@ -25,9 +26,13 @@ export default function DownloadPage() {
         <section className="flex flex-1 items-center justify-center py-16">
           <div className="relative w-full max-w-3xl text-center">
             <div className="pointer-events-none absolute left-1/2 top-28 h-80 w-80 -translate-x-1/2 rounded-[50%] bg-blue-400/18 blur-3xl" />
-            <img
+            <Image
               src="/shotmap-app-icon.png"
               alt="Shotmap Studio"
+              width={128}
+              height={128}
+              priority
+              sizes="128px"
               className="relative mx-auto h-32 w-32 object-contain drop-shadow-[0_0_28px_rgba(59,130,246,0.6)]"
               draggable={false}
             />

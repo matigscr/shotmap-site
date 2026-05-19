@@ -11,6 +11,7 @@ type SchematicLayerProps = {
   intensity?: "quiet" | "active" | "reduced";
   showPaths?: boolean;
   className?: string;
+  reduceMotion?: boolean | null;
 };
 
 const intensityClass = {
@@ -56,7 +57,8 @@ export function SchematicLayer({
   scale,
   intensity = "quiet",
   showPaths = false,
-  className = ""
+  className = "",
+  reduceMotion = false
 }: SchematicLayerProps) {
   return (
     <motion.div
@@ -77,9 +79,9 @@ export function SchematicLayer({
               stroke="rgba(120,160,255,0.1)"
               strokeWidth="1.5"
               strokeLinecap="round"
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: [0, 1, 1], opacity: [0, 0.95, 0] }}
-              transition={{
+              initial={reduceMotion ? undefined : { pathLength: 0, opacity: 0 }}
+              animate={reduceMotion ? undefined : { pathLength: [0, 1, 1], opacity: [0, 0.95, 0] }}
+              transition={reduceMotion ? undefined : {
                 duration: 9,
                 delay: path.delay,
                 repeat: Infinity,
@@ -94,8 +96,8 @@ export function SchematicLayer({
         <motion.div
           key={position}
           className={`absolute ${position} flex items-center gap-1.5 opacity-[0.54] will-change-transform`}
-          animate={{ x: [-4, 4, -4], y: [-6, 6, -6] }}
-          transition={{
+          animate={reduceMotion ? undefined : { x: [-4, 4, -4], y: [-6, 6, -6] }}
+          transition={reduceMotion ? undefined : {
             duration: 10 + (index % 5),
             delay: index * 1.3,
             repeat: Infinity,
@@ -112,8 +114,8 @@ export function SchematicLayer({
           <motion.span
             key={position}
             className={`absolute ${position} h-1.5 w-1.5 rounded-full bg-[rgba(120,160,255,0.18)] opacity-[0.48] will-change-transform`}
-            animate={{ y: [6, -6, 6], x: [-4, 4, -4] }}
-            transition={{
+            animate={reduceMotion ? undefined : { y: [6, -6, 6], x: [-4, 4, -4] }}
+            transition={reduceMotion ? undefined : {
               duration: 11 + (index % 4),
               delay: index * 1.7,
               repeat: Infinity,

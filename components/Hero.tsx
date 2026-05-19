@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ProductPlaceholder } from "./Placeholders";
 
 export function Hero() {
+  const shouldReduceMotion = useReducedMotion();
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -17,7 +19,7 @@ export function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-[100svh] items-center overflow-x-hidden px-5 py-10 sm:px-8 sm:py-14 lg:min-h-screen lg:items-start lg:pb-8 lg:pt-12"
+      className="relative flex min-h-[calc(100svh-32px)] items-center overflow-x-hidden px-5 py-10 sm:min-h-[calc(100svh-36px)] sm:px-8 sm:py-14 lg:min-h-[calc(100vh-40px)] lg:items-start lg:pb-8 lg:pt-12"
     >
       <motion.div
         style={{ y: gridY }}
@@ -27,16 +29,20 @@ export function Hero() {
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="text-center lg:text-left">
           <motion.div
-            className="relative mb-5 flex justify-center sm:mb-6 lg:justify-start"
+            className="relative mb-4 flex justify-center sm:mb-5 lg:justify-start"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="absolute left-1/2 top-1/2 h-36 w-44 sm:h-44 sm:w-56 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/30 blur-3xl lg:left-[4.875rem] lg:translate-x-0" />
-            <div className="relative h-28 w-28 sm:h-40 sm:w-40 overflow-hidden rounded-[1.3rem] shadow-[0_0_34px_rgba(59,130,246,0.54),0_18px_38px_rgba(0,0,0,0.48)]">
-              <img
+            <div className="absolute left-1/2 top-1/2 h-32 w-40 sm:h-40 sm:w-52 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/30 blur-3xl lg:left-[4.625rem] lg:translate-x-0" />
+            <div className="relative h-[6.5rem] w-[6.5rem] sm:h-[9.25rem] sm:w-[9.25rem] overflow-hidden rounded-[1.3rem] shadow-[0_0_34px_rgba(59,130,246,0.54),0_18px_38px_rgba(0,0,0,0.48)]">
+              <Image
                 src="/shotmap-app-icon.png"
                 alt="Shotmap Studio"
+                width={148}
+                height={148}
+                priority
+                sizes="(min-width: 640px) 148px, 104px"
                 className="h-full w-full object-contain"
                 draggable={false}
               />
@@ -111,6 +117,16 @@ export function Hero() {
           </motion.div>
         </motion.div>
       </div>
+      <motion.a
+        href="#shotmap-in-action"
+        className="absolute bottom-2 left-1/2 z-20 flex h-8 w-8 -translate-x-1/2 items-center justify-center text-blue-100/30 transition hover:text-blue-100/55 sm:bottom-3"
+        initial={{ opacity: 0, y: 8 }}
+        animate={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: [0, 4, 0] }}
+        transition={shouldReduceMotion ? { duration: 0.7, delay: 1.05 } : { opacity: { duration: 0.7, delay: 1.05 }, y: { duration: 2.8, repeat: Infinity, ease: "easeInOut" } }}
+        aria-label="Scroll"
+      >
+        <span className="h-5 w-px bg-gradient-to-b from-current via-current/45 to-transparent" aria-hidden="true" />
+      </motion.a>
     </section>
   );
 }

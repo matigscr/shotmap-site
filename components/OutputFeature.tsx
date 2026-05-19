@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Reveal } from "./Reveal";
 
 const chips = [
@@ -11,17 +12,21 @@ export function OutputFeature() {
   return (
     <section
       id="sample-export"
-      className="relative px-5 py-16 sm:px-8 sm:py-20 lg:hidden"
+      className="render-contained relative px-5 py-16 sm:px-8 sm:py-20 lg:hidden"
     >
       <div className="pointer-events-none absolute inset-0 bg-[rgba(10,10,13,0.7)] backdrop-blur-[1.5px]" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.9fr_1fr]">
         <Reveal delay={0.08} className="relative mx-auto w-full max-w-[480px]">
           <div className="absolute -inset-8 rounded-[2rem] bg-blue-400/20 blur-3xl" />
           <div className="relative overflow-hidden bg-white shadow-[0_24px_90px_rgba(56,121,255,0.22)]">
-            <img
+            <Image
               src="/shotmap-progress/10-camera-packet-export.png"
               alt="Final coverage export with camera legend and notes"
+              width={1390}
+              height={1800}
+              sizes="(max-width: 1023px) min(480px, 90vw), 480px"
               className="h-auto w-full"
+              loading="lazy"
               draggable={false}
             />
           </div>
