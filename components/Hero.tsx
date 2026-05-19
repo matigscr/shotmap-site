@@ -19,7 +19,7 @@ export function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-[calc(100svh-32px)] items-center overflow-x-hidden px-5 py-10 sm:min-h-[calc(100svh-36px)] sm:px-8 sm:py-14 lg:min-h-[calc(100vh-40px)] lg:items-start lg:pb-8 lg:pt-12"
+      className="relative flex min-h-[calc(100svh-96px)] items-center overflow-x-hidden px-5 pb-5 pt-10 sm:min-h-[calc(100svh-104px)] sm:px-8 sm:pb-6 sm:pt-12 lg:min-h-[calc(100vh-112px)] lg:items-start lg:pb-5 lg:pt-12"
     >
       <motion.div
         style={{ y: gridY }}
