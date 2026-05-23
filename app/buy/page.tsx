@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ActivationRequestMailer } from "@/components/buy/ActivationRequestMailer";
 
-const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? "";
-
 export const metadata: Metadata = {
   title: "Buy License | Shotmap Studio",
   description: "Purchase a Shotmap Studio license and submit an activation request."
 };
 
 export default function BuyPage() {
+  const stripePaymentLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK ?? "";
+
   return (
     <main className="relative z-10 min-h-screen px-5 py-10 text-white sm:px-8 lg:py-14">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-blue-500/10 blur-3xl" />
