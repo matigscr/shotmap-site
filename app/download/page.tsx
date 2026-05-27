@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { DownloadThenTrialLink } from "@/components/DownloadThenTrialLink";
 import { getDownload } from "@/lib/downloads";
 
 export const metadata = {
@@ -9,6 +10,7 @@ export const metadata = {
 
 export default function DownloadPage() {
   const appDownload = getDownload("mac-app");
+  const purchaseHref = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK || "/buy";
 
   return (
     <main className="relative z-10 min-h-screen overflow-hidden px-5 py-8 text-white sm:px-8 lg:py-10">
@@ -49,23 +51,23 @@ export default function DownloadPage() {
 
             <div className="relative mt-9 flex flex-col justify-center gap-3 sm:flex-row">
               {appDownload?.available ? (
-                <a
+                <DownloadThenTrialLink
                   href={`/download/${appDownload.slug}`}
                   className="inline-flex justify-center rounded-full bg-electric px-9 py-3.5 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
                 >
                   Download for Mac
-                </a>
+                </DownloadThenTrialLink>
               ) : (
                 <span className="inline-flex justify-center rounded-full border border-white/10 px-9 py-3.5 text-sm font-semibold text-slate-400">
                   Installer Coming Soon
                 </span>
               )}
-              <Link
-                href="/buy"
+              <a
+                href={purchaseHref}
                 className="inline-flex justify-center rounded-full border border-white/15 bg-white/[0.06] px-9 py-3.5 text-sm font-semibold text-white transition hover:border-blue-300/60 hover:bg-white/12"
               >
                 Buy License
-              </Link>
+              </a>
             </div>
 
             <div className="relative mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-slate-500">

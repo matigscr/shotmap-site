@@ -1,7 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
+import { DownloadThenTrialLink } from "./DownloadThenTrialLink";
 
 export function FinalCTA() {
+  const purchaseHref = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK || "/buy";
+
   return (
     <section id="pricing" className="render-contained relative z-30 overflow-hidden px-5 py-16 sm:px-8 sm:py-24 lg:overflow-visible lg:py-32">
       <div className="absolute inset-x-0 top-1/2 h-72 -translate-y-1/2 bg-blue-400/8 blur-3xl" />
@@ -48,20 +50,17 @@ export function FinalCTA() {
             </p>
             <div className="mx-auto mt-7 h-px max-w-xs bg-gradient-to-r from-transparent via-blue-300/30 to-transparent" />
             <div className="mx-auto mt-7 flex w-full max-w-sm lg:max-w-none flex-col justify-center gap-3">
-               <Link
-                href="/download"
-                prefetch={false}
+               <DownloadThenTrialLink
                 className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
               >
                 Start Free Trial
-               </Link>
-              <Link
-                href="/buy"
-                prefetch={false}
+               </DownloadThenTrialLink>
+              <a
+                href={purchaseHref}
                 className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/40 bg-blue-400/10 px-8 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
               >
                 Purchase License
-               </Link>
+               </a>
               <a
                 href="/download/sample-export"
                 className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"

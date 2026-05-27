@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { DownloadThenTrialLink } from "./DownloadThenTrialLink";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ProductPlaceholder } from "./Placeholders";
 
 export function Hero() {
+  const purchaseHref = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK || "/buy";
+
   const shouldReduceMotion = useReducedMotion();
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -70,20 +72,17 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.26 }}
           >
-             <Link
-              href="/download"
-              prefetch={false}
+             <DownloadThenTrialLink
               className="inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-7 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
             >
               Start Free Trial
-             </Link>
-            <Link
-              href="/buy"
-              prefetch={false}
+             </DownloadThenTrialLink>
+            <a
+              href={purchaseHref}
               className="inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/35 bg-blue-400/10 px-7 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
             >
               Purchase License
-             </Link>
+             </a>
             <a
               href="/download/sample-export"
               className="inline-flex min-h-[46px] items-center justify-center rounded-full border border-white/15 bg-white/7 px-7 py-3 text-sm font-semibold text-white transition hover:border-blue-300/60 hover:bg-white/12"
