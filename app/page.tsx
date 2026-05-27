@@ -1,3 +1,4 @@
+import { AccessSection } from "@/components/AccessSection";
 import { CredibilityStrip } from "@/components/CredibilityStrip";
 import { Differentiator } from "@/components/Differentiator";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -19,6 +20,7 @@ export default function Home() {
       <OutputFeature />
       <Workflow />
       <FinalCTA />
+      <AccessSection />
       <Footer />
     </main>
   );

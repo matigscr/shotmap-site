@@ -67,27 +67,29 @@ export function Hero() {
             Built for production - from multicam studio shows to narrative and reality.
           </motion.p>
           <motion.div
-            className="mt-7 flex flex-col justify-center gap-3 sm:mt-9 sm:flex-row lg:justify-start"
+            className="mt-7 flex flex-col items-center justify-center gap-3 sm:mt-9 lg:items-start"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.26 }}
           >
-             <DownloadThenTrialLink
-              className="inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-7 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
-            >
-              Start Free Trial
-             </DownloadThenTrialLink>
+            <div className="flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+              <DownloadThenTrialLink
+                className="inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-7 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
+              >
+                Start Free Trial
+              </DownloadThenTrialLink>
+              <a
+                href={purchaseHref}
+                className="inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/35 bg-blue-400/10 px-7 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
+              >
+                Purchase License
+              </a>
+            </div>
             <a
-              href={purchaseHref}
-              className="inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/35 bg-blue-400/10 px-7 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
+              href="/access"
+              className="inline-flex max-w-full items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-center text-xs font-medium leading-5 text-slate-400 transition hover:border-blue-300/35 hover:bg-blue-400/[0.07] hover:text-blue-100"
             >
-              Purchase License
-             </a>
-            <a
-              href="/download/sample-export"
-              className="inline-flex min-h-[46px] items-center justify-center rounded-full border border-white/15 bg-white/7 px-7 py-3 text-sm font-semibold text-white transition hover:border-blue-300/60 hover:bg-white/12"
-            >
-              Download Sample Export
+              Want iPad/browser access? <span className="ml-1 text-blue-200">Shotmap Studio Access -&gt;</span>
             </a>
           </motion.div>
         </div>

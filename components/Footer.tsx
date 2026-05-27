@@ -1,4 +1,5 @@
 const links = [
+  { label: "Access", href: "/access" },
   { label: "Terms", href: "/terms" },
   { label: "EULA", href: "/eula" },
   { label: "Privacy", href: "/privacy" },

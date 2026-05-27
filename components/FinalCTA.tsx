@@ -49,23 +49,25 @@ export function FinalCTA() {
               Then $99 one-time purchase
             </p>
             <div className="mx-auto mt-7 h-px max-w-xs bg-gradient-to-r from-transparent via-blue-300/30 to-transparent" />
-            <div className="mx-auto mt-7 flex w-full max-w-sm lg:max-w-none flex-col justify-center gap-3">
-               <DownloadThenTrialLink
-                className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
-              >
-                Start Free Trial
-               </DownloadThenTrialLink>
+            <div className="mx-auto mt-7 flex w-full max-w-sm lg:max-w-none flex-col items-center justify-center gap-3">
+              <div className="flex w-full flex-col justify-center gap-3">
+                <DownloadThenTrialLink
+                  className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full bg-electric px-8 py-3 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
+                >
+                  Start Free Trial
+                </DownloadThenTrialLink>
+                <a
+                  href={purchaseHref}
+                  className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/40 bg-blue-400/10 px-8 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
+                >
+                  Purchase License
+                </a>
+              </div>
               <a
-                href={purchaseHref}
-                className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/40 bg-blue-400/10 px-8 py-3 text-sm font-semibold text-blue-100 transition hover:border-blue-300/70 hover:bg-blue-400/18"
+                href="/access"
+                className="relative isolate inline-flex max-w-full items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-center text-xs font-medium leading-5 text-slate-400 transition hover:border-blue-300/35 hover:bg-blue-400/[0.07] hover:text-blue-100"
               >
-                Purchase License
-               </a>
-              <a
-                href="/download/sample-export"
-                className="relative isolate inline-flex min-h-[46px] items-center justify-center rounded-full border border-blue-300/30 bg-[#0a0a0d]/75 px-8 py-3 text-sm font-semibold text-white transition hover:border-blue-300/70 hover:bg-white/12"
-              >
-                Download Sample Export
+                Want iPad/browser access? <span className="ml-1 text-blue-200">Shotmap Studio Access -&gt;</span>
               </a>
             </div>
             <p className="mt-6 text-xs text-slate-500">
