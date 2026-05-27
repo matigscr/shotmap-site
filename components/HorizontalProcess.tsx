@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, type MotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { motion, type MotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { backgroundOpacity } from "./background/backgroundConfig";
 import { SchematicLayer } from "./background/SchematicLayer";
@@ -152,7 +152,7 @@ const visualTiming = [
   { end: 1.62, label: "Output scroll" }
 ];
 
-const PINNED_PROCESS_MIN_WIDTH = 1024;
+const PINNED_PROCESS_MIN_WIDTH = 768;
 const PINNED_PROCESS_MIN_HEIGHT = 700;
 const DEFAULT_PROCESS_METRICS = {
   captionOffset: 960,
@@ -168,6 +168,7 @@ export function HorizontalProcess() {
   const sectionRef = useRef<HTMLElement>(null);
   const captionContentRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [processMetrics, setProcessMetrics] = useState(DEFAULT_PROCESS_METRICS);
+  const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start 92%", "end end"]
@@ -182,7 +183,9 @@ export function HorizontalProcess() {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
       const isPinned =
-        viewportWidth >= PINNED_PROCESS_MIN_WIDTH && viewportHeight >= PINNED_PROCESS_MIN_HEIGHT;
+        !shouldReduceMotion &&
+        viewportWidth >= PINNED_PROCESS_MIN_WIDTH &&
+        viewportHeight >= PINNED_PROCESS_MIN_HEIGHT;
       const measuredCaptionWidth = Math.max(
         ...captionContentRefs.current.map((node) => node?.scrollWidth ?? 0),
         0
@@ -228,7 +231,7 @@ export function HorizontalProcess() {
       window.removeEventListener("resize", scheduleProcessMetrics);
       window.removeEventListener("orientationchange", scheduleProcessMetrics);
     };
-  }, []);
+  }, [shouldReduceMotion]);
 
   // The pinned section keeps one persistent product visual in place. Vertical
   // scroll first slides the visual and captions in from the right, then keeps
@@ -239,7 +242,7 @@ export function HorizontalProcess() {
   const captionEndX = -processMetrics.captionOffset;
   const visualX = useTransform(timelineProgress, [0, 0.158, 1.191, 1.38, 1.5, TIMELINE_END], ["100vw", "0vw", "0vw", "-30vw", "-30vw", "-30vw"]);
   const visualScale = useTransform(timelineProgress, [0, 1.191, 1.38, TIMELINE_END], [1, 1, 0.82, 0.82]);
-  const visualY = useTransform(timelineProgress, [0, 1.36, TIMELINE_END], [0, 0, -760]);
+  const visualY = useTransform(timelineProgress, [0, 1.36, TIMELINE_END], [0, 0, -680]);
   const handoffTextOpacity = useTransform(timelineProgress, [1.24, 1.28, 1.62], [0, 1, 1]);
   const handoffTextX = useTransform(timelineProgress, [1.24, 1.36, 1.48], ["48vw", "0vw", "0vw"]);
   const handoffTextY = useTransform(timelineProgress, [1.24, 1.36, 1.52], ["8vh", "8vh", "-78vh"]);

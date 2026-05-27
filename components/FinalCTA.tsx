@@ -9,11 +9,11 @@ export function FinalCTA() {
         <div className="pointer-events-none absolute -right-10 -top-20 sm:-right-20 sm:-top-24 h-72 w-72 rounded-full bg-blue-400/18 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-20 left-1/2 h-56 w-[120%] max-w-[34rem] sm:-bottom-24 sm:h-72 sm:w-[34rem] -translate-x-1/2 rounded-[50%] bg-blue-400/10 blur-3xl" />
         <div className="relative flex flex-col justify-center py-4 text-center lg:text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
-            Launch Offer
-          </p>
           <div className="relative mx-auto mt-5 inline-block max-w-full lg:mx-0 lg:max-w-4xl">
-            <div className="pointer-events-none absolute left-[72%] top-[calc(0.62em-25px)] z-10 hidden h-28 w-28 -translate-x-1/2 -translate-y-1/2 overflow-visible p-2 sm:block lg:left-[78%] lg:h-32 lg:w-32">
+            <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
+              Launch Offer
+            </p>
+            <div className="pointer-events-none relative z-10 mx-auto mb-5 hidden h-[clamp(64px,14vw,96px)] w-[clamp(64px,14vw,96px)] overflow-visible p-2 sm:block xl:h-32 xl:w-32">
               <div className="absolute inset-[-28px] rounded-full bg-blue-400/34 blur-2xl" />
               <Image
                 src="/shotmap-app-icon.png"
