@@ -25,18 +25,18 @@ export function Hero() {
     >
       <motion.div
         style={{ y: gridY }}
-        className="cinematic-grid absolute inset-0 opacity-65 will-change-transform"
+        className="cinematic-grid pointer-events-none absolute inset-0 opacity-65 will-change-transform"
       />
-      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-blue-500/10 to-transparent" />
-      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="text-center lg:text-left">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-blue-500/10 to-transparent" />
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="relative z-20 text-center lg:text-left">
           <motion.div
             className="relative mb-4 flex justify-center sm:mb-5 lg:justify-start"
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="absolute left-1/2 top-1/2 h-32 w-40 sm:h-40 sm:w-52 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/30 blur-3xl lg:left-[4.625rem] lg:translate-x-0" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-32 w-40 sm:h-40 sm:w-52 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/30 blur-3xl lg:left-[4.625rem] lg:translate-x-0" />
             <div className="relative h-[6.5rem] w-[6.5rem] sm:h-[9.25rem] sm:w-[9.25rem] overflow-hidden rounded-[1.3rem] shadow-[0_0_34px_rgba(59,130,246,0.54),0_18px_38px_rgba(0,0,0,0.48)]">
               <Image
                 src="/shotmap-app-icon.png"
@@ -51,7 +51,7 @@ export function Hero() {
             </div>
           </motion.div>
           <motion.h1
-            className="mx-auto max-w-5xl text-[2.62rem] font-semibold leading-[0.98] tracking-normal text-white sm:text-6xl lg:text-7xl"
+            className="mx-auto max-w-5xl text-[2.62rem] font-semibold leading-[0.98] tracking-normal text-white sm:text-6xl lg:text-[3.9rem] xl:text-[4rem]"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.05 }}
@@ -67,7 +67,7 @@ export function Hero() {
             Built for production - from multicam studio shows to narrative and reality.
           </motion.p>
           <motion.div
-            className="mt-7 flex flex-col items-center justify-center gap-3 sm:mt-9 lg:items-start"
+            className="relative z-30 mt-7 flex flex-col items-center justify-center gap-3 sm:mt-9 lg:items-start"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.26 }}
@@ -85,19 +85,13 @@ export function Hero() {
                 Purchase License
               </a>
             </div>
-            <a
-              href="https://access.shotmapstudio.com"
-              className="inline-flex max-w-full items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-center text-xs font-medium leading-5 text-slate-400 transition hover:border-blue-300/35 hover:bg-blue-400/[0.07] hover:text-blue-100"
-            >
-              Want iPad/browser access? <span className="ml-1 text-blue-200">Shotmap Studio Access -&gt;</span>
-            </a>
           </motion.div>
         </div>
         <motion.div
           initial={{ opacity: 0, scale: 0.96, y: 28 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.95, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-          className="relative self-start pt-0 sm:pt-1"
+          className="pointer-events-none relative z-0 self-start pt-0 sm:pt-1"
         >
           <motion.div
             style={{ y: exportY }}
@@ -108,7 +102,7 @@ export function Hero() {
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               className="relative will-change-transform"
             >
-              <div className="absolute left-1/2 top-1/2 h-[82%] w-[68%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/16 blur-3xl" />
+              <div className="pointer-events-none absolute left-1/2 top-1/2 h-[82%] w-[68%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-blue-400/16 blur-3xl" />
               <ProductPlaceholder
                 label="FINAL_EXPORT_PLACEHOLDER"
                 variant="export"

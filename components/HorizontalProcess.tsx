@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, type MotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, type MotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
 import { backgroundOpacity } from "./background/backgroundConfig";
 import { SchematicLayer } from "./background/SchematicLayer";
 
@@ -152,13 +152,8 @@ const visualTiming = [
   { end: 1.62, label: "Output scroll" }
 ];
 
-const PINNED_PROCESS_MIN_WIDTH = 768;
-const PINNED_PROCESS_MIN_HEIGHT = 700;
-const DEFAULT_PROCESS_METRICS = {
-  captionOffset: 960,
-  isPinned: false,
-  sectionHeight: 0
-};
+const DESKTOP_PROCESS_SCROLL_HEIGHT_CLASS = "shotmap-process-desktop hidden h-[620vh] md:block motion-reduce:hidden";
+const STACKED_PROCESS_CLASS = "shotmap-process-stacked px-5 py-16 sm:px-8 sm:py-20 md:hidden motion-reduce:block";
 
 function getTimingLabel(progress: number, timing: { end: number; label: string }[]) {
   return timing.find((item) => progress <= item.end)?.label ?? timing[timing.length - 1].label;
@@ -166,9 +161,6 @@ function getTimingLabel(progress: number, timing: { end: number; label: string }
 
 export function HorizontalProcess() {
   const sectionRef = useRef<HTMLElement>(null);
-  const captionContentRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [processMetrics, setProcessMetrics] = useState(DEFAULT_PROCESS_METRICS);
-  const shouldReduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start 92%", "end end"]
@@ -176,78 +168,20 @@ export function HorizontalProcess() {
   const TIMELINE_END = 1.71;
   const timelineProgress = useTransform(scrollYProgress, [0, 1], [0, TIMELINE_END]);
 
-  useEffect(() => {
-    let resizeFrame = 0;
 
-    const calculateProcessMetrics = () => {
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      const isPinned =
-        !shouldReduceMotion &&
-        viewportWidth >= PINNED_PROCESS_MIN_WIDTH &&
-        viewportHeight >= PINNED_PROCESS_MIN_HEIGHT;
-      const measuredCaptionWidth = Math.max(
-        ...captionContentRefs.current.map((node) => node?.scrollWidth ?? 0),
-        0
-      );
-      const fallbackCaptionWidth = Math.min(viewportWidth - 64, 896);
-      const captionWidth = measuredCaptionWidth || fallbackCaptionWidth;
-      const captionOffset = Math.ceil((viewportWidth + captionWidth) / 2 + 56);
-      const horizontalScrollDistance = captionOffset * panels.length * 1.05 + viewportWidth * 1.4;
-      const scrollDistance = Math.max(viewportHeight * 5.2, horizontalScrollDistance);
-
-      const nextMetrics = {
-        captionOffset,
-        isPinned,
-        sectionHeight: isPinned ? Math.ceil(viewportHeight + scrollDistance) : 0
-      };
-
-      setProcessMetrics((currentMetrics) => {
-        if (
-          currentMetrics.captionOffset === nextMetrics.captionOffset &&
-          currentMetrics.isPinned === nextMetrics.isPinned &&
-          currentMetrics.sectionHeight === nextMetrics.sectionHeight
-        ) {
-          return currentMetrics;
-        }
-
-        return nextMetrics;
-      });
-    };
-
-    const scheduleProcessMetrics = () => {
-      window.cancelAnimationFrame(resizeFrame);
-      resizeFrame = window.requestAnimationFrame(calculateProcessMetrics);
-    };
-
-    calculateProcessMetrics();
-    resizeFrame = window.requestAnimationFrame(calculateProcessMetrics);
-    window.addEventListener("resize", scheduleProcessMetrics);
-    window.addEventListener("orientationchange", scheduleProcessMetrics);
-    document.fonts?.ready.then(calculateProcessMetrics).catch(() => undefined);
-
-    return () => {
-      window.cancelAnimationFrame(resizeFrame);
-      window.removeEventListener("resize", scheduleProcessMetrics);
-      window.removeEventListener("orientationchange", scheduleProcessMetrics);
-    };
-  }, [shouldReduceMotion]);
-
-  // The pinned section keeps one persistent product visual in place. Vertical
-  // scroll first slides the visual and captions in from the right, then keeps
-  // the visual centered while the captions move horizontally beneath it. At the
-  // end, the captions leave while the export stays onscreen and shrinks into the
-  // following section.
-  const captionStartX = processMetrics.captionOffset;
-  const captionEndX = -processMetrics.captionOffset;
-  const visualX = useTransform(timelineProgress, [0, 0.158, 1.191, 1.38, 1.5, TIMELINE_END], ["100vw", "0vw", "0vw", "-30vw", "-30vw", "-30vw"]);
-  const visualScale = useTransform(timelineProgress, [0, 1.191, 1.38, TIMELINE_END], [1, 1, 0.82, 0.82]);
-  const visualY = useTransform(timelineProgress, [0, 1.36, TIMELINE_END], [0, 0, -680]);
-  const handoffTextOpacity = useTransform(timelineProgress, [1.24, 1.28, 1.62], [0, 1, 1]);
-  const handoffTextX = useTransform(timelineProgress, [1.24, 1.36, 1.48], ["48vw", "0vw", "0vw"]);
-  const handoffTextY = useTransform(timelineProgress, [1.24, 1.36, 1.52], ["8vh", "8vh", "-78vh"]);
-  const outputTextOpacity = useTransform(timelineProgress, [1.36, 1.361, 1.62], [0, 1, 1]);
-  const outputTextY = useTransform(timelineProgress, [1.36, 1.52, 1.62], ["76vh", "0vh", "-96vh"]);
+  // This section owns the complete pinned sequence. The fixed scroll-height
+  // wrapper contains the sticky viewport, and normal document flow resumes after
+  // the wrapper ends.
+  const captionStartX = "76vw";
+  const captionEndX = "-76vw";
+  const visualX = useTransform(timelineProgress, [0, 0.158, 1.16, 1.34, TIMELINE_END], ["100vw", "0vw", "0vw", "-26vw", "-26vw"]);
+  const visualScale = useTransform(timelineProgress, [0, 1.16, 1.34, TIMELINE_END], [1, 1, 0.82, 0.82]);
+  const visualY = useTransform(timelineProgress, [0, TIMELINE_END], [0, 0]);
+  const handoffTextOpacity = useTransform(timelineProgress, [1.18, 1.24, 1.38, 1.44], [0, 1, 1, 0]);
+  const handoffTextX = useTransform(timelineProgress, [1.18, 1.32, 1.44], ["42vw", "0vw", "0vw"]);
+  const handoffTextY = useTransform(timelineProgress, [1.18, 1.38, 1.44], ["8vh", "8vh", "-16vh"]);
+  const outputTextOpacity = useTransform(timelineProgress, [1.44, 1.5, 1.64, TIMELINE_END], [0, 1, 1, 0]);
+  const outputTextY = useTransform(timelineProgress, [1.44, 1.56, TIMELINE_END], ["22vh", "0vh", "-14vh"]);
   const captionMotion = [
     {
       opacity: useTransform(timelineProgress, [0.082, 0.11, 0.54, 0.57], [0, 1, 1, 0]),
@@ -390,12 +324,12 @@ export function HorizontalProcess() {
   const workingMockY = useTransform(timelineProgress, [1.115, 1.165], [0, -111]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative"
-      style={processMetrics.isPinned ? { height: processMetrics.sectionHeight } : undefined}
-    >
-      <div className={processMetrics.isPinned ? "sticky top-0 block h-screen overflow-hidden" : "hidden"}>
+    <section ref={sectionRef} className="relative overflow-clip">
+      <noscript>
+        <style>{`.shotmap-process-desktop{display:none!important}.shotmap-process-stacked{display:block!important}`}</style>
+      </noscript>
+      <div className={DESKTOP_PROCESS_SCROLL_HEIGHT_CLASS}>
+        <div className="sticky top-0 h-screen overflow-hidden">
         {DEBUG_TIMING_COUNTER && <TimingDebugPanel timelineProgress={timelineProgress} />}
         <div className="pointer-events-none absolute inset-0 bg-[rgba(5,7,11,0.42)]" />
         <motion.div
@@ -497,12 +431,7 @@ export function HorizontalProcess() {
                   style={captionMotion[index]}
                   className="absolute inset-0 flex h-full w-screen items-start justify-center px-5 sm:px-8"
                 >
-                  <div
-                    ref={(node) => {
-                      captionContentRefs.current[index] = node;
-                    }}
-                    className="w-full max-w-4xl text-center"
-                  >
+                  <div className="w-full max-w-4xl text-center">
                     <p className="mb-4 text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
                       {panel.eyebrow} / 0{index + 1}
                     </p>
@@ -566,9 +495,10 @@ export function HorizontalProcess() {
             ))}
           </div>
         </motion.div>
+        </div>
       </div>
 
-      <div className={processMetrics.isPinned ? "hidden" : "px-5 py-16 sm:px-8 sm:py-20"}>
+      <div className={STACKED_PROCESS_CLASS}>
         <div className="mx-auto max-w-3xl space-y-10 sm:space-y-12">
           {panels.map((panel, index) => (
             <motion.article
