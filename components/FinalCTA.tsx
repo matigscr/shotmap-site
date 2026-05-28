@@ -69,7 +69,7 @@ export function FinalCTA() {
               </div>
             </div>
             <p className="mt-5 text-xs text-slate-500">
-              Pricing placeholder - final launch pricing may change.
+              Launch pricing. Standard price $149.
             </p>
           </div>
         </div>

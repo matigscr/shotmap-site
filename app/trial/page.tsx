@@ -6,8 +6,6 @@ export const metadata = {
 };
 
 export default function TrialPage() {
-  const purchaseHref = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK || "/buy";
-
   return (
     <main className="relative z-10 min-h-screen overflow-hidden px-5 py-8 text-white sm:px-8 lg:py-10">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-blue-500/10 blur-3xl" />
@@ -30,7 +28,7 @@ export default function TrialPage() {
               Start your trial inside the app.
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              Once the download finishes, install Shotmap Studio and begin the trial from the app.
+              Once the download finishes, install Shotmap Studio, enter your email, and use the trial code sent to you to begin your free trial.
             </p>
 
             <div className="mx-auto mt-10 grid max-w-2xl gap-3 text-left">
@@ -39,7 +37,8 @@ export default function TrialPage() {
                 "Move Shotmap Studio into Applications.",
                 "Launch Shotmap Studio.",
                 "Choose Start Free Trial inside the app.",
-                "After purchase, enter the activation code from your purchase email inside the app."
+                "Enter your email to receive a trial code.",
+                "Enter the trial code in the app to begin your free trial."
               ].map((step, index) => (
                 <div
                   key={step}
@@ -60,12 +59,6 @@ export default function TrialPage() {
               >
                 Download again
               </Link>
-              <a
-                href={purchaseHref}
-                className="inline-flex justify-center rounded-full bg-electric px-9 py-3.5 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
-              >
-                Purchase License
-              </a>
             </div>
           </div>
         </section>

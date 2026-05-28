@@ -453,10 +453,10 @@ export function HorizontalProcess() {
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
             Final Coverage First
           </p>
-          <h2 className="text-[2rem] font-semibold leading-tight text-white xl:text-5xl">
+          <h2 className="text-[2.4rem] font-semibold leading-tight text-white xl:text-5xl">
             Designed around the final coverage - not just the creation
           </h2>
-          <p className="mt-4 text-base leading-7 text-slate-300 xl:mt-6 xl:text-lg xl:leading-8">
+          <p className="mt-4 text-[1.0625rem] leading-7 text-slate-300 xl:mt-6 xl:text-lg xl:leading-8">
             Every tool in the app is built with one goal in mind: clearly communicating your
             blocking and coverage to the entire team.
           </p>
@@ -478,10 +478,10 @@ export function HorizontalProcess() {
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
             Output
           </p>
-          <h2 className="text-[2rem] font-semibold leading-tight text-white xl:text-5xl">
+          <h2 className="text-[2.4rem] font-semibold leading-tight text-white xl:text-5xl">
             Communicate your coverage in seconds
           </h2>
-          <p className="mt-4 text-base leading-7 text-slate-300 xl:mt-6 xl:text-lg xl:leading-8">
+          <p className="mt-4 text-[1.0625rem] leading-7 text-slate-300 xl:mt-6 xl:text-lg xl:leading-8">
             Generate a complete schematic with legend - ready for your crew.
           </p>
           <div className="mt-5 flex flex-wrap gap-2 xl:mt-8 xl:gap-3">
