@@ -152,8 +152,8 @@ const visualTiming = [
   { end: 1.62, label: "Output scroll" }
 ];
 
-const DESKTOP_PROCESS_SCROLL_HEIGHT_CLASS = "shotmap-process-desktop hidden h-[620vh] md:block motion-reduce:hidden";
-const STACKED_PROCESS_CLASS = "shotmap-process-stacked px-5 py-16 sm:px-8 sm:py-20 md:hidden motion-reduce:block";
+const DESKTOP_PROCESS_SCROLL_HEIGHT_CLASS = "shotmap-process-desktop hidden h-[620vh] min-[900px]:block motion-reduce:hidden";
+const STACKED_PROCESS_CLASS = "shotmap-process-stacked px-5 py-16 sm:px-8 sm:py-20 max-[899px]:block min-[900px]:hidden motion-reduce:block";
 
 function getTimingLabel(progress: number, timing: { end: number; label: string }[]) {
   return timing.find((item) => progress <= item.end)?.label ?? timing[timing.length - 1].label;
@@ -174,7 +174,7 @@ export function HorizontalProcess() {
   // the wrapper ends.
   const captionStartX = "76vw";
   const captionEndX = "-76vw";
-  const visualX = useTransform(timelineProgress, [0, 0.158, 1.16, 1.34, TIMELINE_END], ["100vw", "0vw", "0vw", "-26vw", "-26vw"]);
+  const visualX = useTransform(timelineProgress, [0, 0.158, 1.16, 1.34, TIMELINE_END], ["100vw", "0vw", "0vw", "-30vw", "-30vw"]);
   const visualScale = useTransform(timelineProgress, [0, 1.16, 1.34, TIMELINE_END], [1, 1, 0.82, 0.82]);
   const visualY = useTransform(timelineProgress, [0, TIMELINE_END], [0, 0]);
   const handoffTextOpacity = useTransform(timelineProgress, [1.18, 1.24, 1.38, 1.44], [0, 1, 1, 0]);
@@ -342,7 +342,7 @@ export function HorizontalProcess() {
             y={backgroundY}
             intensity="active"
             showPaths
-            className="hidden md:block"
+            className="hidden min-[900px]:block"
           />
         </motion.div>
         <motion.svg
@@ -448,19 +448,19 @@ export function HorizontalProcess() {
         </div>
         <motion.div
           style={{ opacity: handoffTextOpacity, x: handoffTextX, y: handoffTextY }}
-          className="pointer-events-none absolute left-[43vw] right-[4vw] top-[24vh] z-20 hidden md:block"
+          className="pointer-events-none absolute left-[52vw] right-[5vw] top-[22vh] z-20 hidden max-w-[30rem] min-[900px]:block xl:left-[43vw] xl:right-[4vw] xl:top-[24vh] xl:max-w-none"
         >
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
             Final Coverage First
           </p>
-          <h2 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
+          <h2 className="text-[2rem] font-semibold leading-tight text-white xl:text-5xl">
             Designed around the final coverage - not just the creation
           </h2>
-          <p className="mt-6 text-lg leading-8 text-slate-300">
+          <p className="mt-4 text-base leading-7 text-slate-300 xl:mt-6 xl:text-lg xl:leading-8">
             Every tool in the app is built with one goal in mind: clearly communicating your
             blocking and coverage to the entire team.
           </p>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          <div className="mt-5 grid gap-2 xl:mt-8 xl:gap-3 2xl:grid-cols-2">
             {handoffBullets.map((bullet) => (
               <div
                 key={bullet}
@@ -473,18 +473,18 @@ export function HorizontalProcess() {
         </motion.div>
         <motion.div
           style={{ opacity: outputTextOpacity, y: outputTextY }}
-          className="pointer-events-none absolute left-[43vw] right-[4vw] top-[24vh] z-20 hidden lg:block"
+          className="pointer-events-none absolute left-[52vw] right-[5vw] top-[22vh] z-20 hidden max-w-[30rem] min-[900px]:block xl:left-[43vw] xl:right-[4vw] xl:top-[24vh] xl:max-w-none"
         >
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300">
             Output
           </p>
-          <h2 className="text-4xl font-semibold leading-tight text-white sm:text-5xl">
+          <h2 className="text-[2rem] font-semibold leading-tight text-white xl:text-5xl">
             Communicate your coverage in seconds
           </h2>
-          <p className="mt-6 text-lg leading-8 text-slate-300">
+          <p className="mt-4 text-base leading-7 text-slate-300 xl:mt-6 xl:text-lg xl:leading-8">
             Generate a complete schematic with legend - ready for your crew.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-2 xl:mt-8 xl:gap-3">
             {outputChips.map((chip) => (
               <span
                 key={chip}
@@ -621,7 +621,7 @@ function ProgressiveShotmapVisual({
   ];
 
   return (
-    <div className="relative mx-auto w-full max-w-[min(980px,calc((100vh-250px)*1.237))]">
+    <div className="relative mx-auto w-full max-w-[min(820px,calc((100vh-250px)*1.06))] xl:max-w-[min(980px,calc((100vh-250px)*1.237))]">
       <motion.div
         style={{ opacity: workingMockOpacity }}
         className="absolute -inset-x-6 -inset-y-4 rounded-[48%] bg-blue-400/8 blur-[46px]"

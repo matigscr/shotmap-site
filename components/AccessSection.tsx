@@ -22,12 +22,6 @@ export function AccessSection() {
           >
             Learn About Access
           </Link>
-          <Link
-            href="/access"
-            className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-5 py-2.5 text-sm font-semibold text-slate-300 transition hover:border-blue-300/35 hover:text-blue-100"
-          >
-            Open Access
-          </Link>
         </div>
       </div>
     </section>
