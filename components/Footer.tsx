@@ -3,7 +3,8 @@ const links = [
   { label: "Terms", href: "/terms" },
   { label: "EULA", href: "/eula" },
   { label: "Privacy", href: "/privacy" },
-  { label: "Refund", href: "/refund" }
+  { label: "Refund", href: "/refund" },
+  { label: "Access Terms", href: "/access-subscription-terms" }
 ];
 
 export function Footer() {

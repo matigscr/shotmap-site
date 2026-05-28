@@ -5,33 +5,15 @@ export const metadata: Metadata = {
   title: "Privacy Policy | Shotmap Studio"
 };
 
-export default function PrivacyPage() {
+const legalHtml = "<h2>1. Information We Collect</h2><ul><li>Email address used for trials, sign-in, license delivery, Access entitlement, support, and billing communication.</li><li>Account and authentication information, including sign-in events and entitlement status.</li><li>Payment-related metadata from payment providers, such as Stripe customer ID, subscription status, price ID, invoice status, and payment status. Shotmap Studio does not directly store full payment card numbers.</li><li>License, activation, redemption, trial-code, and Included Access grant metadata.</li><li>Device, browser, app version, diagnostic, security, and usage analytics information used to operate and improve the products.</li><li>Customer support communications.</li></ul><h2>2. Payment Processing</h2><p>Payments may be processed by third-party providers such as Stripe. Payment card information is handled by the payment provider and is not directly stored by Shotmap Studio. Billing portals, invoices, refunds, renewals, failed payments, and subscription cancellation may be managed through Stripe or another billing provider.</p><h2>3. Project Data and Local Storage</h2><p>Shotmap Studio is currently local-first. Project files, drafts, canvas images, background images, notes, and exports may be stored locally on the user device, desktop file system, browser storage, or installed web app storage. Local Projects do not automatically sync to Shotmap Studio servers. Clearing browser/app storage, using Private Browsing, changing devices, or uninstalling the app may affect local data.</p><h2>4. Future Cloud Features</h2><p>Future cloud sync, shared workspaces, account-based project storage, or cross-device project libraries may require additional data collection and updated privacy terms. Those features are not part of the current V1 local-first product unless expressly released.</p><h2>5. How We Use Information</h2><ul><li>Provide trials, licenses, subscriptions, Included Access, activation, account access, and support.</li><li>Deliver trial codes, license codes, activation emails, billing notices, and entitlement status.</li><li>Process payments, renewals, cancellations, refunds, fraud prevention, and chargeback reviews.</li><li>Maintain security, prevent abuse, debug product issues, and improve product functionality.</li><li>Comply with legal, tax, accounting, and business record obligations.</li></ul><h2>6. Sharing of Information</h2><p>Shotmap Studio does not sell personal information. Limited information may be shared with service providers necessary to operate the product, including payment processors, hosting providers, authentication providers, analytics providers, email delivery providers, support tools, and legal/accounting advisors.</p><h2>7. Cookies, Local Storage, and Analytics</h2><p>The website, web/iPad app, and account flows may use cookies, browser storage, local storage, IndexedDB, analytics, session tokens, and similar technologies for sign-in, entitlement validation, local project storage, performance monitoring, and abuse prevention.</p><h2>8. Data Retention</h2><p>Information is retained only as long as reasonably necessary for business, support, security, tax, accounting, legal, and product operation purposes. Some records may need to be retained even after account deletion requests where required for legal, fraud-prevention, billing, or accounting reasons.</p><h2>9. Security</h2><p>Reasonable technical and organizational measures are used to protect information, but no system can guarantee absolute security. Users are responsible for protecting their devices, email accounts, exported project files, and local backups.</p><h2>10. User Rights</h2><p>Users may request access, correction, or deletion of personal information where applicable by law. Requests may be limited where retention is required for legal, billing, security, fraud-prevention, or accounting purposes.</p><h2>11. Children</h2><p>Shotmap Studio is intended for professional and general productivity use and is not directed to children. Users should not provide personal information from children without appropriate authority.</p><h2>12. Contact</h2><p>Privacy inquiries may be directed to the official support contact listed on shotmapstudio.com.</p>";
+
+export default function Page() {
   return (
     <LegalPage
       title="Privacy Policy"
-      effectiveDate="May 5, 2026"
-      sections={[
-        {
-          heading: "Data Collected",
-          body: "Email, payment data via Stripe, and license data."
-        },
-        {
-          heading: "Usage",
-          body: "Data is used to provide services, licenses, and support."
-        },
-        {
-          heading: "Third Parties",
-          body: "Stripe and hosting providers."
-        },
-        {
-          heading: "Security",
-          body: "Reasonable protections are used."
-        },
-        {
-          heading: "Contact",
-          body: "adam@adamsampson.com"
-        }
-      ]}
+      lastUpdated="May 2026"
+      pdfHref="/legal/shotmap-studio-privacy-policy.pdf"
+      html={legalHtml}
     />
   );
 }
