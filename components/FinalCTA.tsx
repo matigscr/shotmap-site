@@ -64,7 +64,7 @@ export function FinalCTA() {
                 </a>
               </div>
               <a
-                href="/access"
+                href="https://access.shotmapstudio.com"
                 className="relative isolate inline-flex max-w-full items-center justify-center rounded-full border border-white/12 bg-white/[0.03] px-4 py-2.5 text-center text-xs font-medium leading-5 text-slate-400 transition hover:border-blue-300/35 hover:bg-blue-400/[0.07] hover:text-blue-100"
               >
                 Want iPad/browser access? <span className="ml-1 text-blue-200">Shotmap Studio Access -&gt;</span>
