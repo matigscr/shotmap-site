@@ -27,21 +27,21 @@ export default function BuyPage() {
 
         <section className="pt-16">
           <p className="text-xs font-semibold uppercase tracking-[0.34em] text-blue-300">
-            Stripe checkout
+            Shotmap Studio for Mac
           </p>
           <h1 className="mt-5 max-w-3xl text-5xl font-semibold leading-none text-white sm:text-6xl">
-            Stripe checkout is not configured.
+            Purchase Shotmap Studio.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            Add `NEXT_PUBLIC_STRIPE_PAYMENT_LINK` in the website environment to send Purchase License and Buy License directly to Stripe Checkout.
+            Purchase Shotmap Studio for Mac for $99. Your desktop purchase includes one year of Shotmap Studio Access. Included Access does not auto-renew.
           </p>
         </section>
 
         <section className="mt-10 rounded-[1.25rem] border border-blue-300/20 bg-white/[0.06] p-6 text-sm leading-7 text-slate-300 shadow-cinematic">
-          <h2 className="text-xl font-semibold text-white">Required environment variable</h2>
-          <p className="mt-4 font-mono text-blue-100">NEXT_PUBLIC_STRIPE_PAYMENT_LINK</p>
+          <h2 className="text-xl font-semibold text-white">Access options</h2>
+          <p className="mt-4 font-semibold text-blue-100">Shotmap Studio Access is also available separately for $11.99/month or $59/year.</p>
           <p className="mt-4">
-            Set it to the live Stripe Checkout or Payment Link URL, then redeploy the site.
+            Free trials do not automatically convert to paid. Paid Access starts only when you choose and complete a paid checkout.
           </p>
         </section>
       </div>

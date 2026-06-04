@@ -69,7 +69,7 @@ export function FinalCTA() {
               </div>
             </div>
             <p className="mt-5 text-xs text-slate-500">
-              Launch pricing. Standard price $149.
+              Shotmap Studio for Mac is $99. Includes one year of Shotmap Studio Access.
             </p>
           </div>
         </div>
