@@ -11,7 +11,7 @@ type RouteContext = {
   };
 };
 
-export async function GET(_request: Request, { params }: RouteContext) {
+export async function GET(request: Request, { params }: RouteContext) {
   const download = getDownload(params.slug);
 
   if (!download) {
@@ -28,6 +28,10 @@ export async function GET(_request: Request, { params }: RouteContext) {
 
   if (!download.publicPath) {
     return NextResponse.json({ error: "Download file is not configured." }, { status: 404 });
+  }
+
+  if (download.category === "app") {
+    return NextResponse.redirect(new URL(download.publicPath, request.url));
   }
 
   const publicPath = download.publicPath.replace(/^\/+/, "");

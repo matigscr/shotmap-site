@@ -52,7 +52,8 @@ export default function DownloadPage() {
             <div className="relative mt-9 flex flex-col justify-center gap-3 sm:flex-row">
               {appDownload?.available ? (
                 <DownloadThenTrialLink
-                  href={`/download/${appDownload.slug}`}
+                  href={appDownload.publicPath ?? `/download/${appDownload.slug}`}
+                  download={appDownload.filename}
                   className="inline-flex justify-center rounded-full bg-electric px-9 py-3.5 text-sm font-semibold text-white shadow-glow transition hover:bg-blue-400"
                 >
                   Download for Mac
@@ -71,9 +72,9 @@ export default function DownloadPage() {
             </div>
 
             <div className="relative mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-slate-500">
-              <span>{appDownload?.version ?? "Latest version"}</span>
+              <span>Version {appDownload?.version?.replace(/^v/, "") ?? "latest"}</span>
+              <span>Build: universal Intel + Apple Silicon</span>
               <span>{appDownload?.sizeLabel ?? "Mac installer"}</span>
-              <span>Intel + Apple Silicon</span>
             </div>
 
             <div className="relative mx-auto mt-12 grid max-w-2xl gap-3 border-t border-white/10 pt-6 text-sm leading-6 text-slate-400 sm:grid-cols-3">
