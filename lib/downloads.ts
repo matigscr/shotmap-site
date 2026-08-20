@@ -20,14 +20,14 @@ export const downloads: DownloadAsset[] = [
     slug: "mac-app",
     title: "Shotmap Studio for Mac",
     description: "Download the universal macOS app for Intel and Apple Silicon. Activation happens inside the app with a valid license.",
-    filename: "Shotmap-Studio-1.3.1.dmg",
-    publicPath: "/downloads/Shotmap-Studio-1.3.1.dmg",
+    filename: "Shotmap-Studio-1.3.2.dmg",
+    publicPath: "/downloads/Shotmap-Studio-1.3.2.dmg",
     contentType: "application/x-apple-diskimage",
     category: "app",
     available: true,
-    version: "v1.3.1",
-    sizeLabel: "72 MB universal",
-    checksum: "575b720149ba28a6083f8c0ee699c89c7cdebdc7513e330bd033522d13c52cc4"
+    version: "v1.3.2",
+    sizeLabel: "28 MB universal",
+    checksum: "09c2aedab2fb337641571a195505e78e0d5ec495bca70f89a8ab128c33fec474"
   },
   {
     slug: "sample-export",
