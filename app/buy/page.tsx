@@ -39,7 +39,7 @@ export default function BuyPage() {
 
         <section className="mt-10 rounded-[1.25rem] border border-blue-300/20 bg-white/[0.06] p-6 text-sm leading-7 text-slate-300 shadow-cinematic">
           <h2 className="text-xl font-semibold text-white">Access options</h2>
-          <p className="mt-4 font-semibold text-blue-100">Shotmap Studio Access is also available separately for $11.99/month or $59/year.</p>
+          <p className="mt-4 font-semibold text-blue-100">Shotmap Studio Access is also available separately for $4.99/month or $49.99/year.</p>
           <p className="mt-4">
             Free trials do not automatically convert to paid. Paid Access starts only when you choose and complete a paid checkout.
           </p>

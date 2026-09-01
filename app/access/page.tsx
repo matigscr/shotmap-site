@@ -13,7 +13,7 @@ const details = [
   },
   {
     title: "Available separately",
-    body: "Standalone Access is available for $11.99/month or $59/year."
+    body: "Standalone Access is available for $4.99/month or $49.99/year."
   },
   {
     title: "Local-first projects",
